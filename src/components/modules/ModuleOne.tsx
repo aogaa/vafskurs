@@ -110,19 +110,21 @@ function StepChain() {
   const steps = ["Kontakt", "Tillit", "Trygghet"];
 
   return (
-    <ol className="grid gap-3 sm:grid-cols-3" aria-label="Kontakt, tillit og trygghet">
+    <ol
+      className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm"
+      aria-label="Kontakt leder til tillit, som leder til trygghet"
+    >
       {steps.map((step, index) => (
         <li
           key={step}
-          className="relative rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm"
+          className="inline-flex w-full items-center gap-3 py-2 text-xl font-bold text-ink sm:w-auto sm:py-0 sm:text-2xl"
         >
-          <span className="grid size-10 place-items-center rounded-2xl bg-pine/18 text-sm font-black text-harbor">
-            {index + 1}
+          <span className="rounded-2xl bg-mist px-4 py-3">
+            {step}
           </span>
-          <p className="mt-4 text-xl font-bold text-ink">{step}</p>
           {index < steps.length - 1 ? (
             <span
-              className="absolute right-5 top-8 hidden text-2xl font-black text-pine sm:block"
+              className="text-2xl font-black text-pine sm:px-2"
               aria-hidden="true"
             >
               →
