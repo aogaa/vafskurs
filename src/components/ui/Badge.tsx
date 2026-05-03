@@ -8,7 +8,7 @@ type BadgeProps = {
 };
 
 const toneClasses: Record<BadgeTone, string> = {
-  complete: "bg-pine/15 text-harbor ring-pine/35",
+  complete: "bg-pine text-harbor ring-pine/60",
   planned: "bg-mist text-slate ring-harbor/10",
   active: "bg-honey/20 text-harbor ring-honey/45",
 };

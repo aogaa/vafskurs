@@ -1,12 +1,5 @@
 import { Button } from "../ui/Button";
 
-const courseFeatures = [
-  "Korte moduler",
-  "Praktiske scenarioer",
-  "Refleksjon",
-  "Trygghet i rollen",
-];
-
 const learningNodes = [
   { label: "Rolle", x: 88, y: 92, tone: "blue" },
   { label: "Grenser", x: 292, y: 70, tone: "green" },
@@ -101,23 +94,13 @@ function LearningSurface() {
           <path d="M18 0H30M66 0H78" stroke="#5C6B73" strokeLinecap="round" strokeWidth="4" />
         </g>
       </svg>
-      <div className="relative mt-2 grid gap-3 sm:grid-cols-3">
-        {["Struktur", "Refleksjon", "Fremdrift"].map((label) => (
-          <div
-            key={label}
-            className="rounded-2xl border border-harbor/8 bg-white/86 px-4 py-3 text-sm font-bold text-harbor shadow-sm"
-          >
-            {label}
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
 
 export function CourseHero() {
   return (
-    <section className="grid items-center gap-10 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-16">
+    <section className="grid items-center gap-8 py-8 lg:grid-cols-[0.95fr_1.05fr] lg:py-14">
       <div className="max-w-3xl">
         <p className="text-sm font-bold uppercase tracking-normal text-leaf">
           Digitalt grunnkurs for frivillige
@@ -126,7 +109,7 @@ export function CourseHero() {
           Trygg som frivillig
         </h1>
         <p className="mt-5 text-xl font-semibold leading-8 text-fjord sm:text-2xl">
-          Et praktisk kurs om rolle, grenser og gode møter med mennesker
+          Et praktisk kurs om rolle, grenser og gode møter med mennesker.
         </p>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate">
           Dette kurset hjelper deg å bli tryggere i frivilligrollen. Du lærer
@@ -135,25 +118,12 @@ export function CourseHero() {
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Button to="/moduler">Start kurset</Button>
-          <Button to="/moduler" variant="secondary">
+          <Button to="/moduler" variant="ghost">
             Se modulene
           </Button>
         </div>
       </div>
       <LearningSurface />
-      <ul className="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
-        {courseFeatures.map((feature) => (
-          <li
-            key={feature}
-            className="flex min-h-20 items-center gap-3 rounded-3xl border border-harbor/8 bg-white px-5 py-4 text-base font-bold text-ink shadow-soft"
-          >
-            <span className="grid size-8 shrink-0 place-items-center rounded-2xl bg-mist text-harbor">
-              <span className="size-2.5 rounded-full bg-pine" aria-hidden="true" />
-            </span>
-            {feature}
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

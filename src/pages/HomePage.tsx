@@ -1,6 +1,5 @@
 import { CourseHero } from "../components/course/CourseHero";
 import { PageContainer } from "../components/layout/PageContainer";
-import { SectionTitle } from "../components/ui/SectionTitle";
 
 export function HomePage() {
   return (
@@ -29,13 +28,18 @@ export function HomePage() {
           </p>
         </div>
       </section>
-      <section className="py-8">
-        <div className="rounded-[2rem] border border-harbor/8 bg-white p-8 shadow-soft">
-          <SectionTitle
-            eyebrow="Hovedbudskap"
-            title="Jeg vet hva rollen min er"
-            description="Jeg vet hvorfor den er viktig. Jeg vet hvor grensene går. Og hvis jeg blir usikker, vet jeg hvem jeg spør."
-          />
+      <section className="py-8" aria-labelledby="home-message-title">
+        <div className="rounded-[2rem] bg-harbor p-8 text-white shadow-soft md:p-10">
+          <p className="text-sm font-bold uppercase tracking-normal text-pine">
+            Hovedbudskap
+          </p>
+          <h2 id="home-message-title" className="sr-only">
+            Kursets hovedbudskap
+          </h2>
+          <blockquote className="mt-4 max-w-5xl text-2xl font-bold leading-10 md:text-3xl md:leading-[3rem]">
+            Jeg vet hva rollen min er. Jeg vet hvorfor den er viktig. Jeg vet
+            hvor grensene går. Og hvis jeg blir usikker, vet jeg hvem jeg spør.
+          </blockquote>
         </div>
       </section>
     </PageContainer>

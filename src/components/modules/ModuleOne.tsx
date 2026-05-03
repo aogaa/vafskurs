@@ -39,6 +39,26 @@ const canVolunteerRole = [
   "være en bro til fellesskap",
 ];
 
+function getSelectionMessage(selectedCount: number) {
+  if (selectedCount === 0) {
+    return "Velg minst 3 kort for å låse opp innsikten.";
+  }
+
+  if (selectedCount === 1) {
+    return "Bra start. Velg minst 2 til.";
+  }
+
+  if (selectedCount === 2) {
+    return "Nesten der. Velg 1 kort til.";
+  }
+
+  if (selectedCount === MAX_SELECTIONS) {
+    return "Du har valgt maks 5 kort. Nå kan du gå videre.";
+  }
+
+  return `Innsikten er låst opp. Du kan velge opptil ${MAX_SELECTIONS - selectedCount} kort til.`;
+}
+
 type ModuleOneProps = {
   courseModule: CourseModule;
   isComplete: boolean;
@@ -125,6 +145,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
   const selectedCount = selectedIds.length;
   const hasMinimumSelections = selectedCount >= MIN_SELECTIONS;
   const maxReached = selectedCount >= MAX_SELECTIONS;
+  const selectionMessage = getSelectionMessage(selectedCount);
 
   function toggleCard(cardId: string) {
     setSelectedIds((current) => {
@@ -300,29 +321,30 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                 hva trygghet faktisk består av.
               </p>
             </div>
-            <div className="rounded-3xl bg-mist p-5 text-harbor">
+            <div
+              className={`rounded-3xl p-5 text-harbor ring-1 ${
+                hasMinimumSelections ? "bg-pine/16 ring-pine/35" : "bg-mist ring-harbor/8"
+              }`}
+            >
               <p className="text-sm font-bold uppercase tracking-normal text-slate">
                 Valgt
               </p>
               <p className="mt-1 text-3xl font-extrabold" aria-live="polite">
-                {selectedCount} av {MAX_SELECTIONS}
+                {selectedCount} av {MAX_SELECTIONS} valgt
               </p>
               <p className="mt-2 text-sm font-semibold">
-                Minst {MIN_SELECTIONS} kort låser opp innsikten.
+                {selectionMessage}
               </p>
             </div>
           </div>
           <div className="mt-5" aria-live="polite">
-            {!hasMinimumSelections ? (
-              <p className="rounded-2xl bg-honey/18 px-4 py-3 text-sm font-semibold text-harbor">
-                Velg minst 3 kort for å låse opp innsikten.
-              </p>
-            ) : null}
-            {maxReached ? (
-              <p className="rounded-2xl bg-mist px-4 py-3 text-sm font-semibold text-harbor">
-                Du har valgt 5 kort. Fjern ett kort hvis du vil velge et annet.
-              </p>
-            ) : null}
+            <p
+              className={`rounded-2xl px-4 py-3 text-sm font-semibold ${
+                hasMinimumSelections ? "bg-pine/16 text-harbor" : "bg-honey/18 text-harbor"
+              }`}
+            >
+              {selectionMessage}
+            </p>
           </div>
         </div>
 
@@ -428,6 +450,11 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                   Du skal ikke lære å bli ansatt, behandler eller saksbehandler.
                   Du skal lære å være trygg som frivillig.
                 </p>
+              </div>
+              <div className="mt-5">
+                <Button onClick={onComplete} disabled={!hasMinimumSelections || isComplete}>
+                  {isComplete ? "Modul er fullført" : "Fullfør modul 1"}
+                </Button>
               </div>
             </div>
           </Card>

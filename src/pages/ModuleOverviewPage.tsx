@@ -7,6 +7,7 @@ import { useProgress } from "../hooks/useProgress";
 
 export function ModuleOverviewPage() {
   const { getCompletedCount, isModuleComplete } = useProgress();
+  const nextModule = courseModules.find((courseModule) => !isModuleComplete(courseModule.id));
 
   return (
     <PageContainer className="space-y-8">
@@ -19,9 +20,14 @@ export function ModuleOverviewPage() {
       </header>
       <ProgressSummary
         completedCount={getCompletedCount()}
+        nextModuleTitle={nextModule?.title}
         totalCount={courseModules.length}
       />
-      <ModuleGrid modules={courseModules} isModuleComplete={isModuleComplete} />
+      <ModuleGrid
+        modules={courseModules}
+        nextModuleId={nextModule?.id}
+        isModuleComplete={isModuleComplete}
+      />
     </PageContainer>
   );
 }

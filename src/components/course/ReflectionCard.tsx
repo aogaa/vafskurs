@@ -82,6 +82,7 @@ export function ReflectionCard({
   return (
     <button
       type="button"
+      aria-label={`${isSelected ? "Fjern valgt kort" : "Velg kort"}: ${card.title}`}
       aria-pressed={isSelected}
       disabled={isDisabled}
       onClick={() => onToggle(card.id)}
@@ -110,7 +111,7 @@ export function ReflectionCard({
             isSelected ? "bg-white/14 text-white" : "bg-mist text-slate"
           }`}
         >
-          {isSelected ? "Valgt" : "Velg"}
+          {isSelected ? "✓ Valgt" : "Velg"}
         </span>
       </span>
       <span className="mt-6 block text-2xl font-bold leading-8">{card.title}</span>
