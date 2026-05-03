@@ -16,7 +16,7 @@ export const courseModules: CourseModule[] = [
     id: "modul-1",
     order: 1,
     title: "Hvorfor frivillighet betyr noe",
-    durationMinutes: 12,
+    durationMinutes: 8,
     description:
       "Se hvordan frivillighet bygger relasjoner, nærvær og trygghet i lokalsamfunnet.",
     status: "active",

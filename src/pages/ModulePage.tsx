@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
 import { PageContainer } from "../components/layout/PageContainer";
+import { ModuleOne } from "../components/modules/ModuleOne";
 import { Button } from "../components/ui/Button";
 import { getModuleById } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
@@ -47,7 +48,21 @@ export function ModulePage() {
         Til moduloversikt
       </Link>
       {showCompletion ? (
-        <CompletionPanel />
+        <CompletionPanel
+          nextLabel={courseModule.id === "modul-1" ? "Gå til modul 2" : undefined}
+          nextTo={courseModule.id === "modul-1" ? "/moduler/modul-2" : undefined}
+          transitionText={
+            courseModule.id === "modul-1"
+              ? "Nå har vi sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er – og hva det ikke er."
+              : undefined
+          }
+        />
+      ) : courseModule.id === "modul-1" ? (
+        <ModuleOne
+          courseModule={courseModule}
+          isComplete={isComplete}
+          onComplete={handleComplete}
+        />
       ) : (
         <ModuleLayout
           courseModule={courseModule}

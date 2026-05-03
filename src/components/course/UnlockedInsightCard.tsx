@@ -1,0 +1,30 @@
+type UnlockedInsightCardProps = {
+  insight: string;
+  supportText: string;
+};
+
+export function UnlockedInsightCard({ insight, supportText }: UnlockedInsightCardProps) {
+  return (
+    <section className="overflow-hidden rounded-[2rem] border border-pine/30 bg-gradient-to-br from-harbor to-fjord text-white shadow-glow">
+      <div className="grid gap-6 p-7 md:grid-cols-[auto_1fr] md:p-9">
+        <div
+          className="grid size-16 place-items-center rounded-3xl bg-pine text-3xl font-black text-harbor"
+          aria-hidden="true"
+        >
+          ✓
+        </div>
+        <div>
+          <p className="text-sm font-bold uppercase tracking-normal text-pine">
+            Innsikt låst opp
+          </p>
+          <h2 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight">
+            {insight}
+          </h2>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/78">
+            {supportText}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
