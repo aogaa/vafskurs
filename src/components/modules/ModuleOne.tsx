@@ -117,18 +117,23 @@ function StepChain() {
       {steps.map((step, index) => (
         <li
           key={step}
-          className="inline-flex w-full items-center gap-3 py-2 text-xl font-bold text-ink sm:w-auto sm:py-0 sm:text-2xl"
+          className="flex w-full flex-col items-center gap-3 py-2 text-xl font-bold text-ink sm:inline-flex sm:w-auto sm:flex-row sm:py-0 sm:text-2xl"
         >
-          <span className="rounded-2xl bg-mist px-4 py-3">
+          <span className="w-full rounded-2xl bg-mist px-4 py-3 text-center sm:w-auto">
             {step}
           </span>
           {index < steps.length - 1 ? (
-            <span
-              className="text-2xl font-black text-pine sm:px-2"
-              aria-hidden="true"
-            >
-              →
-            </span>
+            <>
+              <span className="text-2xl font-black text-pine sm:hidden" aria-hidden="true">
+                ↓
+              </span>
+              <span
+                className="hidden text-2xl font-black text-pine sm:inline sm:px-2"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </>
           ) : null}
         </li>
       ))}
