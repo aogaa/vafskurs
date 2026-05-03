@@ -343,34 +343,10 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
             <h2 className="mt-2 text-2xl font-bold text-ink">
               Dine byggesteiner forteller noe viktig
             </h2>
-            <div className="mt-5 space-y-4 text-base leading-8 text-slate">
-              <p>
-                Du har valgt byggesteiner som handler om mer enn hyggelige
-                aktiviteter.
-              </p>
-              <p>
-                Du har valgt et nærmiljø der mennesker blir lagt merke til. Der
-                noen spør hvordan det går. Der det finnes steder å høre til.
-                Der små handlinger kan gjøre hverdagen tryggere for andre.
-              </p>
-              <p className="text-lg font-bold text-harbor">
-                Dette er kjernen i frivillighet.
-              </p>
-              <p>
-                Frivillige bygger ikke systemer. De bygger relasjoner. De gjør
-                at mennesker ikke bare blir brukere, pasienter, innbyggere eller
-                mottakere av tjenester, men medmennesker som blir sett.
-              </p>
-              <p>
-                Når du velger å være frivillig, er du med på å holde
-                lokalsamfunnet menneskelig.
-              </p>
-              <p>
-                Det betyr ikke at du skal løse alt. Det betyr at du kan være en
-                viktig del av noe større: et fellesskap der mennesker angår
-                hverandre.
-              </p>
-            </div>
+            <p className="mt-5 max-w-3xl text-base leading-8 text-slate">
+              Hvert kort du har valgt peker på en side av nærmiljøet du ønsker
+              å være med på å skape.
+            </p>
             <div className="mt-6 rounded-3xl bg-mist p-5">
               <h3 className="text-lg font-bold text-harbor">
                 Dine valgte byggesteiner
@@ -389,6 +365,55 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                 Dette er ikke en fasit. Det er ditt bilde av hva som gjør et
                 nærmiljø tryggere.
               </p>
+            </div>
+            <div className="mt-6 grid gap-4">
+              {selectedCards.map((card) => (
+                <section
+                  key={card.id}
+                  className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm"
+                >
+                  <h3 className="text-xl font-bold text-ink">{card.title}</h3>
+                  <div className="mt-4 space-y-3 text-base leading-8 text-slate">
+                    {card.fullText.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+            <div className="mt-6 rounded-3xl border border-pine/25 bg-mist p-5">
+              <h3 className="text-xl font-bold text-harbor">
+                Samlet innsikt fra valgene dine
+              </h3>
+              <div className="mt-4 space-y-4 text-base leading-8 text-slate">
+                <p>
+                  Du har valgt byggesteiner som handler om mer enn hyggelige
+                  aktiviteter.
+                </p>
+                <p>
+                  Du har valgt et nærmiljø der mennesker blir lagt merke til.
+                  Der noen spør hvordan det går. Der det finnes steder å høre
+                  til. Der små handlinger kan gjøre hverdagen tryggere for
+                  andre.
+                </p>
+                <p className="text-lg font-bold text-harbor">
+                  Dette er kjernen i frivillighet.
+                </p>
+                <p>
+                  Frivillige bygger ikke systemer. De bygger relasjoner. De gjør
+                  at mennesker ikke bare blir brukere, pasienter, innbyggere
+                  eller mottakere av tjenester, men medmennesker som blir sett.
+                </p>
+                <p>
+                  Når du velger å være frivillig, er du med på å holde
+                  lokalsamfunnet menneskelig.
+                </p>
+                <p>
+                  Det betyr ikke at du skal løse alt. Det betyr at du kan være
+                  en viktig del av noe større: et fellesskap der mennesker angår
+                  hverandre.
+                </p>
+              </div>
             </div>
             <div className="mt-6 rounded-3xl border border-pine/25 bg-white p-5 shadow-sm">
               <h3 className="text-lg font-bold text-ink">
