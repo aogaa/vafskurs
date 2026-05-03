@@ -4,6 +4,7 @@ import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
 import { PageContainer } from "../components/layout/PageContainer";
 import { ModuleOne } from "../components/modules/ModuleOne";
+import { ModuleTwo } from "../components/modules/ModuleTwo";
 import { Button } from "../components/ui/Button";
 import { getModuleById } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
@@ -49,16 +50,36 @@ export function ModulePage() {
       </Link>
       {showCompletion ? (
         <CompletionPanel
-          nextLabel={courseModule.id === "modul-1" ? "Gå til modul 2" : undefined}
-          nextTo={courseModule.id === "modul-1" ? "/moduler/modul-2" : undefined}
+          nextLabel={
+            courseModule.id === "modul-1"
+              ? "Gå til modul 2"
+              : courseModule.id === "modul-2"
+                ? "Gå til modul 3"
+                : undefined
+          }
+          nextTo={
+            courseModule.id === "modul-1"
+              ? "/moduler/modul-2"
+              : courseModule.id === "modul-2"
+                ? "/moduler/modul-3"
+                : undefined
+          }
           transitionText={
             courseModule.id === "modul-1"
               ? "Nå har vi sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er – og hva det ikke er."
+              : courseModule.id === "modul-2"
+                ? "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på din rolle som frivillig i praksis."
               : undefined
           }
         />
       ) : courseModule.id === "modul-1" ? (
         <ModuleOne
+          courseModule={courseModule}
+          isComplete={isComplete}
+          onComplete={handleComplete}
+        />
+      ) : courseModule.id === "modul-2" ? (
+        <ModuleTwo
           courseModule={courseModule}
           isComplete={isComplete}
           onComplete={handleComplete}

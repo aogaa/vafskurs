@@ -36,12 +36,16 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-2",
     order: 2,
-    title: "Hva er frivillighet?",
-    durationMinutes: 10,
+    title: "Frivilligrollen: Hva er min plass?",
+    durationMinutes: 15,
     description:
-      "En rolig innføring i frivillig sektor, egenart og verdien av frivillig innsats.",
+      "Bygg rollekompasset ditt og bli tryggere på hva du kan bidra med, hva du må avklare, og hva som ligger hos andre.",
     status: "planned",
-    learningGoals: [],
+    learningGoals: [
+      "Forstå frivilligrollen som en egen og verdifull rolle",
+      "Skille mellom å bidra og å overta ansvar",
+      "Øve på å stoppe og avklare når rollen blir uklar",
+    ],
   },
   {
     id: "modul-3",
