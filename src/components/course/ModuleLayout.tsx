@@ -12,21 +12,24 @@ type ModuleLayoutProps = {
 export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLayoutProps) {
   return (
     <article className="space-y-8">
-      <header className="rounded-[2rem] border border-white/70 bg-white/76 p-7 shadow-soft md:p-10">
-        <p className="text-sm font-bold uppercase tracking-[0.16em] text-clay">
-          Modul {courseModule.order}
-        </p>
-        <h1 className="mt-3 max-w-4xl text-4xl font-black leading-tight text-ink md:text-5xl">
-          {courseModule.title}
-        </h1>
-        <p className="mt-4 text-base font-semibold text-harbor">
-          Ca. {courseModule.durationMinutes} minutter
-        </p>
-        {courseModule.ingress ? (
-          <p className="mt-6 max-w-3xl text-xl leading-9 text-ink/76">
-            {courseModule.ingress}
+      <header className="overflow-hidden rounded-[2rem] border border-harbor/8 bg-white shadow-soft">
+        <div className="h-2 bg-gradient-to-r from-pine via-leaf to-harbor" />
+        <div className="p-7 md:p-10">
+          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+            Modul {courseModule.order}
           </p>
-        ) : null}
+          <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
+            {courseModule.title}
+          </h1>
+          <p className="mt-4 inline-flex rounded-full bg-mist px-3 py-1 text-base font-semibold text-harbor">
+            Ca. {courseModule.durationMinutes} minutter
+          </p>
+          {courseModule.ingress ? (
+            <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
+              {courseModule.ingress}
+            </p>
+          ) : null}
+        </div>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
@@ -35,16 +38,18 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
           <ul className="mt-5 space-y-4">
             {courseModule.learningGoals.length > 0 ? (
               courseModule.learningGoals.map((goal) => (
-                <li key={goal} className="flex gap-3 text-base leading-7 text-ink/76">
+                <li key={goal} className="flex gap-3 text-base leading-7 text-slate">
                   <span
-                    className="mt-2 size-3 shrink-0 rounded-full bg-pine"
+                    className="mt-1 grid size-7 shrink-0 place-items-center rounded-2xl bg-pine/18 text-sm font-black text-harbor"
                     aria-hidden="true"
-                  />
+                  >
+                    ✓
+                  </span>
                   <span>{goal}</span>
                 </li>
               ))
             ) : (
-              <li className="text-base leading-7 text-ink/76">
+              <li className="text-base leading-7 text-slate">
                 Læringsmål legges inn når modulen bygges ut.
               </li>
             )}
@@ -53,7 +58,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
 
         <Card className="p-7">
           <h2 className="text-2xl font-bold text-ink">Innhold</h2>
-          <div className="mt-5 space-y-4 text-base leading-8 text-ink/76">
+          <div className="mt-5 space-y-4 text-base leading-8 text-slate">
             {(courseModule.contentBlocks ?? [
               "Denne modulen er foreløpig en plassholder. Innhold, scenarioer og refleksjoner kan kobles på senere i samme struktur.",
             ]).map((block) => (
@@ -65,8 +70,8 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
 
       <Card className="p-7">
         <h2 className="text-2xl font-bold text-ink">Interaktiv øvelse</h2>
-        <div className="mt-5 rounded-3xl border border-dashed border-harbor/28 bg-mist/60 p-6">
-          <p className="max-w-3xl text-base leading-8 text-ink/76">
+        <div className="mt-5 rounded-3xl border border-dashed border-harbor/18 bg-mist p-6">
+          <p className="max-w-3xl text-base leading-8 text-slate">
             Her kommer en enkel øvelse i neste byggesteg. Målet er at du kan
             reflektere over frivilligrollen i praksis, uten at svar lagres som
             personopplysninger.
@@ -76,7 +81,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
 
       {courseModule.insight ? <InsightCard>{courseModule.insight}</InsightCard> : null}
 
-      <div className="flex flex-col gap-3 rounded-3xl border border-white/70 bg-white/70 p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <Button to="/moduler" variant="secondary">
           Tilbake til moduloversikt
         </Button>

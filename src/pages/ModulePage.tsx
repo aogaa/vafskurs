@@ -16,9 +16,9 @@ export function ModulePage() {
   if (!courseModule) {
     return (
       <PageContainer>
-        <section className="rounded-3xl border border-white/70 bg-white/76 p-8 shadow-soft">
-          <h1 className="text-3xl font-black text-ink">Fant ikke modulen</h1>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-ink/76">
+        <section className="rounded-3xl border border-harbor/8 bg-white p-8 shadow-soft">
+          <h1 className="text-3xl font-extrabold text-ink">Fant ikke modulen</h1>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-slate">
             Denne modulen finnes ikke i kursstrukturen ennå.
           </p>
           <div className="mt-7">
@@ -42,7 +42,7 @@ export function ModulePage() {
     <PageContainer className="space-y-7">
       <Link
         to="/moduler"
-        className="inline-flex rounded-full px-2 py-1 text-sm font-bold text-harbor hover:text-pine"
+        className="inline-flex rounded-2xl px-3 py-2 text-sm font-bold text-harbor hover:bg-mist hover:text-fjord"
       >
         Til moduloversikt
       </Link>

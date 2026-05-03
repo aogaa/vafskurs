@@ -4,17 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        linen: "#F7F1E8",
-        mist: "#E8F0ED",
-        harbor: "#164A4F",
-        pine: "#1F6B5C",
-        clay: "#B75D3A",
-        honey: "#EAB86B",
-        ink: "#183233",
+        linen: "#F7FAF8",
+        mist: "#EEF7F3",
+        harbor: "#0B1F33",
+        fjord: "#123047",
+        ink: "#102A43",
+        pine: "#66C244",
+        leaf: "#4EAD3A",
+        slate: "#5C6B73",
+        clay: "#4EAD3A",
+        honey: "#F2B84B",
       },
       boxShadow: {
-        soft: "0 18px 45px rgba(24, 50, 51, 0.10)",
-        lift: "0 14px 30px rgba(24, 50, 51, 0.14)",
+        soft: "0 18px 48px rgba(11, 31, 51, 0.10)",
+        lift: "0 20px 42px rgba(11, 31, 51, 0.16)",
+        glow: "0 24px 70px rgba(102, 194, 68, 0.18)",
       },
       fontFamily: {
         sans: [

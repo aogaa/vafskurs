@@ -7,92 +7,128 @@ const courseFeatures = [
   "Trygghet i rollen",
 ];
 
-function CommunityIllustration() {
+const learningNodes = [
+  { label: "Rolle", x: 88, y: 92, tone: "blue" },
+  { label: "Grenser", x: 292, y: 70, tone: "green" },
+  { label: "Tillit", x: 388, y: 190, tone: "blue" },
+  { label: "Avklar", x: 205, y: 236, tone: "yellow" },
+  { label: "Trygghet", x: 92, y: 278, tone: "green" },
+];
+
+function LearningSurface() {
   return (
-    <svg
-      className="h-auto w-full"
-      viewBox="0 0 520 380"
-      role="img"
-      aria-labelledby="community-title community-desc"
-    >
-      <title id="community-title">Illustrasjon av møteplass og relasjoner</title>
-      <desc id="community-desc">
-        En rolig illustrasjon med mennesker, en møteplass og forbindelseslinjer.
-      </desc>
-      <rect x="46" y="50" width="428" height="274" rx="42" fill="#E8F0ED" />
-      <path
-        d="M126 245c48-74 217-74 266 0"
-        fill="none"
-        stroke="#1F6B5C"
-        strokeLinecap="round"
-        strokeWidth="10"
-        opacity="0.2"
-      />
-      <path
-        d="M155 169h210l34 76H121l34-76Z"
-        fill="#F7F1E8"
-        stroke="#164A4F"
-        strokeWidth="8"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M180 169v-54h158v54"
-        fill="#FFFFFF"
-        stroke="#164A4F"
-        strokeWidth="8"
-        strokeLinejoin="round"
-      />
-      <path d="M207 138h36M276 138h36" stroke="#B75D3A" strokeLinecap="round" strokeWidth="8" />
-      <path
-        d="M137 125c38 25 72 29 108 12M383 125c-38 25-72 29-108 12"
-        fill="none"
-        stroke="#EAB86B"
-        strokeLinecap="round"
-        strokeWidth="7"
-      />
-      {[
-        { cx: 116, cy: 250, fill: "#B75D3A" },
-        { cx: 199, cy: 282, fill: "#1F6B5C" },
-        { cx: 320, cy: 282, fill: "#164A4F" },
-        { cx: 405, cy: 250, fill: "#B75D3A" },
-      ].map((person) => (
-        <g key={`${person.cx}-${person.cy}`}>
-          <circle cx={person.cx} cy={person.cy - 36} r="20" fill={person.fill} />
-          <path
-            d={`M${person.cx - 35} ${person.cy + 25}c4-30 23-47 35-47s31 17 35 47`}
-            fill="#FFFFFF"
-            stroke={person.fill}
-            strokeLinecap="round"
-            strokeWidth="8"
-          />
+    <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white p-5 shadow-glow">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(102,194,68,0.16),transparent_16rem),linear-gradient(135deg,rgba(238,247,243,0.86),rgba(255,255,255,0.2))]" />
+      <svg
+        className="relative h-auto w-full"
+        viewBox="0 0 520 380"
+        role="img"
+        aria-labelledby="learning-title learning-desc"
+      >
+        <title id="learning-title">Digital læringsflate</title>
+        <desc id="learning-desc">
+          En moderne kursflate med temaord, relasjonslinjer og rolig progresjon.
+        </desc>
+        <defs>
+          <filter id="nodeShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="12" stdDeviation="12" floodColor="#0B1F33" floodOpacity="0.14" />
+          </filter>
+        </defs>
+        <path
+          d="M110 95 C190 35 275 42 350 88 C426 135 432 240 342 278 C246 318 156 300 92 252"
+          fill="none"
+          stroke="#123047"
+          strokeDasharray="8 12"
+          strokeLinecap="round"
+          strokeWidth="4"
+          opacity="0.22"
+        />
+        <path
+          d="M122 284 C186 336 305 332 382 242"
+          fill="none"
+          stroke="#66C244"
+          strokeLinecap="round"
+          strokeWidth="10"
+          opacity="0.28"
+        />
+        <rect
+          x="155"
+          y="118"
+          width="210"
+          height="122"
+          rx="24"
+          fill="#0B1F33"
+          filter="url(#nodeShadow)"
+        />
+        <rect x="176" y="141" width="92" height="12" rx="6" fill="#66C244" />
+        <rect x="176" y="168" width="150" height="10" rx="5" fill="#FFFFFF" opacity="0.84" />
+        <rect x="176" y="192" width="118" height="10" rx="5" fill="#FFFFFF" opacity="0.6" />
+        <circle cx="322" cy="192" r="23" fill="#F2B84B" />
+        <path
+          d="M312 191l8 8 15-18"
+          fill="none"
+          stroke="#0B1F33"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="5"
+        />
+        {learningNodes.map((node) => {
+          const fill =
+            node.tone === "green" ? "#66C244" : node.tone === "yellow" ? "#F2B84B" : "#123047";
+          const text = node.tone === "yellow" ? "#102A43" : "#FFFFFF";
+
+          return (
+            <g key={node.label} filter="url(#nodeShadow)">
+              <rect x={node.x} y={node.y} width="104" height="48" rx="18" fill={fill} />
+              <text
+                x={node.x + 52}
+                y={node.y + 30}
+                textAnchor="middle"
+                fill={text}
+                fontSize="15"
+                fontWeight="700"
+                letterSpacing="0"
+              >
+                {node.label}
+              </text>
+            </g>
+          );
+        })}
+        <g transform="translate(360 286)">
+          <circle cx="0" cy="0" r="18" fill="#EEF7F3" stroke="#66C244" strokeWidth="4" />
+          <circle cx="48" cy="0" r="18" fill="#EEF7F3" stroke="#123047" strokeWidth="4" />
+          <circle cx="96" cy="0" r="18" fill="#EEF7F3" stroke="#66C244" strokeWidth="4" />
+          <path d="M18 0H30M66 0H78" stroke="#5C6B73" strokeLinecap="round" strokeWidth="4" />
         </g>
-      ))}
-      <path
-        d="M142 257c46 30 189 30 236 0"
-        fill="none"
-        stroke="#164A4F"
-        strokeLinecap="round"
-        strokeWidth="6"
-        opacity="0.28"
-      />
-    </svg>
+      </svg>
+      <div className="relative mt-2 grid gap-3 sm:grid-cols-3">
+        {["Struktur", "Refleksjon", "Fremdrift"].map((label) => (
+          <div
+            key={label}
+            className="rounded-2xl border border-harbor/8 bg-white/86 px-4 py-3 text-sm font-bold text-harbor shadow-sm"
+          >
+            {label}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export function CourseHero() {
   return (
-    <section className="grid items-center gap-10 py-10 lg:grid-cols-[1.02fr_0.98fr] lg:py-16">
+    <section className="grid items-center gap-10 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-16">
       <div className="max-w-3xl">
-        <p className="text-sm font-bold uppercase tracking-[0.16em] text-clay">
+        <p className="text-sm font-bold uppercase tracking-normal text-leaf">
           Digitalt grunnkurs for frivillige
         </p>
-        <h1 className="mt-5 text-5xl font-black leading-tight text-ink sm:text-6xl lg:text-7xl">
+        <h1 className="mt-5 text-4xl font-extrabold leading-tight text-ink sm:text-5xl lg:text-6xl">
           Trygg som frivillig
         </h1>
-        <p className="mt-5 text-2xl font-semibold leading-9 text-harbor">
+        <p className="mt-5 text-xl font-semibold leading-8 text-fjord sm:text-2xl">
           Et praktisk kurs om rolle, grenser og gode møter med mennesker
         </p>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-ink/76">
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate">
           Dette kurset hjelper deg å bli tryggere i frivilligrollen. Du lærer
           hvorfor frivillighet betyr noe, hvor grensene går, og hva du gjør når
           du blir usikker.
@@ -104,16 +140,16 @@ export function CourseHero() {
           </Button>
         </div>
       </div>
-      <div className="rounded-[2rem] border border-white/70 bg-white/66 p-4 shadow-soft">
-        <CommunityIllustration />
-      </div>
+      <LearningSurface />
       <ul className="grid gap-3 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
         {courseFeatures.map((feature) => (
           <li
             key={feature}
-            className="flex min-h-20 items-center gap-3 rounded-2xl border border-white/70 bg-white/70 px-5 py-4 text-base font-bold text-ink shadow-sm"
+            className="flex min-h-20 items-center gap-3 rounded-3xl border border-harbor/8 bg-white px-5 py-4 text-base font-bold text-ink shadow-soft"
           >
-            <span className="size-3 rounded-full bg-clay" aria-hidden="true" />
+            <span className="grid size-8 shrink-0 place-items-center rounded-2xl bg-mist text-harbor">
+              <span className="size-2.5 rounded-full bg-pine" aria-hidden="true" />
+            </span>
             {feature}
           </li>
         ))}

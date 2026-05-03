@@ -8,9 +8,9 @@ type BadgeProps = {
 };
 
 const toneClasses: Record<BadgeTone, string> = {
-  complete: "bg-pine/12 text-pine ring-pine/20",
-  planned: "bg-ink/8 text-ink ring-ink/12",
-  active: "bg-honey/28 text-ink ring-honey/50",
+  complete: "bg-pine/15 text-harbor ring-pine/35",
+  planned: "bg-mist text-slate ring-harbor/10",
+  active: "bg-honey/20 text-harbor ring-honey/45",
 };
 
 export function Badge({ children, tone = "planned" }: BadgeProps) {

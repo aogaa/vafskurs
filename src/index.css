@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  color: #183233;
-  background: #f7f1e8;
+  color: #102a43;
+  background: #f7faf8;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,8 +24,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(234, 184, 107, 0.26), transparent 28rem),
-    linear-gradient(135deg, #f7f1e8 0%, #eef4ef 52%, #f8efe4 100%);
+    radial-gradient(circle at top left, rgba(102, 194, 68, 0.14), transparent 26rem),
+    radial-gradient(circle at 80% 10%, rgba(18, 48, 71, 0.10), transparent 24rem),
+    linear-gradient(180deg, #f7faf8 0%, #eef7f3 52%, #f7faf8 100%);
 }
 
 button,
@@ -36,13 +37,13 @@ a {
 button:focus-visible,
 a:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid #b75d3a;
+  outline: 3px solid #66c244;
   outline-offset: 4px;
 }
 
 ::selection {
-  background: #eab86b;
-  color: #183233;
+  background: #f2b84b;
+  color: #102a43;
 }
 
 @media (prefers-reduced-motion: reduce) {

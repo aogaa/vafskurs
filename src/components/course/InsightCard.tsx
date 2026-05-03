@@ -4,11 +4,11 @@ type InsightCardProps = {
 
 export function InsightCard({ children }: InsightCardProps) {
   return (
-    <aside className="rounded-3xl border border-honey/45 bg-honey/22 p-6 text-ink shadow-sm">
-      <p className="text-sm font-bold uppercase tracking-[0.14em] text-clay">
+    <aside className="rounded-3xl border border-pine/25 bg-gradient-to-br from-mist to-white p-7 text-ink shadow-soft">
+      <p className="text-sm font-bold uppercase tracking-normal text-leaf">
         Innsikt
       </p>
-      <p className="mt-3 text-xl font-bold leading-8">{children}</p>
+      <p className="mt-3 max-w-3xl text-xl font-bold leading-8">{children}</p>
     </aside>
   );
 }
