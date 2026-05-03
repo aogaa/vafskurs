@@ -345,13 +345,30 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
             </h2>
             <div className="mt-5 space-y-4 text-base leading-8 text-slate">
               <p>
-                Kortene du valgte handler ikke først og fremst om systemer. De
-                handler om relasjoner, vaner og små tegn på at mennesker angår
-                hverandre.
+                Du har valgt byggesteiner som handler om mer enn hyggelige
+                aktiviteter.
               </p>
               <p>
-                Det er nettopp her frivilligheten har stor betydning. Frivillige
-                kan bidra til at slike byggesteiner faktisk finnes i nærmiljøet.
+                Du har valgt et nærmiljø der mennesker blir lagt merke til. Der
+                noen spør hvordan det går. Der det finnes steder å høre til.
+                Der små handlinger kan gjøre hverdagen tryggere for andre.
+              </p>
+              <p className="text-lg font-bold text-harbor">
+                Dette er kjernen i frivillighet.
+              </p>
+              <p>
+                Frivillige bygger ikke systemer. De bygger relasjoner. De gjør
+                at mennesker ikke bare blir brukere, pasienter, innbyggere eller
+                mottakere av tjenester, men medmennesker som blir sett.
+              </p>
+              <p>
+                Når du velger å være frivillig, er du med på å holde
+                lokalsamfunnet menneskelig.
+              </p>
+              <p>
+                Det betyr ikke at du skal løse alt. Det betyr at du kan være en
+                viktig del av noe større: et fellesskap der mennesker angår
+                hverandre.
               </p>
             </div>
             <div className="mt-6 rounded-3xl bg-mist p-5">
@@ -372,6 +389,21 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                 Dette er ikke en fasit. Det er ditt bilde av hva som gjør et
                 nærmiljø tryggere.
               </p>
+            </div>
+            <div className="mt-6 rounded-3xl border border-pine/25 bg-white p-5 shadow-sm">
+              <h3 className="text-lg font-bold text-ink">
+                Dette er nærmiljøet du har vært med på å bygge i øvelsen.
+              </h3>
+              <div className="mt-3 space-y-3 text-base leading-8 text-slate">
+                <p>
+                  Nå handler resten av kurset om hvordan du kan bidra til det i
+                  praksis: med varme, tydelige grenser og trygg rolleforståelse.
+                </p>
+                <p>
+                  Du skal ikke lære å bli ansatt, behandler eller saksbehandler.
+                  Du skal lære å være trygg som frivillig.
+                </p>
+              </div>
             </div>
           </Card>
 
