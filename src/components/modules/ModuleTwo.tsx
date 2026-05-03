@@ -22,26 +22,78 @@ type CompassChoice = {
   chosenZone: RoleCompassZone;
 };
 
-const safePhrases = [
+const safePhraseGroups = [
   {
-    title: "Når noen ber om noe utenfor rollen",
-    text: "Det kan jeg ikke gjøre som frivillig, men jeg kan hjelpe deg å finne ut hvem som er riktig person å spørre.",
+    title: "Når noe må avklares med leder",
+    phrases: [
+      "Dette vil jeg gjerne svare ordentlig på, men jeg må avklare det med lederen min først.",
+      "Jeg kan ikke ta den avgjørelsen alene. Dette må jeg ta videre med lederen min.",
+      "Det kan hende vi kan finne en løsning, men det må avklares gjennom lederen min, ikke som en privat avtale mellom oss.",
+      "Jeg vil gjøre dette riktig, derfor må jeg stoppe litt opp og spørre lederen min før jeg svarer.",
+    ],
   },
   {
-    title: "Når noe må avklares",
-    text: "Dette må jeg avklare med kontaktpersonen før jeg kan svare.",
+    title: "Når noen ber om noe utenfor frivilligrollen",
+    phrases: [
+      "Det kan jeg ikke gjøre som frivillig, men jeg kan hjelpe deg å finne ut hvem som er riktig person å spørre.",
+      "Jeg skjønner at du trenger hjelp, men akkurat dette ligger utenfor rollen min som frivillig.",
+      "Dette er ikke en oppgave jeg kan ta ansvar for. Jeg kan heller si fra til lederen min om at du trenger hjelp videre.",
+      "Jeg vil ikke love noe jeg ikke har ansvar for. Det ville ikke vært riktig overfor deg.",
+    ],
   },
   {
-    title: "Når noen ønsker mer enn avtalt",
-    text: "Jeg skjønner at dette er viktig for deg. Min rolle er avgrenset, men jeg kan gi beskjed videre om at du ønsker mer støtte.",
+    title: "Når noen ønsker mer kontakt enn avtalt",
+    phrases: [
+      "Jeg setter pris på at du spør, men jeg kan ikke love å komme oftere enn det som er avtalt.",
+      "Jeg forstår godt at du ønsker mer besøk. Det må vi ta videre med lederen min, så rammen blir riktig.",
+      "Jeg kan ikke lage en privat avtale om faste besøk, men jeg kan gi beskjed om at du ønsker mer kontakt.",
+      "Det er viktig at dette ikke bare blir noe du og jeg avtaler alene. Da kan det bli uklart for oss begge.",
+    ],
   },
   {
-    title: "Når den frivillige blir usikker",
-    text: "Jeg vil gjerne gjøre dette riktig. Derfor må jeg stoppe litt opp og spørre før jeg går videre.",
+    title: "Når noen ber om penger, bankkort eller innkjøp",
+    phrases: [
+      "Jeg kan ikke ta med bankkort, PIN-kode eller kontanter. Det er for å beskytte både deg og meg.",
+      "Hvis du trenger hjelp til handling, må det avklares av lederen min på en ryddig måte.",
+      "Dette kan jeg ikke gjøre som en privat avtale. Økonomi må håndteres med tydelige rammer.",
+      "Jeg vil gjerne hjelpe deg videre, men jeg kan ikke håndtere penger eller bankkort.",
+    ],
+  },
+  {
+    title: "Når den frivillige blir bekymret",
+    phrases: [
+      "Jeg la merke til noe i dag som jeg synes lederen min bør få vite om.",
+      "Jeg vet ikke hva dette betyr, men jeg synes det bør meldes videre.",
+      "Jeg kan ikke vurdere helsen din, men jeg kan si fra til lederen min om det jeg har sett.",
+      "Dette vil jeg ikke bære alene. Jeg tar det videre til lederen min.",
+    ],
   },
   {
     title: "Når noen deler noe alvorlig",
-    text: "Takk for at du sier det. Dette er for viktig til at jeg skal bære det alene, så jeg må ta det videre til riktig person.",
+    phrases: [
+      "Takk for at du sier det. Dette er for viktig til at jeg skal bære det alene.",
+      "Jeg kan lytte til deg, men jeg kan ikke love å holde dette hemmelig hvis det handler om fare eller alvorlig bekymring.",
+      "Jeg vil gjerne være her med deg nå, men dette må også tas videre til noen som har riktig ansvar.",
+      "Dette høres alvorlig ut. Jeg skal ikke prøve å løse det alene, men jeg skal hjelpe med å få det videre til riktig person.",
+    ],
+  },
+  {
+    title: "Når ansatte eller andre ber frivillige gjøre for mye",
+    phrases: [
+      "Det kan jeg ikke gjøre som frivillig.",
+      "Dette høres ut som en ansattoppgave, så det må en ansvarlig ansatt ta.",
+      "Jeg kan gjerne vente sammen med personen, men jeg kan ikke overta den oppgaven.",
+      "Jeg må holde meg til frivilligrollen min. Hvis det er uklart, må vi avklare det med leder.",
+    ],
+  },
+  {
+    title: "Når du trenger å si nei uten å være avvisende",
+    phrases: [
+      "Jeg skjønner at dette er viktig for deg, men jeg kan ikke gjøre akkurat dette.",
+      "Jeg vil gjerne bidra innenfor det jeg kan gjøre som frivillig.",
+      "Jeg sier nei til oppgaven, ikke til deg.",
+      "Det er bedre at jeg er tydelig nå enn at jeg lover noe jeg ikke kan stå inne for.",
+    ],
   },
 ];
 
@@ -246,10 +298,9 @@ function SituationCard({
               Forklaring
             </p>
             <p className="mt-2 text-base font-bold leading-7 text-harbor">
-              {aligned
-                ? `Ja. Dette hører godt hjemme i: ${correctZone.title}.`
-                : `Dette er lett å vurdere som ${chosenZone.shortTitle.toLowerCase()}, men her peker kompasset mot: ${correctZone.title}.`}
+              {aligned ? card.alignedIntro : card.misalignedIntro}
             </p>
+            {!aligned ? <div className="mt-3"><ZonePill zoneId={card.correctZone} /></div> : null}
             <div className="mt-4 space-y-3 text-base leading-8 text-slate">
               {card.feedback.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -480,14 +531,15 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               Ferdig rollekompass
             </p>
             <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Slik kan du bruke kompasset
+              Mitt rollekompass
             </h2>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               {[
-                "Som frivillig kan jeg bidra med nærvær, samtale, fellesskap og lavterskel støtte.",
-                "Jeg skal avklare når oppgaven endrer seg, når ansvar blir uklart, eller når jeg kjenner usikkerhet.",
-                "Jeg skal huske at helse, vedtak, økonomi og tjenesteansvar ligger hos andre.",
-                "Jeg skal stoppe når noen ber meg gjøre noe utrygt, hemmelig, helsefaglig eller økonomisk.",
+                "Jeg kan bidra med nærvær, samtale, fellesskap, lavterskel støtte og en trygg vei inn i aktiviteter og møteplasser.",
+                "Jeg må avklare når oppgaven endrer seg, når jeg blir usikker, når noen ønsker mer enn avtalt, eller når situasjonen kan få større konsekvenser enn den først ser ut til.",
+                "Jeg skal huske at helse, medisiner, vedtak, tjenesteansvar, økonomi og formelle vurderinger ligger hos andre med riktig ansvar og myndighet.",
+                "Jeg skal stoppe når noen ber meg gjøre noe utrygt, hemmelig, helsefaglig, økonomisk eller privat på en måte som gjør rollen uklar.",
+                "Når jeg er usikker, skal jeg ikke løse det alene. Jeg skal ta det videre med leder.",
               ].map((text) => (
                 <p key={text} className="rounded-3xl bg-mist p-5 text-base font-semibold leading-8 text-harbor">
                   {text}
@@ -501,13 +553,19 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               Trygge formuleringer
             </p>
             <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Setninger du kan bruke
+              Setninger du kan bruke når rollen blir uklar
             </h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {safePhrases.map((phrase) => (
-                <article key={phrase.title} className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm">
-                  <h3 className="text-lg font-bold text-harbor">{phrase.title}</h3>
-                  <p className="mt-3 text-base leading-8 text-slate">«{phrase.text}»</p>
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              {safePhraseGroups.map((group) => (
+                <article key={group.title} className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm">
+                  <h3 className="text-lg font-bold text-harbor">{group.title}</h3>
+                  <ul className="mt-3 space-y-3">
+                    {group.phrases.map((phrase) => (
+                      <li key={phrase} className="text-base leading-8 text-slate">
+                        «{phrase}»
+                      </li>
+                    ))}
+                  </ul>
                 </article>
               ))}
             </div>
@@ -522,23 +580,38 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
             </h2>
             <div className="mt-5 space-y-4 text-base leading-8 text-slate">
               <p>
-                Du har nå sett at frivilligrollen ikke handler om å gjøre mest
-                mulig. Den handler om å gjøre det riktige innenfor en trygg ramme.
+                Nå har du bygget rollekompasset ditt.
               </p>
               <p>
-                Som frivillig kan du være nær, varm og viktig uten å overta ansvar
-                som ligger hos andre. Du kan lytte uten å bli behandler. Du kan se
-                uten å bli saksbehandler. Du kan bidra uten å bli ansvarlig for alt.
+                Du har sett at frivilligrollen ikke handler om å gjøre mest
+                mulig. Den handler om å bidra på en måte som er trygg, tydelig og
+                mulig å stå i over tid.
               </p>
               <p>
-                Når du vet hva rollen din er, blir det lettere å møte mennesker
-                med ro. Du kan være tydelig uten å være kald. Du kan si nei uten å
-                avvise. Du kan stoppe og avklare uten å føle at du svikter.
+                Noen ganger kan du bidra direkte: med samtale, nærvær,
+                fellesskap, trygghet og en vei inn i aktivitet.
+              </p>
+              <p>
+                Noen ganger må du avklare: fordi situasjonen endrer seg, fordi
+                du blir usikker, eller fordi ansvaret ikke lenger er tydelig.
+              </p>
+              <p>
+                Noen ganger ligger ansvaret hos andre: ansatte, kommunen,
+                helsepersonell, pårørende eller andre med riktig rolle og
+                myndighet.
+              </p>
+              <p>
+                Og noen ganger skal du stoppe: særlig når det handler om penger,
+                helseoppgaver, hemmelige avtaler, privat ansvar eller situasjoner
+                som kan bli utrygge.
+              </p>
+              <p className="font-bold text-harbor">
+                Det gjør deg ikke mindre omsorgsfull. Det gjør deg tryggere.
               </p>
               <p className="font-bold text-harbor">
                 En trygg frivillig er ikke en som løser alt alene. En trygg
-                frivillig vet hva som er sitt bidrag, og hvem som skal spørres når
-                noe går utenfor det.
+                frivillig er en som forstår sitt eget bidrag, kjenner grensene og
+                vet når leder skal kobles på.
               </p>
             </div>
           </Card>
