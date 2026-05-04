@@ -1,0 +1,40 @@
+import { copyFile, mkdir, stat } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const repoRoot = path.resolve(fileURLToPath(import.meta.url), "..", "..");
+const distDir = path.join(repoRoot, "dist");
+const indexPath = path.join(distDir, "index.html");
+
+const fallbackRoutes = [
+  "404.html",
+  "moduler/index.html",
+  "moduler/modul-1/index.html",
+  "moduler/modul-2/index.html",
+  "moduler/modul-3/index.html",
+];
+
+async function ensureIndexExists() {
+  try {
+    const indexStats = await stat(indexPath);
+
+    if (!indexStats.isFile()) {
+      throw new Error();
+    }
+  } catch {
+    throw new Error(
+      `Cannot create GitHub Pages fallbacks because ${indexPath} does not exist. Run vite build first.`,
+    );
+  }
+}
+
+await ensureIndexExists();
+
+for (const route of fallbackRoutes) {
+  const targetPath = path.join(distDir, route);
+
+  await mkdir(path.dirname(targetPath), { recursive: true });
+  await copyFile(indexPath, targetPath);
+
+  console.log(`Created GitHub Pages fallback: dist/${route}`);
+}
