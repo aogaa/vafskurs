@@ -6,20 +6,23 @@ import { courseModules } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
 
 export function ModuleOverviewPage() {
-  const { getCompletedCount, isModuleComplete } = useProgress();
+  const { isModuleComplete } = useProgress();
   const nextModule = courseModules.find((courseModule) => !isModuleComplete(courseModule.id));
+  const completedCount = courseModules.filter((courseModule) =>
+    isModuleComplete(courseModule.id),
+  ).length;
 
   return (
     <PageContainer className="space-y-8">
       <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <SectionTitle
           eyebrow="Moduloversikt"
-          title="Rolig fremdrift, ett steg om gangen"
-          description="Start med første modul. Resten av kursløpet ligger klart som struktur og bygges ut videre."
+          title="10 moduler, ett tydelig kursløp"
+          description="Start med første modul. Kursløpet er nå samlet i 10 moduler, med rolig fremdrift og tydelig retning videre."
         />
       </header>
       <ProgressSummary
-        completedCount={getCompletedCount()}
+        completedCount={completedCount}
         nextModuleTitle={nextModule?.title}
         totalCount={courseModules.length}
       />

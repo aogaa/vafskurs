@@ -116,51 +116,6 @@ export const courseModules: CourseModule[] = [
     status: "planned",
     learningGoals: [],
   },
-  {
-    id: "modul-11",
-    order: 11,
-    title: "Penger, gaver og praktiske tjenester",
-    description:
-      "Tydelige grenser for økonomi, gaver og praktiske oppgaver.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-12",
-    order: 12,
-    title: "Når relasjonen blir for nær",
-    description:
-      "Hvordan ta vare på både varme og grenser i relasjoner over tid.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-13",
-    order: 13,
-    title: "Frivillig sammen med ansatte og organisasjon",
-    description:
-      "Slik spiller frivillige, ansatte og organisasjon hverandre gode.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-14",
-    order: 14,
-    title: "Ta vare på deg selv som frivillig",
-    description:
-      "Frivilligrollen skal være meningsfull og bærekraftig for deg også.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-15",
-    order: 15,
-    title: "Avsluttende trygghetsløype",
-    description:
-      "Samle det viktigste: rolle, grenser, gode møter og hvem du spør.",
-    status: "planned",
-    learningGoals: [],
-  },
 ];
 
 export function getModuleById(moduleId: string) {

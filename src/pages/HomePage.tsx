@@ -23,8 +23,8 @@ export function HomePage() {
         <div className="rounded-3xl bg-mist p-7 shadow-soft ring-1 ring-pine/18">
           <h2 className="text-2xl font-bold text-ink">Veien er rolig</h2>
           <p className="mt-4 leading-7 text-slate">
-            Korte moduler, praktiske eksempler og en progresjon som er lett å
-            følge.
+            10 korte moduler, praktiske eksempler og en progresjon som er lett
+            å følge.
           </p>
         </div>
       </section>
