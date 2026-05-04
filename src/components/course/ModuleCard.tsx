@@ -58,9 +58,6 @@ export function ModuleCard({ courseModule, status }: ModuleCardProps) {
         <p className="mt-4 text-base leading-7 text-slate">
           {courseModule.description}
         </p>
-        <p className="mt-4 inline-flex w-fit rounded-full bg-mist px-3 py-1 text-sm font-semibold text-harbor">
-          Ca. {courseModule.durationMinutes} minutter
-        </p>
         <div className="mt-auto pt-6">
           <Button
             to={`/moduler/${courseModule.id}`}

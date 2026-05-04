@@ -180,9 +180,6 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
             <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
               {courseModule.title}
             </h1>
-            <p className="mt-4 inline-flex rounded-full bg-mist px-3 py-1 text-base font-semibold text-harbor">
-              5–8 minutter
-            </p>
             <div className="mt-6 max-w-3xl space-y-4 text-xl leading-9 text-slate">
               <p>
                 Frivillighet handler ikke bare om å hjelpe til. Det handler om

@@ -365,9 +365,6 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
             <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
               Frivilligrollen: Hva er min plass?
             </h1>
-            <p className="mt-4 inline-flex rounded-full bg-mist px-3 py-1 text-base font-semibold text-harbor">
-              Ca. {courseModule.durationMinutes} minutter
-            </p>
             <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
               Frivilligrollen blir tryggere når du vet hvor du står. I denne
               modulen bygger du ditt eget rollekompass ved å vurdere situasjoner

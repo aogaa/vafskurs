@@ -2,7 +2,6 @@ export type CourseModule = {
   id: string;
   order: number;
   title: string;
-  durationMinutes: number;
   description: string;
   status?: "active" | "planned";
   learningGoals: string[];
@@ -16,7 +15,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-1",
     order: 1,
     title: "Hvorfor frivillighet betyr noe",
-    durationMinutes: 8,
     description:
       "Se hvordan frivillighet bygger relasjoner, nærvær og trygghet i lokalsamfunnet.",
     status: "active",
@@ -37,7 +35,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-2",
     order: 2,
     title: "Frivilligrollen: Hva er min plass?",
-    durationMinutes: 15,
     description:
       "Bygg rollekompasset ditt og bli tryggere på hva du kan bidra med, hva du må avklare, og hva som ligger hos andre.",
     status: "planned",
@@ -51,7 +48,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-3",
     order: 3,
     title: "Min rolle som frivillig",
-    durationMinutes: 12,
     description:
       "Bli tryggere på hva rollen rommer, og hva som ikke skal ligge hos deg.",
     status: "planned",
@@ -61,7 +57,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-4",
     order: 4,
     title: "Grønt, gult og rødt",
-    durationMinutes: 14,
     description:
       "Lær et enkelt språk for situasjoner som er trygge, uklare eller må stoppes.",
     status: "planned",
@@ -71,7 +66,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-5",
     order: 5,
     title: "Stopp og avklar",
-    durationMinutes: 10,
     description:
       "Øv på å stoppe i tide og spørre riktig person når noe blir uklart.",
     status: "planned",
@@ -81,7 +75,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-6",
     order: 6,
     title: "Å si ja, nei og «det må jeg avklare»",
-    durationMinutes: 12,
     description:
       "Praktiske formuleringer for tydelige og vennlige grenser.",
     status: "planned",
@@ -91,7 +84,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-7",
     order: 7,
     title: "Taushet og fortrolighet",
-    durationMinutes: 12,
     description:
       "Forstå hva du kan dele, hva du skal holde for deg selv, og når du må spørre.",
     status: "planned",
@@ -101,7 +93,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-8",
     order: 8,
     title: "Verdighet og respekt i praksis",
-    durationMinutes: 10,
     description:
       "Små valg i møte med mennesker kan gi stor opplevelse av verdighet.",
     status: "planned",
@@ -111,7 +102,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-9",
     order: 9,
     title: "Når jeg blir bekymret",
-    durationMinutes: 14,
     description:
       "Hva du gjør når magefølelsen sier at noe ikke er som det skal.",
     status: "planned",
@@ -121,7 +111,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-10",
     order: 10,
     title: "Bilder, historier og sosiale medier",
-    durationMinutes: 10,
     description:
       "Trygge valg når du vil dele noe fra frivillig arbeid.",
     status: "planned",
@@ -131,7 +120,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-11",
     order: 11,
     title: "Penger, gaver og praktiske tjenester",
-    durationMinutes: 12,
     description:
       "Tydelige grenser for økonomi, gaver og praktiske oppgaver.",
     status: "planned",
@@ -141,7 +129,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-12",
     order: 12,
     title: "Når relasjonen blir for nær",
-    durationMinutes: 12,
     description:
       "Hvordan ta vare på både varme og grenser i relasjoner over tid.",
     status: "planned",
@@ -151,7 +138,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-13",
     order: 13,
     title: "Frivillig sammen med ansatte og organisasjon",
-    durationMinutes: 10,
     description:
       "Slik spiller frivillige, ansatte og organisasjon hverandre gode.",
     status: "planned",
@@ -161,7 +147,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-14",
     order: 14,
     title: "Ta vare på deg selv som frivillig",
-    durationMinutes: 10,
     description:
       "Frivilligrollen skal være meningsfull og bærekraftig for deg også.",
     status: "planned",
@@ -171,7 +156,6 @@ export const courseModules: CourseModule[] = [
     id: "modul-15",
     order: 15,
     title: "Avsluttende trygghetsløype",
-    durationMinutes: 15,
     description:
       "Samle det viktigste: rolle, grenser, gode møter og hvem du spør.",
     status: "planned",
