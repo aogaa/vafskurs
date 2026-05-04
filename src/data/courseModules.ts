@@ -47,18 +47,22 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-3",
     order: 3,
-    title: "Min rolle som frivillig",
+    title: "Trygge valg i øyeblikket",
     description:
-      "Bli tryggere på hva rollen rommer, og hva som ikke skal ligge hos deg.",
+      "Øv på hva du kan si og gjøre når frivilligrollen blir utfordret i praksis.",
     status: "planned",
-    learningGoals: [],
+    learningGoals: [
+      "Stoppe opp før du sier ja til uklare oppgaver",
+      "Sette grenser uten å avvise personen foran deg",
+      "Koble på leder når ansvar, trygghet eller rolle blir uklart",
+    ],
   },
   {
     id: "modul-4",
     order: 4,
-    title: "Grønt, gult og rødt",
+    title: "Taushet, tillit og bekymring",
     description:
-      "Lær et enkelt språk for situasjoner som er trygge, uklare eller må stoppes.",
+      "Hva du kan holde for deg selv, hva som må tas videre, og hvordan du melder bekymring trygt.",
     status: "planned",
     learningGoals: [],
   },

@@ -4,6 +4,7 @@ import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
 import { PageContainer } from "../components/layout/PageContainer";
 import { ModuleOne } from "../components/modules/ModuleOne";
+import { ModuleThree } from "../components/modules/ModuleThree";
 import { ModuleTwo } from "../components/modules/ModuleTwo";
 import { Button } from "../components/ui/Button";
 import { getModuleById } from "../data/courseModules";
@@ -55,6 +56,8 @@ export function ModulePage() {
               ? "Gå til modul 2"
               : courseModule.id === "modul-2"
                 ? "Gå til modul 3"
+                : courseModule.id === "modul-3"
+                  ? "Gå til modul 4"
                 : undefined
           }
           nextTo={
@@ -62,6 +65,8 @@ export function ModulePage() {
               ? "/moduler/modul-2"
               : courseModule.id === "modul-2"
                 ? "/moduler/modul-3"
+                : courseModule.id === "modul-3"
+                  ? "/moduler/modul-4"
                 : undefined
           }
           transitionText={
@@ -69,6 +74,8 @@ export function ModulePage() {
               ? "Nå har vi sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er – og hva det ikke er."
               : courseModule.id === "modul-2"
                 ? "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på din rolle som frivillig i praksis."
+                : courseModule.id === "modul-3"
+                  ? "Nå har du øvd på trygge valg i øyeblikket. Neste steg handler om tillit, taushet og hva som må tas videre."
               : undefined
           }
         />
@@ -80,6 +87,12 @@ export function ModulePage() {
         />
       ) : courseModule.id === "modul-2" ? (
         <ModuleTwo
+          courseModule={courseModule}
+          isComplete={isComplete}
+          onComplete={handleComplete}
+        />
+      ) : courseModule.id === "modul-3" ? (
+        <ModuleThree
           courseModule={courseModule}
           isComplete={isComplete}
           onComplete={handleComplete}
