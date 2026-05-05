@@ -12,6 +12,7 @@ const fallbackRoutes = [
   "moduler/modul-1/index.html",
   "moduler/modul-2/index.html",
   "moduler/modul-3/index.html",
+  "moduler/modul-4/index.html",
 ];
 
 async function ensureIndexExists() {

@@ -64,14 +64,18 @@ export const courseModules: CourseModule[] = [
     description:
       "Hva du kan holde for deg selv, hva som må tas videre, og hvordan du melder bekymring trygt.",
     status: "planned",
-    learningGoals: [],
+    learningGoals: [
+      "Skille mellom vanlig fortrolighet, veiledningsbehov, bekymring og alvorlig fare",
+      "Forstå at taushet og tillit ikke betyr absolutt hemmelighold",
+      "Dele minst mulig, men nok til at riktig person kan følge opp",
+    ],
   },
   {
     id: "modul-5",
     order: 5,
-    title: "Stopp og avklar",
+    title: "Gode møter med mennesker",
     description:
-      "Øv på å stoppe i tide og spørre riktig person når noe blir uklart.",
+      "Hvordan du skaper gode samtaler, viser respekt, lytter godt og holder rollen tydelig.",
     status: "planned",
     learningGoals: [],
   },

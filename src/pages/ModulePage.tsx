@@ -3,12 +3,43 @@ import { Link, useParams } from "react-router-dom";
 import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
 import { PageContainer } from "../components/layout/PageContainer";
+import { ModuleFour } from "../components/modules/ModuleFour";
 import { ModuleOne } from "../components/modules/ModuleOne";
 import { ModuleThree } from "../components/modules/ModuleThree";
 import { ModuleTwo } from "../components/modules/ModuleTwo";
 import { Button } from "../components/ui/Button";
 import { getModuleById } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
+
+const nextModuleCopy: Record<
+  string,
+  { nextLabel: string; nextTo: string; transitionText: string }
+> = {
+  "modul-1": {
+    nextLabel: "Gå til modul 2",
+    nextTo: "/moduler/modul-2",
+    transitionText:
+      "Nå har vi sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er - og hva det ikke er.",
+  },
+  "modul-2": {
+    nextLabel: "Gå til modul 3",
+    nextTo: "/moduler/modul-3",
+    transitionText:
+      "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på din rolle som frivillig i praksis.",
+  },
+  "modul-3": {
+    nextLabel: "Gå til modul 4",
+    nextTo: "/moduler/modul-4",
+    transitionText:
+      "Nå har du øvd på trygge valg i øyeblikket. Neste steg handler om tillit, taushet og hva som må tas videre.",
+  },
+  "modul-4": {
+    nextLabel: "Gå til modul 5",
+    nextTo: "/moduler/modul-5",
+    transitionText:
+      "Nå har du trent på hva du gjør med informasjon du får vite som frivillig. Neste steg handler om gode møter med mennesker.",
+  },
+};
 
 export function ModulePage() {
   const { moduleId } = useParams();
@@ -34,6 +65,7 @@ export function ModulePage() {
 
   const isComplete = isModuleComplete(courseModule.id);
   const courseModuleId = courseModule.id;
+  const completionCopy = nextModuleCopy[courseModule.id];
 
   function handleComplete() {
     markModuleComplete(courseModuleId);
@@ -51,33 +83,9 @@ export function ModulePage() {
       </Link>
       {showCompletion ? (
         <CompletionPanel
-          nextLabel={
-            courseModule.id === "modul-1"
-              ? "Gå til modul 2"
-              : courseModule.id === "modul-2"
-                ? "Gå til modul 3"
-                : courseModule.id === "modul-3"
-                  ? "Gå til modul 4"
-                : undefined
-          }
-          nextTo={
-            courseModule.id === "modul-1"
-              ? "/moduler/modul-2"
-              : courseModule.id === "modul-2"
-                ? "/moduler/modul-3"
-                : courseModule.id === "modul-3"
-                  ? "/moduler/modul-4"
-                : undefined
-          }
-          transitionText={
-            courseModule.id === "modul-1"
-              ? "Nå har vi sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er – og hva det ikke er."
-              : courseModule.id === "modul-2"
-                ? "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på din rolle som frivillig i praksis."
-                : courseModule.id === "modul-3"
-                  ? "Nå har du øvd på trygge valg i øyeblikket. Neste steg handler om tillit, taushet og hva som må tas videre."
-              : undefined
-          }
+          nextLabel={completionCopy?.nextLabel}
+          nextTo={completionCopy?.nextTo}
+          transitionText={completionCopy?.transitionText}
         />
       ) : courseModule.id === "modul-1" ? (
         <ModuleOne
@@ -93,6 +101,12 @@ export function ModulePage() {
         />
       ) : courseModule.id === "modul-3" ? (
         <ModuleThree
+          courseModule={courseModule}
+          isComplete={isComplete}
+          onComplete={handleComplete}
+        />
+      ) : courseModule.id === "modul-4" ? (
+        <ModuleFour
           courseModule={courseModule}
           isComplete={isComplete}
           onComplete={handleComplete}
