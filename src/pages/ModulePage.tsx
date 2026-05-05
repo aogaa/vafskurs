@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
 import { PageContainer } from "../components/layout/PageContainer";
@@ -8,41 +8,23 @@ import { ModuleOne } from "../components/modules/ModuleOne";
 import { ModuleThree } from "../components/modules/ModuleThree";
 import { ModuleTwo } from "../components/modules/ModuleTwo";
 import { Button } from "../components/ui/Button";
-import { getModuleById } from "../data/courseModules";
+import { courseModules, getModuleById } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
 
-const nextModuleCopy: Record<
-  string,
-  { nextLabel: string; nextTo: string; transitionText: string }
-> = {
-  "modul-1": {
-    nextLabel: "Gå til modul 2",
-    nextTo: "/moduler/modul-2",
-    transitionText:
-      "Nå har vi sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er - og hva det ikke er.",
-  },
-  "modul-2": {
-    nextLabel: "Gå til modul 3",
-    nextTo: "/moduler/modul-3",
-    transitionText:
-      "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på din rolle som frivillig i praksis.",
-  },
-  "modul-3": {
-    nextLabel: "Gå til modul 4",
-    nextTo: "/moduler/modul-4",
-    transitionText:
-      "Nå har du øvd på trygge valg i øyeblikket. Neste steg handler om tillit, taushet og hva som må tas videre.",
-  },
-  "modul-4": {
-    nextLabel: "Gå til modul 5",
-    nextTo: "/moduler/modul-5",
-    transitionText:
-      "Nå har du trent på hva du gjør med informasjon du får vite som frivillig. Neste steg handler om gode møter med mennesker.",
-  },
+const transitionCopy: Record<string, string> = {
+  "modul-1":
+    "Nå har du sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er, og hvordan rollen kan være både varm og trygg.",
+  "modul-2":
+    "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på trygge valg i praksis.",
+  "modul-3":
+    "Nå har du øvd på trygge valg i øyeblikket. Neste steg handler om tillit, taushet og hva som må tas videre.",
+  "modul-4":
+    "Nå har du trent på hva du gjør med informasjon du får vite som frivillig. Neste steg handler om gode møter med mennesker.",
 };
 
 export function ModulePage() {
   const { moduleId } = useParams();
+  const navigate = useNavigate();
   const courseModule = moduleId ? getModuleById(moduleId) : undefined;
   const { isModuleComplete, markModuleComplete } = useProgress();
   const [showCompletion, setShowCompletion] = useState(false);
@@ -51,12 +33,12 @@ export function ModulePage() {
     return (
       <PageContainer>
         <section className="rounded-3xl border border-harbor/8 bg-white p-8 shadow-soft">
-          <h1 className="text-3xl font-extrabold text-ink">Fant ikke modulen</h1>
+          <h1 className="text-3xl font-extrabold text-ink">Fant ikke delen</h1>
           <p className="mt-4 max-w-2xl text-lg leading-8 text-slate">
-            Denne modulen finnes ikke i kursstrukturen ennå.
+            Denne delen finnes ikke i kursstrukturen ennå.
           </p>
           <div className="mt-7">
-            <Button to="/moduler">Tilbake til moduloversikt</Button>
+            <Button to="/moduler">Tilbake til deloversikt</Button>
           </div>
         </section>
       </PageContainer>
@@ -65,12 +47,20 @@ export function ModulePage() {
 
   const isComplete = isModuleComplete(courseModule.id);
   const courseModuleId = courseModule.id;
-  const completionCopy = nextModuleCopy[courseModule.id];
+  const nextCourseModule = courseModules.find(
+    (item) => item.order === courseModule.order + 1,
+  );
 
   function handleComplete() {
     markModuleComplete(courseModuleId);
+
+    if (nextCourseModule) {
+      navigate(`/moduler/${nextCourseModule.id}`);
+      return;
+    }
+
     setShowCompletion(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }
 
   return (
@@ -79,14 +69,10 @@ export function ModulePage() {
         to="/moduler"
         className="inline-flex rounded-2xl px-3 py-2 text-sm font-bold text-harbor hover:bg-mist hover:text-fjord"
       >
-        Til moduloversikt
+        Til deloversikt
       </Link>
       {showCompletion ? (
-        <CompletionPanel
-          nextLabel={completionCopy?.nextLabel}
-          nextTo={completionCopy?.nextTo}
-          transitionText={completionCopy?.transitionText}
-        />
+        <CompletionPanel transitionText={transitionCopy[courseModule.id]} />
       ) : courseModule.id === "modul-1" ? (
         <ModuleOne
           courseModule={courseModule}

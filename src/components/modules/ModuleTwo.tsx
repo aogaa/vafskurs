@@ -360,14 +360,14 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Modul {courseModule.order}
+              Del {courseModule.order}
             </p>
             <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
               Frivilligrollen: Hva er min plass?
             </h1>
             <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
               Frivilligrollen blir tryggere når du vet hvor du står. I denne
-              modulen bygger du ditt eget rollekompass ved å vurdere situasjoner
+              delen bygger du ditt eget rollekompass ved å vurdere situasjoner
               frivillige kan møte.
             </p>
           </div>
@@ -395,8 +395,8 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         </p>
         <RoleComparison />
         <p className="rounded-3xl bg-mist p-5 font-bold text-harbor">
-          Ikke som myndighet. Ikke som familie. Ikke som behandler. Ikke som
-          kontrollør. Men som medmenneske.
+          Som medmenneske kan du bidra med n?rv?r, trygghet og en vei videre.
+          Det er en egen og viktig rolle.
         </p>
       </LearningSection>
 
@@ -421,8 +421,8 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           <div className="rounded-3xl bg-harbor p-5 text-white">
             <h3 className="text-lg font-bold">Du skal ikke overta</h3>
             <p className="mt-3 text-base leading-7 text-white/78">
-              Du skal ikke bli ansvarlig for hele livssituasjonen, bli behandler,
-              saksbehandler eller privat krisekontakt.
+              Du holder oppdraget trygt n?r du lar ansvar, vurderinger og kriser
+              g? til riktig person eller tjeneste.
             </p>
           </div>
         </div>
@@ -655,17 +655,17 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <Button to="/moduler" variant="secondary">
-          Tilbake til moduloversikt
+          Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">
           {!canComplete ? (
             <p className="text-sm font-semibold text-slate">
               Vurder minst 8 situasjoner og fullfør mestringssjekken for å
-              fullføre modulen.
+              fullføre delen.
             </p>
           ) : null}
           <Button onClick={onComplete} disabled={!canComplete || isComplete}>
-            {isComplete ? "Modul er fullført" : "Marker som fullført"}
+            {isComplete ? "Del er fullf?rt" : "Marker del som fullf?rt"}
           </Button>
         </div>
       </div>

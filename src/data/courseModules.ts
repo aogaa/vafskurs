@@ -14,21 +14,21 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-1",
     order: 1,
-    title: "Hvorfor frivillighet betyr noe",
+    title: "Hva betyr frivillighet for lokalsamfunnet?",
     description:
-      "Se hvordan frivillighet bygger relasjoner, nærvær og trygghet i lokalsamfunnet.",
+      "Se hvordan du som frivillig kan bidra til fellesskap, nærvær og trygghet der du bor.",
     status: "active",
     ingress:
-      "Frivillighet handler ikke bare om å hjelpe til. Det handler om å bygge lokalsamfunn der mennesker ser hverandre, kjenner hverandre og stiller opp når det trengs.",
+      "Du ønsker å bidra fordi du vil gjøre noe godt. Denne delen viser hvordan frivillighet styrker lokalsamfunnet, og hvorfor små møter mellom mennesker kan bety mer enn de ser ut til.",
     learningGoals: [
       "Forstå hvorfor frivillighet har verdi for lokalsamfunnet",
-      "Se hvordan frivillige bidrar med relasjoner og nærvær",
-      "Forstå at frivillighet bygger trygghet uten å erstatte tjenester",
+      "Se hvordan du bidrar med relasjoner, nærvær og fellesskap",
+      "Forstå hva det betyr at frivillighet er et supplement",
     ],
     insight: "Når mennesker ser hverandre, blir lokalsamfunnet tryggere.",
     contentBlocks: [
-      "Som frivillig bidrar du med noe annet enn en tjeneste. Du bidrar med tid, blikk, samtaler og små handlinger som kan gjøre hverdagen lettere for andre.",
-      "Frivillighet virker best når rollen er tydelig. Du skal være et medmenneske, ikke en ansatt, behandler eller saksbehandler.",
+      "Som frivillig kommer du med noe viktig: tid, blikk, samtaler og små handlinger som kan gjøre hverdagen lettere for andre.",
+      "Å være et supplement betyr at du ikke skal bære hele ansvaret alene. Du bidrar med det frivilligheten er særlig god på: menneskelig kontakt, fellesskap og lav terskel inn i aktivitet.",
     ],
   },
   {

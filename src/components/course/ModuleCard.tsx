@@ -13,7 +13,7 @@ type ModuleCardProps = {
 const statusCopy: Record<ModuleCardStatus, { label: string; marker: string; button: string }> = {
   complete: { label: "Fullført", marker: "✓", button: "Se igjen" },
   next: { label: "Neste steg", marker: "→", button: "Fortsett" },
-  upcoming: { label: "Kommende", marker: "•", button: "Se modul" },
+  upcoming: { label: "Kommende", marker: "•", button: "Se del" },
 };
 
 export function ModuleCard({ courseModule, status }: ModuleCardProps) {
@@ -44,7 +44,7 @@ export function ModuleCard({ courseModule, status }: ModuleCardProps) {
                 isNext || isComplete ? "text-leaf" : "text-slate"
               }`}
             >
-              Modul {courseModule.order}
+              Del {courseModule.order}
             </p>
             <h3 className="mt-2 text-2xl font-bold leading-8 text-ink group-hover:text-harbor">
               {courseModule.title}

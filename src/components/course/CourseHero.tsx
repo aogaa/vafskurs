@@ -103,23 +103,26 @@ export function CourseHero() {
     <section className="grid items-center gap-8 py-8 lg:grid-cols-[0.95fr_1.05fr] lg:py-14">
       <div className="max-w-3xl">
         <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-          Digitalt grunnkurs for frivillige
+          Digitalt grunnkurs for deg som vil bidra
         </p>
         <h1 className="mt-5 text-4xl font-extrabold leading-tight text-ink sm:text-5xl lg:text-6xl">
           Trygg som frivillig
         </h1>
         <p className="mt-5 text-xl font-semibold leading-8 text-fjord sm:text-2xl">
-          Et praktisk kurs om rolle, grenser og gode møter med mennesker.
+          Et praktisk kurs som hjelper deg å gjøre godt på en trygg måte.
         </p>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate">
-          Dette kurset hjelper deg å bli tryggere i frivilligrollen. Du lærer
-          hvorfor frivillighet betyr noe, hvor grensene går, og hva du gjør når
-          du blir usikker.
+          Du kommer hit fordi du ønsker å være en del av løsningen. Kurset viser
+          hva frivillighet betyr for lokalsamfunnet, hvordan rollen din blir
+          tydelig, og hva du kan gjøre når noe blir uklart.
+        </p>
+        <p className="mt-4 max-w-2xl text-base font-semibold leading-7 text-harbor">
+          Start med første del. Du trenger ikke kunne alt på forhånd.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button to="/moduler">Start kurset</Button>
+          <Button to="/moduler/modul-1">Start kurset</Button>
           <Button to="/moduler" variant="ghost">
-            Se modulene
+            Se delene
           </Button>
         </div>
       </div>

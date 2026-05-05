@@ -345,13 +345,13 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
         <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Modul {courseModule.order}
+              Del {courseModule.order}
             </p>
             <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
               Trygge valg i øyeblikket
             </h1>
             <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
-              I Modul 2 bygget du rollekompasset. Nå skal du øve på hva du
+              I Del 2 bygget du rollekompasset. Nå skal du øve på hva du
               faktisk kan si og gjøre når rollen blir utfordret i øyeblikket.
             </p>
           </div>
@@ -616,17 +616,17 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <Button to="/moduler" variant="secondary">
-          Tilbake til moduloversikt
+          Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">
           {!canComplete ? (
             <p className="text-sm font-semibold text-slate">
               Gjennomfør minst 8 scenarioer og fullfør mestringssjekken for å
-              fullføre modulen.
+              fullføre delen.
             </p>
           ) : null}
           <Button onClick={onComplete} disabled={!canComplete || isComplete}>
-            {isComplete ? "Modul er fullført" : "Marker som fullført"}
+            {isComplete ? "Del er fullf?rt" : "Marker del som fullf?rt"}
           </Button>
         </div>
       </div>

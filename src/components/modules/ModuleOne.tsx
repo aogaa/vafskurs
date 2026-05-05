@@ -175,7 +175,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Modul {courseModule.order}
+              Del {courseModule.order}
             </p>
             <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
               {courseModule.title}
@@ -273,13 +273,13 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           Avklar
         </p>
         <h2 className="mt-2 text-3xl font-extrabold text-ink">
-          Frivillige skal ikke løse alt
+          Frivillighet handler ikke om ? løse alt
         </h2>
         <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate">
           <p>
-            Som frivillig skal du ikke være ansatt, behandler, saksbehandler
-            eller pårørende. Du skal ikke overta ansvar som ligger hos kommunen,
-            tjenestene eller familien.
+            Som frivillig bidrar du best når rammen er tydelig. Rollen din er
+            verdifull fordi du kan møte mennesker med tid, nærvær og lav terskel
+            inn i fellesskap.
           </p>
           <p>
             Men du kan bidra med noe svært viktig: Du kan se, lytte, invitere,
@@ -288,7 +288,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </div>
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
           <ComparisonList
-            title="Frivillige skal ikke"
+            title="Frivillighet handler ikke om ?"
             items={notVolunteerRole}
             tone="blue"
           />
@@ -451,13 +451,13 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                   praksis: med varme, tydelige grenser og trygg rolleforståelse.
                 </p>
                 <p>
-                  Du skal ikke lære å bli ansatt, behandler eller saksbehandler.
-                  Du skal lære å være trygg som frivillig.
+                  Du skal lære hvordan du kan være trygg som frivillig: varm,
+                  tydelig og godt støttet av rammene rundt deg.
                 </p>
               </div>
               <div className="mt-5">
                 <Button onClick={onComplete} disabled={!hasMinimumSelections || isComplete}>
-                  {isComplete ? "Modul er fullført" : "Fullfør modul 1"}
+                  {isComplete ? "Del er fullført" : "Fullfør del 1"}
                 </Button>
               </div>
             </div>
@@ -473,16 +473,16 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <Button to="/moduler" variant="secondary">
-          Tilbake til moduloversikt
+          Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">
           {!hasMinimumSelections ? (
             <p className="text-sm font-semibold text-slate">
-              Velg minst 3 kort for å fullføre modulen.
+              Velg minst 3 kort for å fullføre delen.
             </p>
           ) : null}
           <Button onClick={onComplete} disabled={!hasMinimumSelections || isComplete}>
-            {isComplete ? "Modul er fullført" : "Marker som fullført"}
+            {isComplete ? "Del er fullført" : "Marker del som fullført"}
           </Button>
         </div>
       </div>

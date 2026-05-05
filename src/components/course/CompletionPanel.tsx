@@ -10,7 +10,7 @@ type CompletionPanelProps = {
 export function CompletionPanel({
   nextLabel,
   nextTo,
-  title = "Modul fullført",
+  title = "Del fullført",
   transitionText,
 }: CompletionPanelProps) {
   return (
@@ -26,7 +26,7 @@ export function CompletionPanel({
       </div>
       <h2 className="mt-5 text-3xl font-extrabold text-ink">{title}</h2>
       <p className="mx-auto mt-3 max-w-xl text-lg leading-8 text-slate">
-        Du har tatt første steg på trygghetsreisen som frivillig.
+        Du har tatt et viktig steg på trygghetsreisen som frivillig.
       </p>
       {transitionText ? (
         <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate">
@@ -34,7 +34,7 @@ export function CompletionPanel({
         </p>
       ) : null}
       <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button to="/moduler">Tilbake til moduloversikt</Button>
+        <Button to="/moduler">Tilbake til deloversikt</Button>
         {nextTo && nextLabel ? (
           <Button to={nextTo} variant="secondary">
             {nextLabel}

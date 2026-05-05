@@ -552,7 +552,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
         <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Modul {courseModule.order}
+              Del {courseModule.order}
             </p>
             <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
               Taushet, tillit og bekymring
@@ -583,10 +583,8 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           båret på lenge.
         </p>
         <p>
-          Det skjer ikke fordi du er behandler, saksbehandler eller ansatt. Det
-          skjer fordi du møter dem som menneske. Du kommer kanskje med kaffe,
-          turfølge, aktivitet, besøk eller praktisk hjelp, men ofte er det
-          viktigste at du har tid til å lytte.
+          Det skjer fordi du møter dem som menneske. Tillit vokser ofte når noen
+          har tid til å lytte og være til stede.
         </p>
         <p>
           Å være til å stole på betyr ikke at du skal bære alt alene. Det betyr
@@ -810,14 +808,14 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
 
           <Card className="p-7 md:p-8">
             <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Bro til Modul 5
+              Bro til Del 5
             </p>
             <h2 className="mt-2 text-3xl font-extrabold text-ink">
               Fra informasjon til gode møter
             </h2>
             <p className="mt-5 text-base leading-8 text-slate">
               Nå har du trent på hva du gjør med informasjon du får vite som
-              frivillig. I neste modul går vi videre til selve møtet mellom
+              frivillig. I neste del går vi videre til selve møtet mellom
               mennesker: hvordan du skaper gode samtaler, viser respekt, lytter
               godt og samtidig holder rollen tydelig.
             </p>
@@ -834,13 +832,13 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <Button to="/moduler" variant="secondary">
-          Tilbake til moduloversikt
+          Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">
           {!canComplete ? (
             <p className="text-sm font-semibold text-slate">
               Vurder minst 8 situasjoner og få minst 4 av 5 trygge svar i
-              mestringssjekken for å fullføre modulen.
+              mestringssjekken for å fullføre delen.
             </p>
           ) : null}
           <Button
@@ -848,7 +846,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
             onKeyDown={(event) => activateOnKeyboard(event, onComplete)}
             disabled={!canComplete || isComplete}
           >
-            {isComplete ? "Modul er fullført" : "Marker som fullført"}
+            {isComplete ? "Del er fullf?rt" : "Marker del som fullf?rt"}
           </Button>
         </div>
       </div>

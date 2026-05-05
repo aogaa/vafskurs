@@ -16,7 +16,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
         <div className="h-2 bg-gradient-to-r from-pine via-leaf to-harbor" />
         <div className="p-7 md:p-10">
           <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-            Modul {courseModule.order}
+            Del {courseModule.order}
           </p>
           <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
             {courseModule.title}
@@ -47,7 +47,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
               ))
             ) : (
               <li className="text-base leading-7 text-slate">
-                Læringsmål legges inn når modulen bygges ut.
+                Læringsmål legges inn når delen bygges ut.
               </li>
             )}
           </ul>
@@ -57,7 +57,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
           <h2 className="text-2xl font-bold text-ink">Innhold</h2>
           <div className="mt-5 space-y-4 text-base leading-8 text-slate">
             {(courseModule.contentBlocks ?? [
-              "Denne modulen er foreløpig en plassholder. Innhold, scenarioer og refleksjoner kan kobles på senere i samme struktur.",
+              "Denne delen er foreløpig en plassholder. Innhold, scenarioer og refleksjoner kan kobles på senere i samme struktur.",
             ]).map((block) => (
               <p key={block}>{block}</p>
             ))}
@@ -80,10 +80,10 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
 
       <div className="flex flex-col gap-3 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
         <Button to="/moduler" variant="secondary">
-          Tilbake til moduloversikt
+          Tilbake til deloversikt
         </Button>
         <Button onClick={onComplete} disabled={isComplete}>
-          {isComplete ? "Modul er fullført" : "Marker som fullført"}
+          {isComplete ? "Del er fullført" : "Marker del som fullført"}
         </Button>
       </div>
     </article>

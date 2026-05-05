@@ -109,7 +109,7 @@ export const moduleTwoCards: RoleCompassCard[] = [
       "Det er fint at personen spør deg. Det betyr ofte at de har tillit til deg. Men å vurdere hvilke kommunale tjenester noen har rett på, er ikke en frivilligoppgave. Det krever kunnskap om regelverk, vurderinger, vedtak, dokumentasjon og ansvarslinjer.",
       "Hvis du begynner å gi råd om hva personen bør søke på, kan du fort bli oppfattet som en som har myndighet eller faglig ansvar. Det kan skape feil forventninger, misforståelser eller skuffelse senere.",
       "Som frivillig kan du gjøre noe annet som fortsatt er verdifullt: Du kan lytte, hjelpe personen å sortere hva de lurer på, og vise dem videre til riktig instans. Du kan også si fra til leder i organisasjonen dersom du blir bekymret eller ser at personen trenger hjelp til å finne frem.",
-      "Du skal ikke gjøre deg selv til saksbehandler. Du skal være en trygg bro videre.",
+      "Du kan være en trygg bro videre uten å ta over ansvaret.",
     ],
   },
   {
@@ -125,7 +125,7 @@ export const moduleTwoCards: RoleCompassCard[] = [
       "Du trenger ikke bli redd bare fordi noen blir lei seg. Mange mennesker bærer på ensomhet, sorg, savn eller bekymringer, og noen ganger kommer det frem nettopp fordi du møter dem på en rolig og menneskelig måte.",
       "Det du kan gjøre, er å være til stede. Lytte. La personen få snakke ferdig. Ikke skynde deg å fikse, forklare eller løse alt.",
       "Samtidig er det viktig å vite hvor grensen går. Hvis samtalen handler om alvorlig fare, selvmordstanker, vold, omsorgssvikt, sterk psykisk belastning eller noe du blir urolig for, skal du ikke bære det alene. Da skal du ta det videre til leder i organisasjonen.",
-      "Som frivillig kan du være et medmenneske. Du skal ikke bli behandler.",
+      "Som frivillig kan du være et medmenneske som lytter og tar bekymring videre ved behov.",
     ],
   },
   {
@@ -196,7 +196,7 @@ export const moduleTwoCards: RoleCompassCard[] = [
     feedback: [
       "Du trenger ikke løse saken selv for å være til stor hjelp. Mange blir stående fast fordi de ikke vet hvor de skal begynne, hvem de skal spørre, eller hva neste steg er.",
       "Som frivillig kan du bidra til å gjøre veien videre litt tydeligere. Du kan hjelpe personen å finne telefonnummer, åpningstid, nettside, skranke, frivillig tilbud eller riktig ansvarlig instans.",
-      "Det viktige er at du ikke overtar saken. Du blir ikke saksbehandler, rådgiver eller garantist for utfallet. Du hjelper personen videre til noen som har riktig rolle.",
+      "Det viktige er at du hjelper personen videre uten å overta saken eller bli garantist for utfallet.",
       "Noen ganger er nettopp dette nok: å gjøre neste steg mindre uoversiktlig.",
     ],
   },
@@ -211,7 +211,7 @@ export const moduleTwoCards: RoleCompassCard[] = [
       "Dette er en situasjon der frivillige ofte kan føle press. Da er lederens rolle å hjelpe deg å holde grensen.",
     feedback: [
       "Familiekonflikter kan være svært kompliserte. Du får kanskje bare høre én side av saken, og det kan ligge mye historie, sårhet, misforståelser og ansvar i bakgrunnen som du ikke kjenner til.",
-      "Som frivillig kan du lytte til at personen har det vanskelig. Du kan anerkjenne følelsene deres. Men du skal ikke bli mekler, dommer, budbringer eller familiens konfliktløser.",
+      "Som frivillig kan du lytte til at personen har det vanskelig, anerkjenne følelsene deres og koble på leder hvis det trengs videre støtte.",
       "Hvis du begynner å snakke med datteren på vegne av brukeren, kan rollen din raskt bli uklar. Du kan bli trukket inn i en konflikt du ikke har ansvar for og ikke har forutsetninger for å løse.",
       "En trygg formulering kan være:",
       "«Jeg hører at dette er vondt for deg. Jeg kan ikke gå inn i konflikten eller snakke med familien på dine vegne, men jeg kan ta det opp med lederen min hvis du trenger hjelp til å finne riktig støtte.»",

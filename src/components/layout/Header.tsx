@@ -38,7 +38,7 @@ export function Header() {
             Start
           </NavLink>
           <NavLink to="/moduler" className={navLinkClasses}>
-            Moduler
+            Deler
           </NavLink>
         </nav>
       </div>

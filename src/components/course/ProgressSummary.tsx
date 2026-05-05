@@ -25,10 +25,10 @@ export function ProgressSummary({
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-            Trygghetsreise
+            Trygghetsreisen
           </p>
           <h2 className="mt-1 text-2xl font-bold text-ink">
-            {completedCount} av {totalCount} moduler fullført
+            {completedCount} av {totalCount} deler fullført
           </h2>
           <p className="mt-2 text-base leading-7 text-slate">{journeyText}</p>
           {nextModuleTitle ? (
@@ -44,7 +44,7 @@ export function ProgressSummary({
       <div
         className="mt-5 h-3 overflow-hidden rounded-full bg-mist"
         role="progressbar"
-        aria-label="Fullførte moduler"
+        aria-label="Fullførte deler"
         aria-valuemin={0}
         aria-valuemax={totalCount}
         aria-valuenow={completedCount}

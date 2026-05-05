@@ -91,7 +91,7 @@ export const moduleOneCards: ModuleOneCard[] = [
     fullText: [
       "Et enkelt spørsmål kan åpne en dør:",
       "Hvordan går det egentlig?",
-      "Ikke fordi du skal løse alt som kommer etterpå. Ikke fordi du skal bli behandler eller saksbehandler. Men fordi det betyr noe at noen spør.",
+      "Det betyr noe at noen spør, lytter og ser mennesket foran seg. Ofte er nettopp det starten på mer trygghet.",
       "Frivillighet handler ofte om å være nær nok til å legge merke til, og klok nok til å vite når noe må tas videre.",
       "Som frivillig kan du være den som starter en viktig samtale.",
     ],

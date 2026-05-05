@@ -36,7 +36,7 @@ export function ModuleGrid({ isModuleComplete, modules, nextModuleId }: ModuleGr
           <section key={phase.id} className="space-y-5" aria-labelledby={`${phase.id}-title`}>
             <div className="rounded-[2rem] border border-harbor/8 bg-white p-6 shadow-soft">
               <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-                Læringsfase
+                Delområde
               </p>
               <h2 id={`${phase.id}-title`} className="mt-2 text-2xl font-bold text-ink">
                 {phase.title}

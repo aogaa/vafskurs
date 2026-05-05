@@ -120,7 +120,7 @@ export const moduleThreeScenarios: ActionScenario[] = [
         text: "Jeg sier: «Det kan jeg ikke ta ansvar for som frivillig. Hvis dette er noe du trenger hjelp til, må jeg gi beskjed til lederen min.»",
         quality: "best",
         feedback:
-          "Dette er riktig. Du setter en tydelig grense og kobler behovet videre. Det betyr ikke at du ignorerer personen. Det betyr at medisinansvar skal ligge hos riktig instans. Som frivillig kan du melde fra om behovet, men du skal ikke bli en del av medisinrutinen.",
+          "Dette er riktig. Du setter en tydelig grense og kobler behovet videre. Det betyr ikke at du ignorerer personen. Medisinansvar skal ligge hos riktig instans, og som frivillig kan du melde fra om behovet på en ryddig måte.",
       },
       {
         id: "c",
