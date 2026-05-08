@@ -1,17 +1,10 @@
 import { NavLink } from "react-router-dom";
 import logo1 from "../../assets/images/logo1.png";
 
-const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
-  `rounded-xl px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine sm:px-4 ${
-    isActive
-      ? "bg-white text-harbor shadow-sm"
-      : "text-white/82 hover:bg-white/10 hover:text-white"
-  }`;
-
 export function Header() {
   return (
     <header className="sticky top-0 z-20 bg-harbor shadow-[0_12px_30px_rgba(11,31,51,0.16)]">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-3 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
+      <div className="mx-auto flex max-w-7xl px-5 py-3 sm:px-8 lg:px-10">
         <NavLink
           to="/"
           className="group flex min-w-0 items-center gap-3 rounded-2xl focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
@@ -33,17 +26,6 @@ export function Header() {
             </span>
           </span>
         </NavLink>
-        <nav aria-label="Hovedmeny" className="flex items-center gap-2 md:shrink-0">
-          <NavLink to="/" className={navLinkClasses} end>
-            Kurs
-          </NavLink>
-          <NavLink to="/trygg-som-frivillig" className={navLinkClasses} end>
-            Trygg som frivillig
-          </NavLink>
-          <NavLink to="/trygg-som-frivillig/deler" className={navLinkClasses}>
-            Deler
-          </NavLink>
-        </nav>
       </div>
     </header>
   );
