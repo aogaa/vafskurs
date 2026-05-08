@@ -8,6 +8,12 @@ const indexPath = path.join(distDir, "index.html");
 
 const fallbackRoutes = [
   "404.html",
+  "trygg-som-frivillig/index.html",
+  "trygg-som-frivillig/deler/index.html",
+  "trygg-som-frivillig/deler/modul-1/index.html",
+  "trygg-som-frivillig/deler/modul-2/index.html",
+  "trygg-som-frivillig/deler/modul-3/index.html",
+  "trygg-som-frivillig/deler/modul-4/index.html",
   "moduler/index.html",
   "moduler/modul-1/index.html",
   "moduler/modul-2/index.html",

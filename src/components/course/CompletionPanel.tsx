@@ -34,7 +34,7 @@ export function CompletionPanel({
         </p>
       ) : null}
       <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button to="/moduler">Tilbake til deloversikt</Button>
+        <Button to="/trygg-som-frivillig/deler">Tilbake til deloversikt</Button>
         {nextTo && nextLabel ? (
           <Button to={nextTo} variant="secondary">
             {nextLabel}

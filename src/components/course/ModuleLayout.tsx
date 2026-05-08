@@ -79,7 +79,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
       {courseModule.insight ? <InsightCard>{courseModule.insight}</InsightCard> : null}
 
       <div className="flex flex-col gap-3 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/moduler" variant="secondary">
+        <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
         <Button onClick={onComplete} disabled={isComplete}>

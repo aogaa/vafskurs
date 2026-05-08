@@ -60,7 +60,7 @@ export function ModuleCard({ courseModule, status }: ModuleCardProps) {
         </p>
         <div className="mt-auto pt-6">
           <Button
-            to={`/moduler/${courseModule.id}`}
+            to={`/trygg-som-frivillig/deler/${courseModule.id}`}
             variant={isNext ? "primary" : "secondary"}
             className="w-full"
           >

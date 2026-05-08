@@ -570,7 +570,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
 
           <Card className="p-7 md:p-8">
             <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Moduloppsummering
+              Deloppsummering
             </p>
             <h2 className="mt-2 text-3xl font-extrabold text-ink">
               Varm, tydelig og trygg
@@ -654,7 +654,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
       )}
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/moduler" variant="secondary">
+        <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">

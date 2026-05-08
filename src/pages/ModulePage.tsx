@@ -38,7 +38,7 @@ export function ModulePage() {
             Denne delen finnes ikke i kursstrukturen ennå.
           </p>
           <div className="mt-7">
-            <Button to="/moduler">Tilbake til deloversikt</Button>
+            <Button to="/trygg-som-frivillig/deler">Tilbake til deloversikt</Button>
           </div>
         </section>
       </PageContainer>
@@ -55,7 +55,7 @@ export function ModulePage() {
     markModuleComplete(courseModuleId);
 
     if (nextCourseModule) {
-      navigate(`/moduler/${nextCourseModule.id}`);
+      navigate(`/trygg-som-frivillig/deler/${nextCourseModule.id}`);
       return;
     }
 
@@ -66,7 +66,7 @@ export function ModulePage() {
   return (
     <PageContainer className="space-y-7">
       <Link
-        to="/moduler"
+        to="/trygg-som-frivillig/deler"
         className="inline-flex rounded-2xl px-3 py-2 text-sm font-bold text-harbor hover:bg-mist hover:text-fjord"
       >
         Til deloversikt

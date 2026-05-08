@@ -15,7 +15,7 @@ export function Header() {
         <NavLink
           to="/"
           className="group flex min-w-0 items-center gap-3 rounded-2xl focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
-          aria-label="Gå til startsiden"
+          aria-label="Gå til kursportalen"
         >
           <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-white/70 sm:size-16">
             <img
@@ -26,18 +26,21 @@ export function Header() {
           </span>
           <span className="min-w-0">
             <span className="block text-lg font-bold leading-tight text-white sm:text-xl">
-              Trygg som frivillig
+              Kursportal
             </span>
             <span className="hidden text-sm font-medium leading-6 text-white/76 sm:block">
-              av Vestre Aker Frivilligsentral
+              Vestre Aker Frivilligsentral
             </span>
           </span>
         </NavLink>
         <nav aria-label="Hovedmeny" className="flex items-center gap-2 md:shrink-0">
           <NavLink to="/" className={navLinkClasses} end>
-            Start
+            Kurs
           </NavLink>
-          <NavLink to="/moduler" className={navLinkClasses}>
+          <NavLink to="/trygg-som-frivillig" className={navLinkClasses} end>
+            Trygg som frivillig
+          </NavLink>
+          <NavLink to="/trygg-som-frivillig/deler" className={navLinkClasses}>
             Deler
           </NavLink>
         </nav>

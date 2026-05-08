@@ -120,8 +120,8 @@ export function CourseHero() {
           Start med første del. Du trenger ikke kunne alt på forhånd.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button to="/moduler/modul-1">Start kurset</Button>
-          <Button to="/moduler" variant="ghost">
+          <Button to="/trygg-som-frivillig/deler/modul-1">Start kurset</Button>
+          <Button to="/trygg-som-frivillig/deler" variant="ghost">
             Se delene
           </Button>
         </div>

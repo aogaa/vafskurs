@@ -397,8 +397,8 @@ function TrustCaseCard({
               </p>
               <p className="mt-2 text-base font-bold leading-7">
                 {aligned
-                  ? `Dette hÃ¸rer hjemme i: ${correctLevel.title}.`
-                  : `Du valgte ${chosenLevel.shortTitle}. Her er trygg hÃ¥ndtering: ${correctLevel.shortTitle}.`}
+                  ? `Dette hører hjemme i: ${correctLevel.title}.`
+                  : `Du valgte ${chosenLevel.shortTitle}. Her er trygg håndtering: ${correctLevel.shortTitle}.`}
               </p>
               <p className="mt-3 text-base font-semibold leading-8">
                 {trustCase.feedback}
@@ -831,7 +831,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
       )}
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/moduler" variant="secondary">
+        <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">

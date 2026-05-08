@@ -615,7 +615,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
       )}
 
       <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/moduler" variant="secondary">
+        <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
         <div className="flex flex-col gap-2 sm:items-end">
