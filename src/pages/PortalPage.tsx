@@ -29,13 +29,11 @@ export function PortalPage() {
               Frivilligsentralens kurs
             </p>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-white sm:text-6xl lg:text-7xl">
-              Praktiske kurs som gjør frivillig innsats tryggere, tydeligere og
-              mer menneskelig.
+              Læring og utvikling for frivillige
             </h1>
             <p className="mt-6 max-w-3xl text-lg font-medium leading-8 text-white/78 sm:text-xl">
-              Her finner du læring som styrker frivilligrollen, gir klarhet i
-              ansvar og gjør det lettere å skape gode møter og sterke fellesskap
-              i lokalsamfunnet.
+              Her finner du praktiske kurs om frivillighet, ansvar, fellesskap
+              og hvordan mennesker kan stille opp for hverandre på en god måte.
             </p>
           </div>
         </div>
