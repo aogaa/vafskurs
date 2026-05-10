@@ -6,6 +6,7 @@ import {
   type TrustCase,
   type TrustLevel,
 } from "../../data/moduleFourTrustCases";
+import { ModuleHero } from "../course/ModuleHero";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
@@ -258,7 +259,7 @@ function TrustCompass({ choices }: { choices: TrustChoice[] }) {
 
   return (
     <section
-      className="rounded-[2rem] border border-harbor/10 bg-harbor p-6 text-white shadow-soft"
+      className="rounded-[2rem] bg-white p-6 text-harbor shadow-soft ring-1 ring-harbor/8"
       aria-labelledby="trust-compass-title"
     >
       <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -369,7 +370,7 @@ function TrustCaseCard({
                     }`}
                   >
                     <span className="flex items-start gap-3">
-                      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-harbor text-sm font-black text-white">
+                      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-mist text-sm font-black text-harbor">
                         {level.letter}
                       </span>
                       <span>
@@ -547,33 +548,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
 
   return (
     <article className="space-y-8">
-      <header className="overflow-hidden rounded-[2rem] border border-harbor/8 bg-white shadow-soft">
-        <div className="h-2 bg-gradient-to-r from-harbor via-fjord to-pine" />
-        <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Del {courseModule.order}
-            </p>
-            <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-              Taushet, tillit og bekymring
-            </h1>
-            <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
-              Når mennesker viser deg tillit, trenger du et praktisk kompass:
-              Hva kan bli fortrolig, hva kan du be om veiledning på, hva må
-              leder vite, og hva kan ikke vente?
-            </p>
-          </div>
-          <div className="rounded-3xl bg-harbor p-5 text-white shadow-soft">
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-              Hovedbudskap
-            </p>
-            <p className="mt-3 max-w-sm text-xl font-bold leading-8">
-              Del minst mulig, men nok. Bruk riktig person, riktig vei og riktig
-              tempo.
-            </p>
-          </div>
-        </div>
-      </header>
+      <ModuleHero courseModule={courseModule} />
 
       <LearningSection eyebrow="Tillit" title="Tillit er grunnmuren">
         <p>
@@ -606,7 +581,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           være informasjon om helse, familie, økonomi, ensomhet, konflikter,
           sorg, tro, livsvalg eller ting personen synes er vanskelig.
         </p>
-        <p className="rounded-3xl bg-harbor p-5 text-xl font-bold leading-8 text-white">
+        <p className="rounded-3xl bg-mist p-5 text-xl font-bold leading-8 text-harbor">
           Du skal ikke dele private opplysninger med andre som ikke trenger å
           vite det.
         </p>
@@ -830,7 +805,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
         </Card>
       )}
 
-      <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-12 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
         <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
@@ -844,9 +819,10 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           <Button
             onClick={onComplete}
             onKeyDown={(event) => activateOnKeyboard(event, onComplete)}
-            disabled={!canComplete || isComplete}
+            disabled={!canComplete && !isComplete}
+            className="bg-pine text-harbor hover:bg-leaf"
           >
-            {isComplete ? "Del er fullf?rt" : "Marker del som fullf?rt"}
+            {isComplete ? "Fullført - gå til neste del" : "Fullfør og gå videre"}
           </Button>
         </div>
       </div>

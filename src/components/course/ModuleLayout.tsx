@@ -2,6 +2,7 @@ import type { CourseModule } from "../../data/courseModules";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { InsightCard } from "./InsightCard";
+import { ModuleHero } from "./ModuleHero";
 
 type ModuleLayoutProps = {
   courseModule: CourseModule;
@@ -12,25 +13,10 @@ type ModuleLayoutProps = {
 export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLayoutProps) {
   return (
     <article className="space-y-8">
-      <header className="overflow-hidden rounded-[2rem] border border-harbor/8 bg-white shadow-soft">
-        <div className="h-2 bg-gradient-to-r from-pine via-leaf to-harbor" />
-        <div className="p-7 md:p-10">
-          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-            Del {courseModule.order}
-          </p>
-          <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-            {courseModule.title}
-          </h1>
-          {courseModule.ingress ? (
-            <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
-              {courseModule.ingress}
-            </p>
-          ) : null}
-        </div>
-      </header>
+      <ModuleHero courseModule={courseModule} />
 
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-        <Card className="p-7">
+        <Card className="p-7 ring-1 ring-harbor/8">
           <h2 className="text-2xl font-bold text-ink">Dette skal du sitte igjen med</h2>
           <ul className="mt-5 space-y-4">
             {courseModule.learningGoals.length > 0 ? (
@@ -53,7 +39,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
           </ul>
         </Card>
 
-        <Card className="p-7">
+        <Card className="p-7 ring-1 ring-harbor/8">
           <h2 className="text-2xl font-bold text-ink">Innhold</h2>
           <div className="mt-5 space-y-4 text-base leading-8 text-slate">
             {(courseModule.contentBlocks ?? [
@@ -65,7 +51,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
         </Card>
       </div>
 
-      <Card className="p-7">
+      <Card className="p-7 ring-1 ring-harbor/8">
         <h2 className="text-2xl font-bold text-ink">Interaktiv øvelse</h2>
         <div className="mt-5 rounded-3xl border border-dashed border-harbor/18 bg-mist p-6">
           <p className="max-w-3xl text-base leading-8 text-slate">
@@ -78,12 +64,15 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
 
       {courseModule.insight ? <InsightCard>{courseModule.insight}</InsightCard> : null}
 
-      <div className="flex flex-col gap-3 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-12 flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
         <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
-        <Button onClick={onComplete} disabled={isComplete}>
-          {isComplete ? "Del er fullført" : "Marker del som fullført"}
+        <Button
+          onClick={onComplete}
+          className="bg-pine text-harbor hover:bg-leaf"
+        >
+          {isComplete ? "✓ Fullført - gå til neste del" : "Fullfør og gå videre"}
         </Button>
       </div>
     </article>

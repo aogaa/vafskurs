@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
+import { ModuleProgress } from "../components/course/ModuleProgress";
 import { PageContainer } from "../components/layout/PageContainer";
 import { ModuleFour } from "../components/modules/ModuleFour";
 import { ModuleOne } from "../components/modules/ModuleOne";
@@ -67,10 +68,17 @@ export function ModulePage() {
     <PageContainer className="space-y-7">
       <Link
         to="/trygg-som-frivillig/deler"
-        className="inline-flex rounded-2xl px-3 py-2 text-sm font-bold text-harbor hover:bg-mist hover:text-fjord"
+        className="inline-flex w-fit items-center gap-2 rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor ring-1 ring-harbor/10 transition-colors hover:bg-white focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
       >
+        <span aria-hidden="true">←</span>
         Til deloversikt
       </Link>
+      {!showCompletion ? (
+        <ModuleProgress
+          courseModule={courseModule}
+          isModuleComplete={isModuleComplete}
+        />
+      ) : null}
       {showCompletion ? (
         <CompletionPanel transitionText={transitionCopy[courseModule.id]} />
       ) : courseModule.id === "modul-1" ? (

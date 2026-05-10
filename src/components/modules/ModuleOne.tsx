@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { CourseModule } from "../../data/courseModules";
 import { moduleOneCards } from "../../data/moduleOneCards";
+import { ModuleHero } from "../course/ModuleHero";
 import { ReflectionCardGrid } from "../course/ReflectionCardGrid";
 import { UnlockedInsightCard } from "../course/UnlockedInsightCard";
 import { Button } from "../ui/Button";
@@ -83,7 +84,7 @@ function ComparisonList({ items, title, tone }: ComparisonListProps) {
   return (
     <div
       className={`rounded-3xl p-5 ${
-        tone === "blue" ? "bg-harbor text-white" : "bg-mist text-ink"
+        tone === "blue" ? "bg-mist text-ink" : "bg-mist text-ink"
       }`}
     >
       <h3 className="text-lg font-bold">{title}</h3>
@@ -170,40 +171,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
 
   return (
     <article className="space-y-8">
-      <header className="overflow-hidden rounded-[2rem] border border-harbor/8 bg-white shadow-soft">
-        <div className="h-2 bg-gradient-to-r from-pine via-leaf to-harbor" />
-        <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Del {courseModule.order}
-            </p>
-            <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-              {courseModule.title}
-            </h1>
-            <div className="mt-6 max-w-3xl space-y-4 text-xl leading-9 text-slate">
-              <p>
-                Frivillighet handler ikke bare om å hjelpe til. Det handler om
-                å bygge lokalsamfunn der mennesker ser hverandre, kjenner
-                hverandre litt og stiller opp når det trengs.
-              </p>
-              <p>
-                Før vi snakker om regler, grenser og ansvar, må vi forstå hvorfor
-                frivillig innsats har så stor verdi. Tydelige rammer gir ikke
-                kaldere frivillighet. De gjør det tryggere å være varm.
-              </p>
-            </div>
-          </div>
-          <div className="rounded-3xl bg-harbor p-5 text-white shadow-soft">
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-              Trygghetsreisen starter her
-            </p>
-            <p className="mt-3 max-w-sm text-xl font-bold leading-8">
-              Frivillige er med på å gjøre lokalsamfunnet varmere, tryggere og
-              mer menneskelig.
-            </p>
-          </div>
-        </div>
-      </header>
+      <ModuleHero courseModule={courseModule} />
 
       <Card className="p-7 md:p-8">
         <p className="text-sm font-bold uppercase tracking-normal text-leaf">
@@ -454,12 +422,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                   Du skal lære hvordan du kan være trygg som frivillig: varm,
                   tydelig og godt støttet av rammene rundt deg.
                 </p>
-              </div>
-              <div className="mt-5">
-                <Button onClick={onComplete} disabled={!hasMinimumSelections || isComplete}>
-                  {isComplete ? "Del er fullført" : "Fullfør del 1"}
-                </Button>
-              </div>
+              </div>
             </div>
           </Card>
 
@@ -471,7 +434,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </section>
       ) : null}
 
-      <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-12 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
         <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
@@ -481,8 +444,8 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
               Velg minst 3 kort for å fullføre delen.
             </p>
           ) : null}
-          <Button onClick={onComplete} disabled={!hasMinimumSelections || isComplete}>
-            {isComplete ? "Del er fullført" : "Marker del som fullført"}
+          <Button onClick={onComplete} disabled={!hasMinimumSelections && !isComplete} className="bg-pine text-harbor hover:bg-leaf">
+            {isComplete ? "Fullført - gå til neste del" : "Fullfør og gå videre"}
           </Button>
         </div>
       </div>

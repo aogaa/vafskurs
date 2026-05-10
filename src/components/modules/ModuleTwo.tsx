@@ -6,6 +6,7 @@ import {
   type RoleCompassZone,
 } from "../../data/moduleTwoCards";
 import type { CourseModule } from "../../data/courseModules";
+import { ModuleHero } from "../course/ModuleHero";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
@@ -279,7 +280,7 @@ function SituationCard({
                 onClick={() => onChoose(zone.id)}
                 className={`min-h-14 rounded-2xl border px-4 py-3 text-left text-base font-bold transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
                   choice?.chosenZone === zone.id
-                    ? "border-pine bg-harbor text-white shadow-soft"
+                    ? "border-pine bg-pine/20 text-harbor shadow-soft"
                     : "border-harbor/12 bg-white text-harbor hover:-translate-y-0.5 hover:border-pine/60 hover:bg-mist"
                 }`}
               >
@@ -355,33 +356,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
 
   return (
     <article className="space-y-8">
-      <header className="overflow-hidden rounded-[2rem] border border-harbor/8 bg-white shadow-soft">
-        <div className="h-2 bg-gradient-to-r from-pine via-honey to-harbor" />
-        <div className="grid gap-8 p-7 md:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Del {courseModule.order}
-            </p>
-            <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-              Frivilligrollen: Hva er min plass?
-            </h1>
-            <p className="mt-6 max-w-3xl text-xl leading-9 text-slate">
-              Frivilligrollen blir tryggere når du vet hvor du står. I denne
-              delen bygger du ditt eget rollekompass ved å vurdere situasjoner
-              frivillige kan møte.
-            </p>
-          </div>
-          <div className="rounded-3xl bg-harbor p-5 text-white shadow-soft">
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-              Hovedbudskap
-            </p>
-            <p className="mt-3 max-w-sm text-xl font-bold leading-8">
-              Du er et medmenneske med et avgrenset oppdrag. Det er ikke et
-              nederlag å stoppe og avklare.
-            </p>
-          </div>
-        </div>
-      </header>
+      <ModuleHero courseModule={courseModule} />
 
       <LearningSection eyebrow="Forstå" title="Frivilligrollen er ikke en restrolle">
         <p>
@@ -418,11 +393,11 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               merke til noe som bør tas videre.
             </p>
           </div>
-          <div className="rounded-3xl bg-harbor p-5 text-white">
-            <h3 className="text-lg font-bold">Du skal ikke overta</h3>
-            <p className="mt-3 text-base leading-7 text-white/78">
+          <div className="rounded-3xl bg-mist p-5 text-harbor">
+            <h3 className="text-lg font-bold text-harbor">Du skal ikke overta</h3>
+            <p className="mt-3 text-base leading-7 text-slate">
               Du holder oppdraget trygt n?r du lar ansvar, vurderinger og kriser
-              g? til riktig person eller tjeneste.
+              gå til riktig person eller tjeneste.
             </p>
           </div>
         </div>
@@ -629,7 +604,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
                   onClick={() => setMasteryAnswer(option.id)}
                   className={`min-h-14 rounded-2xl border px-5 py-4 text-left text-base font-semibold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
                     masteryAnswer === option.id
-                      ? "border-pine bg-harbor text-white"
+                      ? "border-pine bg-pine/20 text-harbor"
                       : "border-harbor/12 bg-white text-harbor hover:border-pine/60 hover:bg-mist"
                   }`}
                 >
@@ -653,7 +628,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         </Card>
       )}
 
-      <div className="flex flex-col gap-4 rounded-3xl border border-harbor/8 bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-12 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
         <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>
@@ -664,8 +639,8 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               fullføre delen.
             </p>
           ) : null}
-          <Button onClick={onComplete} disabled={!canComplete || isComplete}>
-            {isComplete ? "Del er fullf?rt" : "Marker del som fullf?rt"}
+          <Button onClick={onComplete} disabled={!canComplete && !isComplete} className="bg-pine text-harbor hover:bg-leaf">
+            {isComplete ? "Fullført - gå til neste del" : "Fullfør og gå videre"}
           </Button>
         </div>
       </div>
