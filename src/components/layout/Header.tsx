@@ -21,7 +21,7 @@ export function Header() {
             <span className="block text-lg font-bold leading-tight text-white sm:text-xl">
               Kursportal
             </span>
-            <span className="hidden text-sm font-medium leading-6 text-white/76 sm:block">
+            <span className="hidden text-sm font-medium leading-6 text-white sm:block">
               Vestre Aker Frivilligsentral
             </span>
           </span>
