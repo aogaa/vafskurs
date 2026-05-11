@@ -46,6 +46,29 @@ export function ModulePage() {
     );
   }
 
+  const previousModules = courseModules.filter(
+    (item) => item.order < courseModule.order,
+  );
+  const canOpenModule = previousModules.every((item) => isModuleComplete(item.id));
+
+  if (!canOpenModule) {
+    return (
+      <PageContainer>
+        <section className="rounded-3xl border border-harbor/8 bg-white p-8 shadow-soft">
+          <h1 className="text-3xl font-extrabold text-ink">
+            Denne delen er ikke åpnet ennå
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-slate">
+            Fullfør delen før, så blir denne tilgjengelig.
+          </p>
+          <div className="mt-7">
+            <Button to="/trygg-som-frivillig/deler">Tilbake til deloversikt</Button>
+          </div>
+        </section>
+      </PageContainer>
+    );
+  }
+
   const isComplete = isModuleComplete(courseModule.id);
   const courseModuleId = courseModule.id;
   const nextCourseModule = courseModules.find(
