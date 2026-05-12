@@ -4,6 +4,7 @@ import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
 const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-3-refleksjon";
+const ANSWERS_STORAGE_KEY = "trygg-som-frivillig:del-3-svar";
 
 type DialogueOptionId = "a" | "b" | "c";
 
@@ -175,6 +176,41 @@ function saveReflection(value: string) {
   window.localStorage.setItem(REFLECTION_STORAGE_KEY, value);
 }
 
+function isDialogueOptionId(value: string): value is DialogueOptionId {
+  return value === "a" || value === "b" || value === "c";
+}
+
+function readSavedAnswers(): Partial<Record<string, DialogueOptionId>> {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  try {
+    const value = window.localStorage.getItem(ANSWERS_STORAGE_KEY);
+    const parsed = value ? JSON.parse(value) : {};
+    const next: Partial<Record<string, DialogueOptionId>> = {};
+
+    for (const scenario of dialogueScenarios) {
+      const answer = parsed[scenario.id];
+      if (typeof answer === "string" && isDialogueOptionId(answer)) {
+        next[scenario.id] = answer;
+      }
+    }
+
+    return next;
+  } catch {
+    return {};
+  }
+}
+
+function saveAnswers(value: Partial<Record<string, DialogueOptionId>>) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(ANSWERS_STORAGE_KEY, JSON.stringify(value));
+}
+
 function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
     <Card className="p-6 md:p-8">
@@ -190,7 +226,9 @@ function Section({ children, title }: { children: ReactNode; title: string }) {
 
 export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThreeProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Partial<Record<string, DialogueOptionId>>>({});
+  const [answers, setAnswers] = useState<Partial<Record<string, DialogueOptionId>>>(
+    readSavedAnswers,
+  );
   const [reflection, setReflection] = useState(readSavedReflection);
 
   const currentScenario = dialogueScenarios[currentIndex];
@@ -204,10 +242,14 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
   const hasCompletedExercise = completedScenarioCount === dialogueScenarios.length;
 
   function chooseOption(optionId: DialogueOptionId) {
-    setAnswers((current) => ({
-      ...current,
-      [currentScenario.id]: optionId,
-    }));
+    setAnswers((current) => {
+      const next = {
+        ...current,
+        [currentScenario.id]: optionId,
+      };
+      saveAnswers(next);
+      return next;
+    });
   }
 
   function goToNextScenario() {

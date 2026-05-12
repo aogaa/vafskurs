@@ -4,6 +4,7 @@ import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
 const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-1-refleksjon";
+const EXERCISE_STORAGE_KEY = "trygg-som-frivillig:del-1-byggesteiner";
 const MAX_SELECTIONS = 2;
 
 type BuildingBlockId =
@@ -23,6 +24,11 @@ type ModuleOneProps = {
   courseModule: CourseModule;
   isComplete: boolean;
   onComplete: () => void;
+};
+
+type SavedExercise = {
+  revealedProfile: boolean;
+  selectedIds: BuildingBlockId[];
 };
 
 const buildingBlocks: { id: BuildingBlockId; label: string; description: string }[] = [
@@ -134,6 +140,42 @@ function saveReflection(value: string) {
   window.localStorage.setItem(REFLECTION_STORAGE_KEY, value);
 }
 
+function isBuildingBlockId(value: string): value is BuildingBlockId {
+  return buildingBlocks.some((block) => block.id === value);
+}
+
+function readSavedExercise(): SavedExercise {
+  if (typeof window === "undefined") {
+    return { revealedProfile: false, selectedIds: [] };
+  }
+
+  try {
+    const value = window.localStorage.getItem(EXERCISE_STORAGE_KEY);
+    const parsed = value ? JSON.parse(value) : {};
+    const selectedIds = Array.isArray(parsed.selectedIds)
+      ? parsed.selectedIds.filter(
+          (item: unknown): item is BuildingBlockId =>
+            typeof item === "string" && isBuildingBlockId(item),
+        )
+      : [];
+
+    return {
+      revealedProfile: Boolean(parsed.revealedProfile) && selectedIds.length === MAX_SELECTIONS,
+      selectedIds: selectedIds.slice(0, MAX_SELECTIONS),
+    };
+  } catch {
+    return { revealedProfile: false, selectedIds: [] };
+  }
+}
+
+function saveExercise(value: SavedExercise) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(EXERCISE_STORAGE_KEY, JSON.stringify(value));
+}
+
 function choicesMatch(selectedIds: BuildingBlockId[], choices: BuildingBlockId[]) {
   return choices.every((choice) => selectedIds.includes(choice));
 }
@@ -163,9 +205,13 @@ function TextSection({
 }
 
 export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOneProps) {
-  const [selectedIds, setSelectedIds] = useState<BuildingBlockId[]>([]);
+  const [selectedIds, setSelectedIds] = useState<BuildingBlockId[]>(
+    () => readSavedExercise().selectedIds,
+  );
   const [limitMessage, setLimitMessage] = useState("");
-  const [hasRevealedProfile, setHasRevealedProfile] = useState(false);
+  const [hasRevealedProfile, setHasRevealedProfile] = useState(
+    () => readSavedExercise().revealedProfile,
+  );
   const [reflection, setReflection] = useState(readSavedReflection);
 
   const selectedLabels = useMemo(
@@ -181,9 +227,11 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
   function toggleBlock(blockId: BuildingBlockId) {
     setSelectedIds((current) => {
       if (current.includes(blockId)) {
+        const next = current.filter((id) => id !== blockId);
         setLimitMessage("");
         setHasRevealedProfile(false);
-        return current.filter((id) => id !== blockId);
+        saveExercise({ revealedProfile: false, selectedIds: next });
+        return next;
       }
 
       if (current.length >= MAX_SELECTIONS) {
@@ -193,7 +241,9 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
 
       setLimitMessage("");
       setHasRevealedProfile(false);
-      return [...current, blockId];
+      const next = [...current, blockId];
+      saveExercise({ revealedProfile: false, selectedIds: next });
+      return next;
     });
   }
 
@@ -203,6 +253,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
     }
 
     setHasRevealedProfile(true);
+    saveExercise({ revealedProfile: true, selectedIds });
   }
 
   function handleReflectionChange(value: string) {
@@ -343,12 +394,13 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
             "Frivillighet begynner ofte i små handlinger.",
             "Små handlinger kan bygge tillit, tilhørighet og fellesskap.",
             "Et trygt lokalsamfunn trenger mennesker som ser hverandre.",
+            "Frivillighet skal skje på de frivilliges premisser.",
             "Frivillighet finnes i mange former, men bygger på samme kraft: mennesker som bidrar til fellesskapet.",
             "Å være frivillig er å være del av noe større.",
           ].map((item) => (
             <li
               key={item}
-              className="flex min-h-28 items-center rounded-2xl bg-mist p-5 text-base font-bold leading-7 text-harbor"
+              className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-7 text-harbor"
             >
               {item}
             </li>

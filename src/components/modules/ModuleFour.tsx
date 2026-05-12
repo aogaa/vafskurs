@@ -12,6 +12,8 @@ import { Card } from "../ui/Card";
 
 const REQUIRED_CASES = 8;
 const REQUIRED_MASTERY = 4;
+const TRUST_CHOICES_STORAGE_KEY = "trygg-som-frivillig:del-4-tillit-svar";
+const MASTERY_STORAGE_KEY = "trygg-som-frivillig:del-4-mestring-svar";
 
 type ModuleFourProps = {
   courseModule: CourseModule;
@@ -34,6 +36,83 @@ type MasteryQuestion = {
     feedback: string;
   }>;
 };
+
+function isTrustLevel(value: string): value is TrustLevel {
+  return trustLevels.some((level) => level.id === value);
+}
+
+function readSavedChoices(): TrustChoice[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    const value = window.localStorage.getItem(TRUST_CHOICES_STORAGE_KEY);
+    const parsed = value ? JSON.parse(value) : [];
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .filter(
+        (item: unknown): item is TrustChoice =>
+          typeof item === "object" &&
+          item !== null &&
+          "caseId" in item &&
+          "level" in item &&
+          typeof item.caseId === "string" &&
+          typeof item.level === "string" &&
+          moduleFourTrustCases.some((trustCase) => trustCase.id === item.caseId) &&
+          isTrustLevel(item.level),
+      )
+      .slice(0, moduleFourTrustCases.length);
+  } catch {
+    return [];
+  }
+}
+
+function saveChoices(value: TrustChoice[]) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(TRUST_CHOICES_STORAGE_KEY, JSON.stringify(value));
+}
+
+function readSavedMasteryAnswers(): Record<string, string> {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  try {
+    const value = window.localStorage.getItem(MASTERY_STORAGE_KEY);
+    const parsed = value ? JSON.parse(value) : {};
+    const next: Record<string, string> = {};
+
+    for (const question of masteryQuestions) {
+      const answer = parsed[question.id];
+      if (
+        typeof answer === "string" &&
+        question.options.some((option) => option.id === answer)
+      ) {
+        next[question.id] = answer;
+      }
+    }
+
+    return next;
+  } catch {
+    return {};
+  }
+}
+
+function saveMasteryAnswers(value: Record<string, string>) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(MASTERY_STORAGE_KEY, JSON.stringify(value));
+}
 
 const checklistItems = [
   "Jeg skal behandle private opplysninger med respekt.",
@@ -496,9 +575,11 @@ function MasteryCheck({
 }
 
 export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourProps) {
-  const [choices, setChoices] = useState<TrustChoice[]>([]);
+  const [choices, setChoices] = useState<TrustChoice[]>(readSavedChoices);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [masteryAnswers, setMasteryAnswers] = useState<Record<string, string>>({});
+  const [masteryAnswers, setMasteryAnswers] = useState<Record<string, string>>(
+    readSavedMasteryAnswers,
+  );
 
   const currentCase = moduleFourTrustCases[currentIndex];
   const currentChoice = choices.find((choice) => choice.caseId === currentCase.id);
@@ -525,12 +606,16 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
     setChoices((current) => {
       const existing = current.find((choice) => choice.caseId === currentCase.id);
       if (existing) {
-        return current.map((choice) =>
+        const next = current.map((choice) =>
           choice.caseId === currentCase.id ? { ...choice, level } : choice,
         );
+        saveChoices(next);
+        return next;
       }
 
-      return [...current, { caseId: currentCase.id, level }];
+      const next = [...current, { caseId: currentCase.id, level }];
+      saveChoices(next);
+      return next;
     });
   }
 
@@ -543,7 +628,11 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
   }
 
   function answerMastery(questionId: string, optionId: string) {
-    setMasteryAnswers((current) => ({ ...current, [questionId]: optionId }));
+    setMasteryAnswers((current) => {
+      const next = { ...current, [questionId]: optionId };
+      saveMasteryAnswers(next);
+      return next;
+    });
   }
 
   return (

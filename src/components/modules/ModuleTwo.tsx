@@ -4,6 +4,7 @@ import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
 const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-2-refleksjon";
+const ANSWERS_STORAGE_KEY = "trygg-som-frivillig:del-2-svar";
 
 type RoleChoice = "frivillig" | "ansatt" | "parorende" | "avklares";
 
@@ -113,6 +114,41 @@ function saveReflection(value: string) {
   window.localStorage.setItem(REFLECTION_STORAGE_KEY, value);
 }
 
+function isRoleChoice(value: string): value is RoleChoice {
+  return roleOptions.some((option) => option.id === value);
+}
+
+function readSavedAnswers(): Partial<Record<string, RoleChoice>> {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  try {
+    const value = window.localStorage.getItem(ANSWERS_STORAGE_KEY);
+    const parsed = value ? JSON.parse(value) : {};
+    const next: Partial<Record<string, RoleChoice>> = {};
+
+    for (const scenario of scenarios) {
+      const answer = parsed[scenario.id];
+      if (typeof answer === "string" && isRoleChoice(answer)) {
+        next[scenario.id] = answer;
+      }
+    }
+
+    return next;
+  } catch {
+    return {};
+  }
+}
+
+function saveAnswers(value: Partial<Record<string, RoleChoice>>) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(ANSWERS_STORAGE_KEY, JSON.stringify(value));
+}
+
 function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
     <Card className="p-6 md:p-8">
@@ -143,7 +179,9 @@ function RoleCard({
 
 export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Partial<Record<string, RoleChoice>>>({});
+  const [answers, setAnswers] = useState<Partial<Record<string, RoleChoice>>>(
+    readSavedAnswers,
+  );
   const [reflection, setReflection] = useState(readSavedReflection);
 
   const currentScenario = scenarios[currentIndex];
@@ -156,10 +194,14 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
   const hasCompletedExercise = completedScenarioCount === scenarios.length;
 
   function chooseRole(choice: RoleChoice) {
-    setAnswers((current) => ({
-      ...current,
-      [currentScenario.id]: choice,
-    }));
+    setAnswers((current) => {
+      const next = {
+        ...current,
+        [currentScenario.id]: choice,
+      };
+      saveAnswers(next);
+      return next;
+    });
   }
 
   function goToNextScenario() {
