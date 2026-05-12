@@ -13,7 +13,7 @@ export function ModuleOverviewPage() {
       <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <SectionTitle
           eyebrow="Deloversikt"
-          title="10 deler, ett tydelig kursløp"
+          title="Kursløpet"
           description="Her ser du hele kursløpet. Start med første del hvis du er ny, eller fortsett der du slapp."
         />
       </header>
