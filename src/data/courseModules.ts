@@ -47,14 +47,14 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-3",
     order: 3,
-    title: "Trygge valg i øyeblikket",
+    title: "Gode møter med mennesker",
     description:
-      "Øv på hva du kan si og gjøre når frivilligrollen blir utfordret i praksis.",
+      "Øv på å møte mennesker med respekt, ro og omtanke uten å presse, fikse eller overta.",
     status: "planned",
     learningGoals: [
-      "Stoppe opp før du sier ja til uklare oppgaver",
-      "Sette grenser uten å avvise personen foran deg",
-      "Koble på leder når ansvar, trygghet eller rolle blir uklart",
+      "Invitere til kontakt uten å presse",
+      "Lytte uten å overta samtalen eller gi råd du ikke skal gi",
+      "Bidra til verdighet og selvbestemmelse i små øyeblikk",
     ],
   },
   {

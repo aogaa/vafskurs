@@ -1,16 +1,21 @@
-import { useMemo, useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { CourseModule } from "../../data/courseModules";
-import {
-  moduleThreeScenarios,
-  type ActionChoiceQuality,
-  type ActionScenario,
-  type ActionScenarioOption,
-} from "../../data/moduleThreeScenarios";
-import { ModuleHero } from "../course/ModuleHero";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
-const REQUIRED_SCENARIOS = 8;
+const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-3-refleksjon";
+
+type DialogueOptionId = "a" | "b" | "c";
+
+type DialogueScenario = {
+  id: string;
+  title: string;
+  text: string;
+  question: string;
+  bestOption: DialogueOptionId;
+  options: { id: DialogueOptionId; text: string }[];
+  feedback: string[];
+};
 
 type ModuleThreeProps = {
   courseModule: CourseModule;
@@ -18,595 +23,584 @@ type ModuleThreeProps = {
   onComplete: () => void;
 };
 
-type ScenarioChoice = {
-  scenarioId: string;
-  optionId: string;
-};
-
-const qualityCopy: Record<
-  ActionChoiceQuality,
-  { label: string; marker: string; classes: string; feedbackClasses: string }
-> = {
-  best: {
-    label: "Trygt handlingsvalg",
-    marker: "✓",
-    classes: "border-pine bg-pine/14 text-harbor",
-    feedbackClasses: "border-pine/35 bg-pine/12 text-harbor",
-  },
-  risky: {
-    label: "Ufullstendig valg",
-    marker: "!",
-    classes: "border-honey bg-honey/18 text-harbor",
-    feedbackClasses: "border-honey/55 bg-honey/18 text-harbor",
-  },
-  wrong: {
-    label: "Feil ansvar",
-    marker: "Stopp",
-    classes: "border-red-300 bg-red-50 text-red-950",
-    feedbackClasses: "border-red-300 bg-red-50 text-red-950",
-  },
-};
-
-const actionSteps = [
+const dialogueScenarios: DialogueScenario[] = [
   {
-    title: "Stopp litt opp",
-    text: "Du trenger ikke svare ja med én gang. Det er lov å ta en pause.",
-    phrase: "Dette må jeg avklare før jeg kan svare.",
+    id: "inngangen",
+    title: "Personen ved inngangen",
+    text: "En ny person står litt usikkert ved inngangen til en aktivitet. Du ser at personen nøler.",
+    question: "Hva ville du sagt?",
+    bestOption: "a",
+    options: [
+      {
+        id: "a",
+        text: "Hei, jeg heter ___. Er det greit at jeg står her litt sammen med deg?",
+      },
+      { id: "b", text: "Bare kom inn, det er ikke noe å være nervøs for." },
+      { id: "c", text: "Du må nesten bestemme deg, for vi begynner snart." },
+    ],
+    feedback: [
+      "Dette er en god måte å starte på. Du presenterer deg, tar kontakt uten å presse, og gir personen mulighet til å si ja eller nei.",
+      "Alternativ B kan være godt ment, men kan bagatellisere usikkerheten.",
+      "Alternativ C kan oppleves pressende.",
+    ],
   },
   {
-    title: "Svar rolig",
-    text: "Et rolig svar kan senke presset uten at du må forklare alt.",
-    phrase: "Jeg vil gjerne gjøre dette riktig.",
+    id: "sitter-alene",
+    title: "Personen som sitter alene",
+    text: "På en møteplass sitter en deltaker alene ved et bord. Du vurderer å ta kontakt.",
+    question: "Hva ville du sagt?",
+    bestOption: "b",
+    options: [
+      { id: "a", text: "Hvorfor sitter du her helt alene?" },
+      { id: "b", text: "Hei. Er det greit at jeg setter meg her litt?" },
+      { id: "c", text: "Du bør bli med de andre, det er mye hyggeligere." },
+    ],
+    feedback: [
+      "Dette er en respektfull åpning. Du spør om lov, og du gjør det mulig for personen å velge kontakt uten å måtte forklare seg.",
+      "Alternativ A kan føles utleverende.",
+      "Alternativ C kan bli for styrende.",
+    ],
   },
   {
-    title: "Sett grensen tydelig",
-    text: "En grense kan være varm, kort og klar samtidig.",
-    phrase: "Det kan jeg ikke gjøre som frivillig.",
+    id: "sier-nei",
+    title: "Personen som sier nei",
+    text: "Du inviterer en deltaker med på en aktivitet. Personen svarer: «Nei, jeg tror ikke det passer for meg.»",
+    question: "Hva ville du sagt?",
+    bestOption: "a",
+    options: [
+      {
+        id: "a",
+        text: "Det er helt i orden. Du er velkommen hvis du får lyst senere.",
+      },
+      {
+        id: "b",
+        text: "Jo, kom igjen. Du kommer sikkert til å like det når du først prøver.",
+      },
+      { id: "c", text: "Da får du nesten ha det så godt." },
+    ],
+    feedback: [
+      "Dette respekterer personens nei, samtidig som døren holdes åpen. Det er en trygg måte å invitere uten å presse.",
+      "Alternativ B kan oppleves som mas.",
+      "Alternativ C kan oppleves avvisende.",
+    ],
   },
   {
-    title: "Koble på leder",
-    text: "Når noe er uklart, skal du ikke finne opp løsningen alene.",
-    phrase: "Dette tar jeg videre med lederen min.",
+    id: "forteller-noe-tungt",
+    title: "Personen som forteller noe tungt",
+    text: "En deltaker sier: «Jeg føler meg mye alene for tiden.»",
+    question: "Hva ville du sagt?",
+    bestOption: "b",
+    options: [
+      { id: "a", text: "Det må du ikke tenke på. Du må bare komme deg mer ut." },
+      { id: "b", text: "Det høres vondt ut. Vil du fortelle litt mer?" },
+      {
+        id: "c",
+        text: "Jeg vet akkurat hvordan du har det. Det samme skjedde med meg.",
+      },
+    ],
+    feedback: [
+      "Dette gir rom for personen uten at du overtar samtalen. Du viser at du hører det som blir sagt, og inviterer videre uten å presse.",
+      "Alternativ A kan bagatellisere det personen sier.",
+      "Alternativ C kan flytte oppmerksomheten over på deg.",
+    ],
   },
   {
-    title: "Ikke bær det alene",
-    text: "Tunge samtaler, bekymringer og vanskelige grenser skal tas videre.",
-    phrase: "Dette vil jeg ikke bære alene.",
+    id: "vil-ha-rad",
+    title: "Personen som vil ha råd",
+    text: "En deltaker forteller om en vanskelig familiesituasjon og spør: «Hva synes du jeg bør gjøre?»",
+    question: "Hva ville du sagt?",
+    bestOption: "b",
+    options: [
+      { id: "a", text: "Jeg synes du burde si tydelig fra til familien din." },
+      {
+        id: "b",
+        text: "Dette høres viktig ut. Jeg kan lytte, men jeg er ikke riktig person til å gi råd om hva du bør gjøre.",
+      },
+      { id: "c", text: "Det der bør du ikke blande meg inn i." },
+    ],
+    feedback: [
+      "Dette er en trygg respons. Du avviser ikke personen, men du går heller ikke inn i en rådgiverrolle du ikke skal ha.",
+      "Alternativ A kan gjøre deg til rådgiver i en situasjon du ikke har ansvar for.",
+      "Alternativ C kan bli for hardt og avvisende.",
+    ],
+  },
+  {
+    id: "finne-rom",
+    title: "Personen som trenger hjelp",
+    text: "En deltaker strever med å finne frem til riktig rom og virker litt flau.",
+    question: "Hva ville du sagt?",
+    bestOption: "a",
+    options: [
+      {
+        id: "a",
+        text: "Det er lett å gå seg bort her. Jeg kan vise deg veien hvis du vil.",
+      },
+      { id: "b", text: "Har du ikke vært her før?" },
+      { id: "c", text: "Du må følge bedre med på skiltene." },
+    ],
+    feedback: [
+      "Dette normaliserer situasjonen og tilbyr hjelp uten å gjøre personen liten. Det er praktisk, varmt og respektfullt.",
+      "Alternativ B kan gjøre personen mer flau.",
+      "Alternativ C er unødvendig korrigerende.",
+    ],
   },
 ];
 
-const phraseGroups = [
-  {
-    title: "Når du trenger tid til å avklare",
-    phrases: [
-      "Dette må jeg avklare med lederen min før jeg kan svare.",
-      "Jeg vil gjerne gjøre dette riktig, så jeg må ta det videre med leder først.",
-      "Det kan hende vi kan finne en løsning, men det må ikke avtales privat mellom oss to.",
-      "Dette går litt utenfor det jeg kan avgjøre som frivillig.",
-    ],
-  },
-  {
-    title: "Når du må si nei",
-    phrases: [
-      "Det kan jeg ikke gjøre som frivillig.",
-      "Jeg skjønner at du trenger hjelp, men akkurat dette ligger utenfor rollen min.",
-      "Jeg sier nei til oppgaven, ikke til deg.",
-      "Det ville ikke vært riktig av meg å love noe jeg ikke har ansvar for.",
-    ],
-  },
-  {
-    title: "Når du skal stoppe og hente riktig hjelp",
-    phrases: [
-      "Dette kan jeg ikke ta ansvar for alene. Jeg må ta det videre med lederen min.",
-      "Her må riktig ansvarlig person kobles på.",
-      "Jeg kan være her med deg nå, men dette må også tas videre.",
-      "Dette er for viktig til at jeg skal bære det alene.",
-    ],
-  },
-  {
-    title: "Når noen ber deg holde noe hemmelig",
-    phrases: [
-      "Jeg skal ikke dele dette med uvedkommende, men jeg kan ikke love å holde det hemmelig hvis det handler om fare eller alvorlig bekymring.",
-      "Takk for at du sier det. Nettopp fordi dette er viktig, må jeg ta det videre til lederen min.",
-    ],
-  },
-  {
-    title: "Når ansatte eller pårørende ber om for mye",
-    phrases: [
-      "Det kan jeg ikke gjøre som frivillig, men jeg kan gi beskjed videre.",
-      "Dette høres ut som en oppgave som må håndteres av ansatte eller leder.",
-      "Jeg må holde meg til den rollen jeg har fått.",
-      "Hvis dette skal endres, må det avklares med leder først.",
-    ],
-  },
+const practicalPhrases = [
+  "Hei, jeg heter ___. Er det greit at jeg setter meg her litt?",
+  "Du er velkommen til å bli med hvis du har lyst.",
+  "Det er helt i orden å bare se an litt først.",
+  "Vil du at jeg skal vise deg hvor det er?",
+  "Hva pleier å gi deg en god dag?",
+  "Det høres vanskelig ut.",
+  "Vil du fortelle litt mer?",
+  "Jeg kan lytte, men jeg kan ikke løse dette alene.",
+  "Dette høres viktig ut. Vi bør finne ut hvem som kan hjelpe deg videre.",
+  "Det er helt greit å si nei.",
 ];
 
-const checklistItems = [
-  "Jeg trenger ikke svare ja med én gang.",
-  "Jeg kan si nei til oppgaven uten å si nei til mennesket.",
-  "Det er ikke tiden oppgaven tar som avgjør. Det er ansvaret.",
-  "Når noe handler om helse, medisiner, personlig stell, penger, bankkort, private avtaler eller utrygghet, skal jeg stoppe.",
-  "Når noe er uklart, skal jeg koble på leder.",
-  "Jeg skal ikke bære tunge bekymringer alene.",
-  "Tydelige grenser gjør det tryggere å være varm.",
-];
+function readSavedReflection() {
+  if (typeof window === "undefined") {
+    return "";
+  }
 
-const masteryOptions = [
-  {
-    id: "a",
-    text: "Hvis jeg har tid og lyst, kan jeg som frivillig gjøre det meste så lenge det hjelper noen.",
-    feedback:
-      "Det er forståelig å tenke slik, fordi frivillighet ofte begynner med ønsket om å hjelpe. Men tid og vilje er ikke nok. Noen oppgaver ligger utenfor frivilligrollen uansett hvor gjerne du vil bidra.",
-  },
-  {
-    id: "b",
-    text: "Som frivillig skal jeg bidra innenfor tydelige rammer, avklare med leder når noe blir uklart, og stoppe når oppgaven ligger utenfor rollen min.",
-    feedback:
-      "Ja. Dette er kjernen i trygg frivillighet. Du kan være varm, hjelpsom og viktig uten å ta ansvar for alt. Når noe blir uklart, er det riktig å stoppe og avklare.",
-  },
-  {
-    id: "c",
-    text: "Det er best å si ja først, og heller rydde opp etterpå hvis det ble for mye.",
-    feedback:
-      "Dette kan virke effektivt i øyeblikket, men det kan skape uklare forventninger og feil ansvar. Det er bedre å avklare før du lover noe enn å rydde opp etterpå.",
-  },
-];
-
-function LearningSection({
-  children,
-  eyebrow,
-  title,
-}: {
-  children: React.ReactNode;
-  eyebrow: string;
-  title: string;
-}) {
-  return (
-    <Card className="p-7 md:p-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-leaf">{eyebrow}</p>
-      <h2 className="mt-2 text-3xl font-extrabold text-ink">{title}</h2>
-      <div className="mt-5 space-y-4 text-base leading-8 text-slate">{children}</div>
-    </Card>
-  );
+  return window.localStorage.getItem(REFLECTION_STORAGE_KEY) ?? "";
 }
 
-function ProgressTrail({ completedCount }: { completedCount: number }) {
-  const percent = Math.round((completedCount / moduleThreeScenarios.length) * 100);
-  const message =
-    completedCount >= moduleThreeScenarios.length
-      ? "10 av 10 situasjoner gjennomført. Huskelisten din er klar."
-      : completedCount >= REQUIRED_SCENARIOS
-        ? `${completedCount} av 10 situasjoner gjennomført. Huskelisten er låst opp.`
-        : completedCount >= 7
-          ? `${completedCount} av 10 situasjoner gjennomført. Du begynner å kjenne igjen når leder skal kobles på.`
-          : completedCount >= 3
-            ? `${completedCount} av 10 situasjoner gjennomført. Du har øvd på å sette grenser uten å avvise personen.`
-            : `${completedCount} av 10 situasjoner gjennomført. Velg handling i minst 8 situasjoner.`;
+function saveReflection(value: string) {
+  if (typeof window === "undefined") {
+    return;
+  }
 
-  return (
-    <section
-      className="rounded-[2rem] border border-harbor/8 bg-white p-6 shadow-soft"
-      aria-labelledby="action-trail-title"
-    >
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-            Handlingsløype
-          </p>
-          <h2 id="action-trail-title" className="mt-2 text-3xl font-extrabold text-ink">
-            Hva gjør du nå-løypa
-          </h2>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-slate">
-            Du møter konkrete øyeblikk fra frivillig arbeid. Velg hva du sier
-            eller gjør, og bruk forklaringen til å trene på trygg handling.
-          </p>
-        </div>
-        <p className="w-fit rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor">
-          {message}
-        </p>
-      </div>
-      <div
-        className="mt-5 h-3 overflow-hidden rounded-full bg-mist"
-        role="progressbar"
-        aria-label="Gjennomførte scenarioer"
-        aria-valuemin={0}
-        aria-valuemax={moduleThreeScenarios.length}
-        aria-valuenow={completedCount}
-      >
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-pine to-leaf transition-all duration-500"
-          style={{ width: `${percent}%` }}
-        />
-      </div>
-    </section>
-  );
+  window.localStorage.setItem(REFLECTION_STORAGE_KEY, value);
 }
 
-function ScenarioCard({
-  choice,
-  onChoose,
-  scenario,
-}: {
-  choice?: ScenarioChoice;
-  onChoose: (optionId: string) => void;
-  scenario: ActionScenario;
-}) {
-  const selectedOption = scenario.options.find((option) => option.id === choice?.optionId);
-  const selectedMeta = selectedOption ? qualityCopy[selectedOption.quality] : undefined;
-
+function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <Card className="overflow-hidden p-0">
-      <div className="h-2 bg-gradient-to-r from-pine via-honey to-harbor" />
-      <div className="p-7 md:p-8">
-        <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-          Scenario
-        </p>
-        <h3 className="mt-2 text-3xl font-extrabold text-ink">{scenario.title}</h3>
-        <p className="mt-4 rounded-3xl bg-mist p-5 text-xl font-semibold leading-9 text-harbor">
-          {scenario.situation}
-        </p>
-
-        <fieldset className="mt-6">
-          <legend className="text-base font-bold text-harbor">
-            Hva gjør du nå?
-          </legend>
-          <div className="mt-4 grid gap-3">
-            {scenario.options.map((option) => {
-              const selected = choice?.optionId === option.id;
-              const meta = qualityCopy[option.quality];
-
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() => onChoose(option.id)}
-                  className={`min-h-14 rounded-2xl border px-5 py-4 text-left text-base font-semibold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
-                    selected
-                      ? `${meta.classes} shadow-soft`
-                      : "border-harbor/12 bg-white text-harbor hover:-translate-y-0.5 hover:border-pine/60 hover:bg-mist"
-                  }`}
-                >
-                  <span className="mb-2 block text-sm font-black uppercase tracking-normal">
-                    Valg {option.id.toUpperCase()}
-                    {selected ? ` · ${meta.label}` : ""}
-                  </span>
-                  {option.text}
-                </button>
-              );
-            })}
-          </div>
-        </fieldset>
-
-        {selectedOption && selectedMeta ? (
-          <section
-            className={`mt-6 rounded-3xl border p-5 ${selectedMeta.feedbackClasses}`}
-            aria-live="polite"
-          >
-            <p className="text-sm font-bold uppercase tracking-normal">
-              {selectedMeta.marker} {selectedMeta.label}
-            </p>
-            <p className="mt-3 text-base font-semibold leading-8">
-              {selectedOption.feedback}
-            </p>
-          </section>
-        ) : null}
+    <Card className="p-6 md:p-8">
+      <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+        {title}
+      </h2>
+      <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+        {children}
       </div>
     </Card>
   );
 }
 
 export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThreeProps) {
-  const [choices, setChoices] = useState<ScenarioChoice[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [masteryAnswer, setMasteryAnswer] = useState<string | null>(null);
+  const [answers, setAnswers] = useState<Partial<Record<string, DialogueOptionId>>>({});
+  const [reflection, setReflection] = useState(readSavedReflection);
 
-  const currentScenario = moduleThreeScenarios[currentIndex];
-  const currentChoice = choices.find((choice) => choice.scenarioId === currentScenario.id);
-  const completedCount = choices.length;
-  const checklistUnlocked = completedCount >= REQUIRED_SCENARIOS;
-  const masteryComplete = masteryAnswer === "b";
-  const canComplete = checklistUnlocked && masteryComplete;
-
-  const bestChoicesCount = useMemo(
-    () =>
-      choices.filter((choice) => {
-        const scenario = moduleThreeScenarios.find((item) => item.id === choice.scenarioId);
-        const option = scenario?.options.find((item) => item.id === choice.optionId);
-        return option?.quality === "best";
-      }).length,
-    [choices],
+  const currentScenario = dialogueScenarios[currentIndex];
+  const selectedOptionId = answers[currentScenario.id];
+  const selectedOption = currentScenario.options.find(
+    (option) => option.id === selectedOptionId,
   );
+  const completedScenarioCount = dialogueScenarios.filter(
+    (scenario) => answers[scenario.id],
+  ).length;
+  const hasCompletedExercise = completedScenarioCount === dialogueScenarios.length;
 
-  function chooseOption(optionId: string) {
-    setChoices((current) => {
-      const existing = current.find((choice) => choice.scenarioId === currentScenario.id);
-      if (existing) {
-        return current.map((choice) =>
-          choice.scenarioId === currentScenario.id ? { ...choice, optionId } : choice,
-        );
-      }
-
-      return [...current, { scenarioId: currentScenario.id, optionId }];
-    });
+  function chooseOption(optionId: DialogueOptionId) {
+    setAnswers((current) => ({
+      ...current,
+      [currentScenario.id]: optionId,
+    }));
   }
 
   function goToNextScenario() {
-    setCurrentIndex((index) => Math.min(index + 1, moduleThreeScenarios.length - 1));
+    setCurrentIndex((index) => Math.min(index + 1, dialogueScenarios.length - 1));
   }
 
   function goToPreviousScenario() {
     setCurrentIndex((index) => Math.max(index - 1, 0));
   }
 
+  function handleReflectionChange(value: string) {
+    setReflection(value);
+    saveReflection(value);
+  }
+
+  function getOptionClasses(optionId: DialogueOptionId) {
+    const base =
+      "min-h-24 rounded-2xl border p-4 text-left transition duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine";
+
+    if (!selectedOptionId) {
+      return `${base} border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift`;
+    }
+
+    if (optionId === currentScenario.bestOption) {
+      return `${base} border-pine bg-pine/20 text-harbor ring-2 ring-pine/45`;
+    }
+
+    if (optionId === selectedOptionId) {
+      return `${base} border-honey/70 bg-honey/18 text-harbor ring-2 ring-honey/30`;
+    }
+
+    return `${base} border-harbor/12 bg-mist text-harbor`;
+  }
+
   return (
     <article className="space-y-8">
-      <ModuleHero courseModule={courseModule} />
+      <section className="rounded-3xl bg-harbor px-6 py-9 shadow-soft md:px-8 md:py-10">
+        <p className="text-sm font-bold uppercase tracking-normal text-pine">
+          Del {courseModule.order} &middot; Trygg som frivillig
+        </p>
+        <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+          Gode møter med mennesker
+        </h1>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-white">
+          Gode møter handler ikke om å fikse andre mennesker. Det handler om å
+          møte mennesker med respekt, gi rom for valg, lytte uten å overta og
+          bidra til verdighet i små øyeblikk.
+        </p>
+      </section>
 
-      <LearningSection eyebrow="Forstå" title="Når rollen blir utfordret">
+      <Section title="Å møte mennesket, ikke problemet">
         <p>
-          Det er lett å forstå grenser når vi snakker om dem i ro og mak. Det er
-          vanskeligere når du står midt i situasjonen.
+          Mennesker kommer ikke til en aktivitet som et problem som skal løses.
+          De kommer med erfaringer, grenser, ønsker, usikkerhet og ressurser.
         </p>
         <p>
-          Noen spør pent. Noen er ensomme. Noen er stresset. Noen sier at det
-          bare tar to minutter. Noen ansatte har dårlig tid. Noen pårørende er
-          slitne. Og du vil jo hjelpe.
+          Som frivillig kan du bidra med noe enkelt og viktig: å møte personen
+          som et menneske først. Ikke som en sak, en utfordring eller en oppgave.
         </p>
-        <p>
-          Det er nettopp derfor frivillige trenger mer enn regler. Du trenger en
-          trygg måte å handle på når situasjonen skjer.
-        </p>
-        <div className="grid gap-4 md:grid-cols-2">
-          {[
-            "Du kan være varm og tydelig samtidig.",
-            "Du kan si nei til oppgaven uten å si nei til mennesket.",
-            "Du kan stoppe opp uten å trekke deg unna.",
-            "Du kan koble på leder uten å svikte personen foran deg.",
-          ].map((text) => (
-            <p key={text} className="rounded-3xl bg-mist p-5 font-bold text-harbor">
-              {text}
-            </p>
-          ))}
-        </div>
-      </LearningSection>
+      </Section>
 
-      <LearningSection eyebrow="Handle" title="Den trygge handlingsrekkefølgen">
+      <Section title="Å invitere uten å presse">
         <p>
-          Når noe blir uklart, kan du bruke en enkel rekkefølge. Den hjelper deg
-          å være rolig før ansvaret glir over i noe du ikke skal bære.
+          En god invitasjon åpner en dør uten å dytte noen gjennom den. Den gir
+          mulighet, men lar personen selv velge.
         </p>
-        <ol className="grid gap-4">
-          {actionSteps.map((step, index) => (
-            <li
-              key={step.title}
-              className="grid gap-4 rounded-3xl border border-harbor/8 bg-mist p-5 md:grid-cols-[auto_1fr]"
-            >
-              <span className="grid size-11 place-items-center rounded-2xl bg-white text-sm font-black text-harbor shadow-sm">
-                {index + 1}
-              </span>
-              <div>
-                <h3 className="text-xl font-bold text-ink">{step.title}</h3>
-                <p className="mt-2 text-base leading-7 text-slate">{step.text}</p>
-                <p className="mt-3 rounded-2xl bg-white px-4 py-3 text-base font-semibold leading-7 text-harbor">
-                  «{step.phrase}»
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </LearningSection>
+        <p>
+          Det kan være nok å si: «Du er velkommen hvis du har lyst» eller «Det er
+          helt i orden å bare se an litt først».
+        </p>
+      </Section>
 
-      <LearningSection eyebrow="Avklar" title="Det er ikke tiden som avgjør, men ansvaret">
+      <Section title="Å lytte uten å overta">
         <p>
-          Mange vanskelige situasjoner kommer forkledd som små tjenester. Ordet
-          «bare» kan gjøre en oppgave mindre enn den egentlig er.
+          Å lytte betyr ikke at du skal fikse det personen forteller. Det betyr
+          at du gir rom, viser at du hører, og lar personen eie sin egen historie.
         </p>
-        <div className="grid gap-3 md:grid-cols-2">
-          {[
-            "Kan du bare hjelpe ham på toalettet?",
-            "Kan du bare ta med bankkortet og handle?",
-            "Kan du bare minne meg på medisinen?",
-            "Kan du bare kjøre henne hjem?",
-            "Kan du bare love å komme innom i morgen også?",
-          ].map((text) => (
-            <p key={text} className="rounded-2xl bg-honey/18 px-4 py-3 font-semibold text-harbor">
-              {text}
-            </p>
-          ))}
-        </div>
         <p>
-          Det er ikke tidsbruken som avgjør om noe er innenfor frivilligrollen.
-          Det er ansvaret. Noe kan ta to minutter og likevel være helt utenfor
-          rollen.
+          Noen ganger er det beste svaret kort og rolig: «Det høres vanskelig
+          ut. Vil du fortelle litt mer?»
         </p>
-        <p className="rounded-3xl bg-mist p-5 font-bold text-harbor">
-          Spør heller: Er dette avtalt? Er dette trygt? Er dette mitt ansvar?
-        </p>
-      </LearningSection>
+      </Section>
 
-      <LearningSection eyebrow="Varm grense" title="Å si nei uten å bli kald">
+      <Section title="Respekt for nei">
         <p>
-          Mange frivillige er redde for at et nei skal oppleves avvisende. Det er
-          forståelig.
+          Et nei kan være et uttrykk for grenser, dagsform, usikkerhet eller bare
+          et valg. Det skal respekteres.
         </p>
         <p>
-          Men det finnes en stor forskjell på å avvise et menneske og å avvise
-          en oppgave. Du kan fortsatt vise omsorg, lytte og hjelpe personen
-          videre.
+          Når du respekterer et nei og samtidig holder døren åpen, blir det
+          tryggere for personen å komme tilbake senere.
         </p>
-        <p className="rounded-3xl bg-mist p-5 text-xl font-bold leading-8 text-harbor">
-          Jeg sier nei til oppgaven, ikke til deg.
+      </Section>
+
+      <Section title="Når hjelp kan bli for mye">
+        <p>
+          Hjelp kan bli for mye når den presser, forklarer, overtar eller gjør
+          den andre mindre. God hjelp gir rom for selvbestemmelse.
         </p>
-      </LearningSection>
+        <p>
+          Spør heller enn å anta. Tilby heller enn å styre. Vent heller enn å
+          presse.
+        </p>
+      </Section>
 
-      <ProgressTrail completedCount={completedCount} />
+      <Section title="Verdighet i små øyeblikk">
+        <p>
+          Verdighet kan ligge i måten du hilser på, måten du spør om lov, og
+          måten du hjelper noen uten å gjøre dem flau.
+        </p>
+        <p>
+          Små øyeblikk kan sette tonen for hele møtet: et rolig blikk, en
+          vennlig åpning, et spørsmål som gir valgfrihet.
+        </p>
+      </Section>
 
-      <section className="space-y-5" aria-labelledby="scenario-title">
-        <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Øv i øyeblikket
-            </p>
-            <h2 id="scenario-title" className="mt-1 text-2xl font-bold text-ink">
-              Situasjon {currentIndex + 1} av {moduleThreeScenarios.length}
-            </h2>
+      <section className="space-y-5" aria-labelledby="dialogue-exercise-title">
+        <Card className="p-6 md:p-8">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <h2
+                id="dialogue-exercise-title"
+                className="text-2xl font-extrabold leading-tight text-ink md:text-3xl"
+              >
+                Hva ville du sagt?
+              </h2>
+              <p className="mt-4 text-base leading-8 text-slate md:text-lg">
+                Du får ett møte om gangen. Velg svaret som best skaper trygghet,
+                respekt og rom for den andre personen.
+              </p>
+            </div>
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+              <p className="text-sm font-bold uppercase tracking-normal text-slate">
+                Situasjon
+              </p>
+              <p className="mt-1 text-3xl font-extrabold" aria-live="polite">
+                {currentIndex + 1} av {dialogueScenarios.length}
+              </p>
+              <p className="mt-2 text-sm font-semibold">
+                {completedScenarioCount} gjennomført
+              </p>
+            </div>
           </div>
-          <p className="w-fit rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor">
-            {bestChoicesCount} trygge handlingsvalg funnet
-          </p>
-        </div>
+          <div
+            className="mt-6 h-3 overflow-hidden rounded-full bg-mist"
+            role="progressbar"
+            aria-label="Dialogøvelser gjennomført"
+            aria-valuemin={0}
+            aria-valuemax={dialogueScenarios.length}
+            aria-valuenow={completedScenarioCount}
+          >
+            <div
+              className="h-full rounded-full bg-pine transition-all duration-500"
+              style={{
+                width: `${(completedScenarioCount / dialogueScenarios.length) * 100}%`,
+              }}
+            />
+          </div>
+        </Card>
 
-        <ScenarioCard
-          scenario={currentScenario}
-          choice={currentChoice}
-          onChoose={chooseOption}
-        />
+        <Card className="overflow-hidden p-0">
+          <div className="h-2 bg-pine" />
+          <div className="p-6 md:p-8">
+            <h3 className="text-xl font-bold text-harbor">
+              {currentScenario.title}
+            </h3>
+            <p className="mt-4 rounded-3xl bg-mist p-5 text-xl font-semibold leading-9 text-ink">
+              {currentScenario.text}
+            </p>
+
+            <fieldset className="mt-7">
+              <legend className="text-base font-bold text-harbor">
+                {currentScenario.question}
+              </legend>
+              <div className="mt-4 grid gap-3">
+                {currentScenario.options.map((option) => {
+                  const isSelected = selectedOptionId === option.id;
+                  const isBest = selectedOptionId && option.id === currentScenario.bestOption;
+
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      aria-pressed={isSelected}
+                      onClick={() => chooseOption(option.id)}
+                      className={getOptionClasses(option.id)}
+                    >
+                      <span className="flex items-start justify-between gap-3">
+                        <span className="text-sm font-black uppercase tracking-normal">
+                          Alternativ {option.id.toUpperCase()}
+                          {isBest ? " · beste retning" : ""}
+                        </span>
+                        <span
+                          className={`flex size-6 shrink-0 items-center justify-center rounded-full border text-sm font-bold ${
+                            isSelected || isBest
+                              ? "border-harbor bg-harbor text-white"
+                              : "border-harbor/25 text-transparent"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          ✓
+                        </span>
+                      </span>
+                      <span className="mt-3 block text-base font-semibold leading-7">
+                        «{option.text}»
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+
+            {selectedOption ? (
+              <section
+                className="mt-6 rounded-3xl bg-mist p-5"
+                aria-live="polite"
+                aria-label="Veiledende respons"
+              >
+                <h4 className="text-xl font-bold text-harbor">
+                  Beste retning: Alternativ {currentScenario.bestOption.toUpperCase()}
+                </h4>
+                {selectedOption.id !== currentScenario.bestOption ? (
+                  <p className="mt-3 text-base font-semibold leading-7 text-slate">
+                    Du valgte alternativ {selectedOption.id.toUpperCase()}. Det
+                    er forståelig at slike øyeblikk kan vurderes ulikt. Her er
+                    hvorfor alternativ {currentScenario.bestOption.toUpperCase()} er
+                    tryggeste retning:
+                  </p>
+                ) : null}
+                <div className="mt-3 space-y-3 text-base leading-8 text-slate">
+                  {currentScenario.feedback.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
+        </Card>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-          <Button onClick={goToPreviousScenario} variant="secondary" disabled={currentIndex === 0}>
-            Forrige situasjon
-          </Button>
-          <Button
-            onClick={goToNextScenario}
-            disabled={!currentChoice || currentIndex === moduleThreeScenarios.length - 1}
-          >
-            Neste situasjon
-          </Button>
+          {currentIndex > 0 ? (
+            <Button onClick={goToPreviousScenario} variant="secondary">
+              Forrige situasjon
+            </Button>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {currentIndex < dialogueScenarios.length - 1 ? (
+            <Button onClick={goToNextScenario} disabled={!selectedOptionId}>
+              Neste situasjon
+            </Button>
+          ) : null}
         </div>
       </section>
 
-      {checklistUnlocked ? (
-        <section className="space-y-6" aria-live="polite">
-          <section className="rounded-[2rem] border border-pine/30 bg-gradient-to-br from-harbor to-fjord p-7 text-white shadow-glow md:p-9">
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-              Huskeliste låst opp
-            </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight">
-              Min huskeliste når rollen blir utfordret
+      {hasCompletedExercise ? (
+        <section className="space-y-8" aria-live="polite">
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Praktiske formuleringer
             </h2>
-            <ol className="mt-6 grid gap-3">
-              {checklistItems.map((item, index) => (
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {practicalPhrases.map((phrase) => (
+                <p
+                  key={phrase}
+                  className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-8 text-harbor"
+                >
+                  «{phrase}»
+                </p>
+              ))}
+            </div>
+          </Card>
+
+          <Section title="Dette er kjernen">
+            <p>
+              Gode møter handler ikke om å presse, fikse eller overta. De handler
+              om å gi rom for den andre personen.
+            </p>
+            <p>
+              Du kan bidra med ro, nærvær og respekt. Du kan invitere uten å
+              presse, lytte uten å gjøre samtalen til din egen, og hjelpe uten å
+              gjøre den andre liten.
+            </p>
+            <p className="font-bold text-harbor">
+              Verdighet ligger ofte i de små valgene.
+            </p>
+          </Section>
+
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Oppsummering
+            </h2>
+            <ol className="mt-6 grid gap-4 md:grid-cols-2">
+              {[
+                "Møt mennesket først, ikke problemet.",
+                "Inviter på en måte som gir personen et reelt valg.",
+                "Lytt uten å overta samtalen eller gi råd du ikke skal gi.",
+                "Respekter nei, og hold døren åpen uten press.",
+                "Hjelp på en måte som bevarer verdighet og selvbestemmelse.",
+                "Små formuleringer kan gjøre et møte tryggere.",
+              ].map((item, index) => (
                 <li
                   key={item}
-                  className="grid gap-3 rounded-2xl bg-white/10 p-4 text-base font-semibold leading-7 text-white/88 sm:grid-cols-[auto_1fr]"
+                  className="flex min-h-32 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-7 text-harbor"
                 >
-                  <span className="font-black text-pine">{index + 1}.</span>
+                  <span
+                    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-harbor text-sm font-extrabold text-white"
+                    aria-hidden="true"
+                  >
+                    {index + 1}
+                  </span>
                   <span>{item}</span>
                 </li>
               ))}
             </ol>
-          </section>
-
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Språk i praksis
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Setninger du kan bruke
-            </h2>
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {phraseGroups.map((group) => (
-                <article
-                  key={group.title}
-                  className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm"
-                >
-                  <h3 className="text-lg font-bold text-harbor">{group.title}</h3>
-                  <ul className="mt-3 space-y-3">
-                    {group.phrases.map((phrase) => (
-                      <li key={phrase} className="text-base leading-8 text-slate">
-                        «{phrase}»
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
           </Card>
 
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Mestringssjekk
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Hva oppsummerer trygg handling best?
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Et godt møte begynner med...
             </h2>
-            <div className="mt-5 grid gap-3">
-              {masteryOptions.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  aria-pressed={masteryAnswer === option.id}
-                  onClick={() => setMasteryAnswer(option.id)}
-                  className={`min-h-14 rounded-2xl border px-5 py-4 text-left text-base font-semibold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
-                    masteryAnswer === option.id
-                      ? "border-pine bg-pine/20 text-harbor"
-                      : "border-harbor/12 bg-white text-harbor hover:border-pine/60 hover:bg-mist"
-                  }`}
-                >
-                  {option.text}
-                </button>
-              ))}
+            <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+              <p>
+                Tenk på en situasjon der noen møtte deg på en måte som gjorde
+                deg trygg, sett eller respektert.
+              </p>
+              <p>Hva gjorde de? Hva kan du ta med deg inn i frivilligrollen?</p>
             </div>
-            {masteryAnswer ? (
-              <p
-                className="mt-5 rounded-3xl bg-mist p-5 text-base font-semibold leading-8 text-harbor"
-                aria-live="polite"
+            <label htmlFor="module-three-reflection" className="sr-only">
+              Et godt møte begynner med
+            </label>
+            <textarea
+              id="module-three-reflection"
+              value={reflection}
+              onChange={(event) => handleReflectionChange(event.target.value)}
+              rows={5}
+              placeholder="Et godt møte begynner med..."
+              className="mt-6 min-h-36 w-full resize-y rounded-2xl border border-harbor/15 bg-white p-4 text-base leading-7 text-ink shadow-sm outline-none transition focus:border-pine focus:ring-4 focus:ring-pine/20"
+            />
+            <p className="mt-3 text-sm font-semibold text-slate">
+              Refleksjonen lagres bare lokalt i nettleseren din og er kun ment
+              for deg!
+            </p>
+          </Card>
+
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Du har fullført Del 3
+            </h2>
+            <h3 className="mt-2 text-xl font-bold text-harbor md:text-2xl">
+              Neste del handler om taushet, tillit og bekymring
+            </h3>
+            <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+              <p>
+                Du har øvd på gode møter med mennesker: å invitere, lytte,
+                respektere nei og gi hjelp uten å overta.
+              </p>
+              <p>
+                Neste del handler om hva du gjør når noen deler noe vanskelig,
+                privat eller bekymringsfullt.
+              </p>
+            </div>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button
+                onClick={onComplete}
+                className="w-full bg-pine text-harbor hover:bg-leaf sm:w-auto"
               >
-                {masteryOptions.find((option) => option.id === masteryAnswer)?.feedback}
-              </p>
-            ) : null}
-          </Card>
-
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Neste steg
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Fra trygg handling til tillit
-            </h2>
-            <div className="mt-5 space-y-4 text-base leading-8 text-slate">
-              <p>
-                Nå har du øvd på hva du kan si og gjøre når frivilligrollen blir
-                utfordret.
-              </p>
-              <p>
-                Neste steg handler om noe som går gjennom nesten alt frivillig
-                arbeid: tillit.
-              </p>
-              <p>
-                Hva kan du holde for deg selv? Hva må du ta videre? Og hvordan
-                kan du melde bekymring uten å bryte tilliten?
-              </p>
+                Gå til Del 4
+              </Button>
+              <Button to="/" variant="secondary" className="w-full sm:w-auto">
+                Til hovedsiden
+              </Button>
             </div>
           </Card>
         </section>
       ) : (
-        <Card className="p-6">
-          <p className="text-base font-semibold leading-8 text-slate">
-            Gjennomfør minst {REQUIRED_SCENARIOS} scenarioer for å låse opp
-            huskelisten og mestringssjekken.
-          </p>
+        <Card className="p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-semibold text-slate">
+              Gå gjennom alle seks situasjonene for å åpne resten av delen.
+            </p>
+            <Button to="/" variant="secondary">
+              Til hovedsiden
+            </Button>
+          </div>
         </Card>
       )}
 
-      <div className="mt-12 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/trygg-som-frivillig/deler" variant="secondary">
-          Tilbake til deloversikt
-        </Button>
-        <div className="flex flex-col gap-2 sm:items-end">
-          {!canComplete ? (
-            <p className="text-sm font-semibold text-slate">
-              Gjennomfør minst 8 scenarioer og fullfør mestringssjekken for å
-              fullføre delen.
-            </p>
-          ) : null}
-          <Button onClick={onComplete} disabled={!canComplete && !isComplete} className="bg-pine text-harbor hover:bg-leaf">
-            {isComplete ? "Fullført - gå til neste del" : "Fullfør og gå videre"}
-          </Button>
+      {isComplete ? (
+        <div className="sr-only" aria-live="polite">
+          Del 3 er allerede fullført.
         </div>
-      </div>
+      ) : null}
     </article>
   );
 }
-
