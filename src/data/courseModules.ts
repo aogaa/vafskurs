@@ -14,12 +14,12 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-1",
     order: 1,
-    title: "Du er en del av noe større",
+    title: "Frivillighet er å være del av noe større",
     description:
       "Se hvorfor frivillighet handler om relasjoner, fellesskap og tryggere nærmiljøer.",
     status: "active",
     ingress:
-      "Du kommer hit fordi du ønsker å bidra. Denne delen viser hvorfor frivillighet ikke handler om å fylle hull, men om å bygge broer mellom mennesker.",
+      "Frivillighet er mennesker som, på ulike måter, er med på å gjøre lokalsamfunnet sterkere.",
     learningGoals: [
       "Forstå hvorfor frivillighet har verdi for lokalsamfunnet",
       "Se hvordan du bidrar med relasjoner, nærvær og fellesskap",

@@ -153,17 +153,14 @@ function getProfile(selectedIds: BuildingBlockId[]) {
 
 function TextSection({
   children,
-  eyebrow,
   title,
 }: {
   children: React.ReactNode;
-  eyebrow: string;
   title: string;
 }) {
   return (
     <Card className="p-6 md:p-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-leaf">{eyebrow}</p>
-      <h2 className="mt-2 text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+      <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
         {title}
       </h2>
       <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
@@ -228,23 +225,18 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           Del {courseModule.order} &middot; Trygg som frivillig
         </p>
         <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
-          Du er en del av noe større
+          Frivillighet er å være del av noe større
         </h1>
-        <div className="mt-5 max-w-3xl space-y-3 text-lg leading-8 text-white/78">
-          <p>Du kommer hit fordi du ønsker å bidra.</p>
+        <div className="mt-5 max-w-3xl space-y-3 text-lg leading-8 text-white">
           <p>
-            Kanskje vil du gjøre noe godt for andre. Kanskje vil du være til
-            nytte. Kanskje vil du være en del av et fellesskap.
-          </p>
-          <p>Det er et godt sted å starte.</p>
-          <p>
-            Frivillighet handler ikke om å fylle hull. Det handler om å bygge
-            broer mellom mennesker.
+            Frivillighet er ikke én type menneske, én motivasjon eller én måte å
+            bidra på. Det er mennesker som, på ulike måter, er med på å gjøre
+            lokalsamfunnet sterkere.
           </p>
         </div>
       </section>
 
-      <TextSection eyebrow="Hvorfor det betyr noe" title="Et samfunn kan ikke bare bygges av tjenester">
+      <TextSection title="Et samfunn kan ikke bare bygges av tjenester">
         <p>
           Et samfunn trenger gode tjenester. Vi trenger helsevesen, skole,
           kommune, beredskap og fagfolk som gjør jobben sin.
@@ -264,7 +256,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </p>
       </TextSection>
 
-      <TextSection eyebrow="Din verdi" title="Du er ikke «bare frivillig»">
+      <TextSection title="Du er ikke «bare frivillig»">
         <p>Det kan være lett å tenke at frivillig innsats er noe lite.</p>
         <p>
           En kopp kaffe. En prat. En tur. En håndsrekning. Et smil ved døren.
@@ -281,7 +273,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </p>
       </TextSection>
 
-      <TextSection eyebrow="Nærmiljø" title="Frivillighet skaper tryggere nærmiljøer">
+      <TextSection title="Frivillighet skaper tryggere nærmiljøer">
         <p>Et nærmiljø blir tryggere når mennesker ikke er fremmede for hverandre.</p>
         <p>
           Når folk kjenner hverandre litt, blir det lettere å spørre om hjelp.
@@ -302,7 +294,6 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
       </TextSection>
 
       <TextSection
-        eyebrow="Rolleforståelse"
         title="Frivillighet er noe annet enn kommunale tjenester"
       >
         <p>
@@ -345,9 +336,6 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
 
       <section className="space-y-6" aria-labelledby="community-builder-heading">
         <Card className="p-6 md:p-8">
-          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-            Interaktiv oppgave
-          </p>
           <div className="mt-2 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
               <h2
@@ -443,10 +431,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
       {hasRevealedProfile ? (
         <section className="space-y-8" aria-live="polite">
           <Card className="animate-[fadeIn_240ms_ease-out] border-pine/45 bg-mist p-6 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Din frivillige styrke
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-harbor">
+            <h2 className="text-3xl font-extrabold text-harbor">
               {profile.title}
             </h2>
             <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
@@ -461,7 +446,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
             </div>
           </Card>
 
-          <TextSection eyebrow="Dette er kjernen" title="Frivillighet handler om mennesker">
+          <TextSection title="Frivillighet handler om mennesker">
             <p>Frivillighet handler ikke først og fremst om oppgaver.</p>
             <p>Det handler om mennesker.</p>
             <p>
@@ -475,10 +460,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           </TextSection>
 
           <Card className="p-6 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Hva du skal huske
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-ink md:text-3xl">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
               Oppsummering
             </h2>
             <ol className="mt-6 grid gap-4 md:grid-cols-2">
@@ -505,10 +487,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           </Card>
 
           <Card className="p-6 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Refleksjon
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-ink md:text-3xl">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
               Et godt nærmiljø for meg er...
             </h2>
             <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
@@ -529,17 +508,18 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
               className="mt-6 min-h-36 w-full resize-y rounded-2xl border border-harbor/15 bg-white p-4 text-base leading-7 text-ink shadow-sm outline-none transition focus:border-pine focus:ring-4 focus:ring-pine/20"
             />
             <p className="mt-3 text-sm font-semibold text-slate">
-              Refleksjonen lagres bare lokalt i nettleseren din.
+              Refleksjonen lagres bare lokalt i nettleseren din og er kun ment
+              for deg!
             </p>
           </Card>
 
           <Card className="p-6 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
               Du har fullført Del 1
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-ink md:text-3xl">
-              Neste del handler om rollen din
             </h2>
+            <h3 className="mt-2 text-xl font-bold text-harbor md:text-2xl">
+              Neste del handler om rollen din
+            </h3>
             <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
               <p>
                 Du har sett hvorfor frivillighet betyr noe, og hvorfor frivillige
@@ -554,8 +534,8 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
               <Button onClick={onComplete} className="w-full bg-pine text-harbor hover:bg-leaf sm:w-auto">
                 Gå til Del 2
               </Button>
-              <Button to="/trygg-som-frivillig/deler" variant="secondary" className="w-full sm:w-auto">
-                Til deloversikt
+              <Button to="/" variant="secondary" className="w-full sm:w-auto">
+                Til hovedsiden
               </Button>
             </div>
           </Card>
@@ -566,8 +546,8 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
             <p className="text-sm font-semibold text-slate">
               Velg to byggesteiner og åpne responsen før du går videre.
             </p>
-            <Button to="/trygg-som-frivillig/deler" variant="secondary">
-              Til deloversikt
+            <Button to="/" variant="secondary">
+              Til hovedsiden
             </Button>
           </div>
         </Card>
