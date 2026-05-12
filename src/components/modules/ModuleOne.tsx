@@ -118,14 +118,6 @@ const profileRules: { profileId: keyof typeof profiles; choices: BuildingBlockId
   { profileId: "menneskemoteren", choices: ["relasjoner", "omtanke"] },
 ];
 
-const comparisonRows = [
-  ["Skaper fellesskap", "Leverer tjenester"],
-  ["Bygger relasjoner", "Fatter vedtak"],
-  ["Gir nærvær og aktivitet", "Har formelt ansvar"],
-  ["Er et supplement og en berikelse", "Har lovpålagte oppgaver"],
-  ["Ser mennesket i hverdagen", "Gir nødvendig faglig oppfølging"],
-];
-
 function readSavedReflection() {
   if (typeof window === "undefined") {
     return "";
@@ -227,115 +219,142 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
           Frivillighet er å være del av noe større
         </h1>
-        <div className="mt-5 max-w-3xl space-y-3 text-lg leading-8 text-white">
-          <p>
-            Frivillighet rommer mange mennesker, mange erfaringer og mange måter
-            å bidra på. Noen bidrar med tid, noen med kunnskap, noen med
-            praktisk hjelp, og noen med evnen til å skape gode møter mellom
-            mennesker. Sammen gjør frivillige lokalsamfunnet sterkere.
-          </p>
-        </div>
       </section>
 
-      <TextSection title="Et samfunn kan ikke bare bygges av tjenester">
+      <TextSection title="Hvorfor frivillighet betyr noe">
         <p>
-          Et samfunn trenger gode tjenester. Vi trenger helsevesen, skole,
-          kommune, beredskap og fagfolk som gjør jobben sin.
+          Se for deg et lokalsamfunn der mennesker hilser på hverandre. Der noen
+          legger merke til hvem som kommer, og hvem som ikke kommer. Der det
+          finnes steder å gå til, mennesker å møte og fellesskap å bli en del av.
+        </p>
+        <p>Det er slike lokalsamfunn frivilligheten er med på å bygge.</p>
+        <p>
+          Frivillighet begynner ofte i det små. En kopp kaffe. En prat. En tur.
+          En telefon. En invitasjon. Et menneske som blir møtt i døren og får
+          høre: «Så hyggelig at du kom.»
         </p>
         <p>
-          Et trygt og varmt samfunn bygges av relasjoner, tillit og mennesker
-          som tar seg tid til hverandre.
-        </p>
-        <p>
-          En liten handling kan bety mye for den som blir sett, husket eller
-          invitert med.
-        </p>
-        <p>
-          Vi trenger mennesker som legger merke til hverandre. Mennesker som
-          hilser. Mennesker som spør hvordan det går. Mennesker som inviterer
-          med. Mennesker som tar seg tid.
-        </p>
-        <p>Det er her frivilligheten har sin egen verdi.</p>
-        <p>
-          Som frivillig kan du bidra med noe ingen kommune kan bestille frem på
-          samme måte: menneskelige møter uten skjemaer, vedtak eller plikter.
-          Bare nærvær, fellesskap og omtanke.
+          Slike øyeblikk kan virke enkle. Likevel er det ofte nettopp disse
+          øyeblikkene som gjør at mennesker kjenner seg sett, ønsket og litt
+          mindre alene.
         </p>
       </TextSection>
 
-      <TextSection title="Du er ikke «bare frivillig»">
-        <p>Det kan være lett å tenke at frivillig innsats er noe lite.</p>
+      <TextSection title="Små handlinger bygger store fellesskap">
         <p>
-          En kopp kaffe. En prat. En tur. En håndsrekning. Et smil ved døren.
-          En telefon. En aktivitet noen kan møte opp til.
+          Et godt samfunn trenger gode tjenester, trygge systemer og fagfolk som
+          gjør jobben sin. Det trenger også noe mer: mennesker som ser hverandre,
+          tar seg tid og skaper tillit i hverdagen.
         </p>
         <p>
-          For noen kan en frivillig aktivitet være ukens høydepunkt. For noen
-          kan en samtale gjøre en tung dag litt lettere. For noen kan det å bli
-          husket, invitert eller sett bety mer enn vi forstår der og da.
+          Når mennesker møtes, skjer det mer enn vi alltid ser der og da. En
+          samtale kan senke terskelen for å komme tilbake. En invitasjon kan
+          åpne døren inn til et nytt fellesskap. En aktivitet kan gi noen en
+          grunn til å gå ut. En frivillig kan være den som gjør at et menneske
+          kjenner: Her er det plass til meg.
         </p>
-        <p className="font-bold text-harbor">
-          Din omtanke kan gjøre en dag lettere, et møte tryggere og et nærmiljø
-          varmere.
+        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+          Vanlig menneskelig omtanke kan gjøre en dag lettere, et møte tryggere
+          og et nærmiljø varmere.
+        </p>
+        <p>
+          Frivillighet handler derfor ikke bare om enkeltoppgaver. Det handler
+          om å bygge fellesskap over tid.
         </p>
       </TextSection>
 
-      <TextSection title="Frivillighet skaper tryggere nærmiljøer">
-        <p>Et nærmiljø blir tryggere når mennesker ikke er fremmede for hverandre.</p>
+      <TextSection title="Trygghet begynner med at vi kjenner hverandre">
+        <p>Et lokalsamfunn blir tryggere når mennesker kjenner hverandre litt.</p>
         <p>
-          Når folk kjenner hverandre litt, blir det lettere å spørre om hjelp.
-          Det blir lettere å si fra. Det blir lettere å oppdage om noen faller
-          utenfor. Det blir lettere å invitere noen inn.
+          Når vi kjenner hverandre, blir det lettere å spørre om hjelp. Det blir
+          lettere å invitere noen med. Det blir lettere å legge merke til om
+          noen faller utenfor. Det blir lettere å stille opp når noe skjer.
         </p>
-        <p>Frivillige er med på å bygge slike forbindelser.</p>
         <p>
-          Vi gjør det ved å være til stede, skape møteplasser og ved å gjøre det
-          lettere å ta kontakt. Vi gjør det ved å minne hverandre om at vi
-          trenger hverandre, at vi alle har en plass.
+          Trygghet handler ikke bare om planer, systemer og tjenester. Det
+          handler også om hverdagslige bånd mellom mennesker. Hvem hilser på
+          deg? Hvem merker om du ikke kommer som vanlig? Hvem spør hvordan det
+          går? Hvem gjør det litt lettere å komme inn i rommet?
+        </p>
+        <p>Frivillige er med på å skape slike bånd.</p>
+        <p>
+          Ikke gjennom store ord eller store løfter, men gjennom tilstedeværelse,
+          aktivitet, varme og fellesskap.
         </p>
       </TextSection>
 
-      <TextSection
-        title="Frivillighet og kommunale tjenester har ulike roller"
-      >
+      <TextSection title="Frivillighet finnes overalt">
         <p>
-          Et godt lokalsamfunn trenger både gode tjenester og sterke fellesskap.
+          Frivillighet rommer mange mennesker, mange erfaringer og mange måter å
+          bidra på.
         </p>
         <p>
-          Kommunen har ansvar for tjenester, vedtak, faglige vurderinger og
-          nødvendig oppfølging. Frivilligheten bidrar på en annen måte: gjennom
-          nærvær, aktivitet, relasjoner og steder der mennesker kan høre til.
+          Noen er frivillige på en møteplass. Noen trener barn og unge. Noen går
+          tur med andre. Noen hjelper til på leksehjelp. Noen lager mat. Noen
+          sitter i styrer. Noen arrangerer konserter, loppemarkeder, språkkafeer,
+          kurs, besøkstjenester eller håndarbeidsgrupper.
         </p>
         <p>
-          Det ene erstatter ikke det andre. De har ulike oppgaver, og nettopp
-          derfor kan de utfylle hverandre.
+          Noen bidrar ofte. Noen bidrar av og til. Noen har lang erfaring. Andre
+          er helt nye.
         </p>
-        <div className="overflow-hidden rounded-3xl border border-harbor/10 bg-white">
-          <div className="grid grid-cols-2 bg-mist text-sm font-bold uppercase text-harbor">
-            <div className="border-r border-harbor/10 p-4">Frivillighet</div>
-            <div className="p-4">Kommunale tjenester</div>
-          </div>
-          {comparisonRows.map(([volunteer, service]) => (
-            <div
-              key={volunteer}
-              className="grid grid-cols-2 border-t border-harbor/10 text-sm leading-6 text-slate md:text-base"
-            >
-              <div className="border-r border-harbor/10 p-4">{volunteer}</div>
-              <div className="p-4">{service}</div>
-            </div>
-          ))}
+        <p>
+          Formene er ulike, men kraften er den samme: mennesker som bidrar til
+          at flere kan høre til.
+        </p>
+        <p>
+          Frivillighet gjør lokalsamfunnet sterkere fordi mennesker møtes,
+          kjenner hverandre, bygger tillit og skaper steder der flere kan finne
+          sin plass.
+        </p>
+      </TextSection>
+
+      <TextSection title="Å være del av noe større">
+        <p>Når du er frivillig, er du en del av en større sammenheng.</p>
+        <p>
+          Du er en del av et lokalsamfunn der mennesker gjør mer enn å bo ved
+          siden av hverandre. De møtes. De deltar. De stiller opp. De bygger
+          fellesskap.
+        </p>
+        <p>
+          Det betyr ikke at én frivillig skal bære alt. Det betyr at mange små
+          bidrag, fra mange ulike mennesker, kan skape noe som er større enn hver
+          enkelt av oss.
+        </p>
+        <p>
+          En aktivitet kan bli et fast holdepunkt. En møteplass kan bli et sted
+          å høre til. En samtale kan bli starten på en relasjon. En invitasjon
+          kan gjøre at noen våger å komme tilbake.
+        </p>
+        <div className="rounded-2xl bg-mist p-5 text-lg font-bold leading-8 text-harbor">
+          <p>Slik bygges fellesskap.</p>
+          <p>Slik bygges tillit.</p>
+          <p>Slik bygges lokalsamfunn.</p>
+          <p>Når mennesker stiller opp for hverandre, blir samfunnet sterkere.</p>
         </div>
-        <p>
-          Frivillige bidrar med tid, nærvær og menneskelige møter som gjør
-          fellesskapet sterkere. Det er en annen type innsats enn den kommunen
-          og ansatte har ansvar for, og nettopp derfor er den så verdifull.
-        </p>
-        <p>
-          Senere i kurset skal vi se nærmere på roller, grenser og ansvar. Ikke
-          for å gjøre frivilligheten mer avstandspreget, men for å gjøre det
-          lettere å bidra trygt, varmt og med god dømmekraft.
-        </p>
       </TextSection>
+
+      <Card className="p-6 md:p-8">
+        <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+          Dette skal du ta med deg videre
+        </h2>
+        <ul className="mt-6 grid gap-4 md:grid-cols-2">
+          {[
+            "Frivillighet begynner ofte i små handlinger.",
+            "Små handlinger kan bygge tillit, tilhørighet og fellesskap.",
+            "Et trygt lokalsamfunn trenger mennesker som ser hverandre.",
+            "Frivillighet finnes i mange former, men bygger på samme kraft: mennesker som bidrar til fellesskapet.",
+            "Å være frivillig er å være del av noe større.",
+          ].map((item) => (
+            <li
+              key={item}
+              className="flex min-h-28 items-center rounded-2xl bg-mist p-5 text-base font-bold leading-7 text-harbor"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </Card>
 
       <section className="space-y-6" aria-labelledby="community-builder-heading">
         <Card className="p-6 md:p-8">
