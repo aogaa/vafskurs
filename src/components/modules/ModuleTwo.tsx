@@ -1,16 +1,18 @@
-import { useMemo, useState } from "react";
-import {
-  moduleTwoCards,
-  roleCompassZones,
-  type RoleCompassCard,
-  type RoleCompassZone,
-} from "../../data/moduleTwoCards";
+import { useState, type ReactNode } from "react";
 import type { CourseModule } from "../../data/courseModules";
-import { ModuleHero } from "../course/ModuleHero";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
-const REQUIRED_ASSESSMENTS = 8;
+const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-2-refleksjon";
+
+type RoleChoice = "frivillig" | "ansatt" | "parorende" | "avklares";
+
+type Scenario = {
+  id: string;
+  text: string;
+  correctChoice: RoleChoice;
+  feedback: string;
+};
 
 type ModuleTwoProps = {
   courseModule: CourseModule;
@@ -18,632 +20,546 @@ type ModuleTwoProps = {
   onComplete: () => void;
 };
 
-type CompassChoice = {
-  cardId: string;
-  chosenZone: RoleCompassZone;
-};
-
-const safePhraseGroups = [
+const roleOptions: { id: RoleChoice; label: string; helpText: string }[] = [
   {
-    title: "Når noe må avklares med leder",
-    phrases: [
-      "Dette vil jeg gjerne svare ordentlig på, men jeg må avklare det med lederen min først.",
-      "Jeg kan ikke ta den avgjørelsen alene. Dette må jeg ta videre med lederen min.",
-      "Det kan hende vi kan finne en løsning, men det må avklares gjennom lederen min, ikke som en privat avtale mellom oss.",
-      "Jeg vil gjøre dette riktig, derfor må jeg stoppe litt opp og spørre lederen min før jeg svarer.",
-    ],
+    id: "frivillig",
+    label: "Frivillig",
+    helpText: "Nærvær, aktivitet, kontakt og fellesskap innenfor avtalt rolle.",
   },
   {
-    title: "Når noen ber om noe utenfor frivilligrollen",
-    phrases: [
-      "Det kan jeg ikke gjøre som frivillig, men jeg kan hjelpe deg å finne ut hvem som er riktig person å spørre.",
-      "Jeg skjønner at du trenger hjelp, men akkurat dette ligger utenfor rollen min som frivillig.",
-      "Dette er ikke en oppgave jeg kan ta ansvar for. Jeg kan heller si fra til lederen min om at du trenger hjelp videre.",
-      "Jeg vil ikke love noe jeg ikke har ansvar for. Det ville ikke vært riktig overfor deg.",
-    ],
+    id: "ansatt",
+    label: "Ansatt/fagperson",
+    helpText: "Faglige vurderinger, helsehjelp, tjenester og formelt ansvar.",
   },
   {
-    title: "Når noen ønsker mer kontakt enn avtalt",
-    phrases: [
-      "Jeg setter pris på at du spør, men jeg kan ikke love å komme oftere enn det som er avtalt.",
-      "Jeg forstår godt at du ønsker mer besøk. Det må vi ta videre med lederen min, så rammen blir riktig.",
-      "Jeg kan ikke lage en privat avtale om faste besøk, men jeg kan gi beskjed om at du ønsker mer kontakt.",
-      "Det er viktig at dette ikke bare blir noe du og jeg avtaler alene. Da kan det bli uklart for oss begge.",
-    ],
+    id: "parorende",
+    label: "Pårørende",
+    helpText: "Familierelasjon, privat ansvar og personlige bånd over tid.",
   },
   {
-    title: "Når noen ber om penger, bankkort eller innkjøp",
-    phrases: [
-      "Jeg kan ikke ta med bankkort, PIN-kode eller kontanter. Det er for å beskytte både deg og meg.",
-      "Hvis du trenger hjelp til handling, må det avklares av lederen min på en ryddig måte.",
-      "Dette kan jeg ikke gjøre som en privat avtale. Økonomi må håndteres med tydelige rammer.",
-      "Jeg vil gjerne hjelpe deg videre, men jeg kan ikke håndtere penger eller bankkort.",
-    ],
-  },
-  {
-    title: "Når den frivillige blir bekymret",
-    phrases: [
-      "Jeg la merke til noe i dag som jeg synes lederen min bør få vite om.",
-      "Jeg vet ikke hva dette betyr, men jeg synes det bør meldes videre.",
-      "Jeg kan ikke vurdere helsen din, men jeg kan si fra til lederen min om det jeg har sett.",
-      "Dette vil jeg ikke bære alene. Jeg tar det videre til lederen min.",
-    ],
-  },
-  {
-    title: "Når noen deler noe alvorlig",
-    phrases: [
-      "Takk for at du sier det. Dette er for viktig til at jeg skal bære det alene.",
-      "Jeg kan lytte til deg, men jeg kan ikke love å holde dette hemmelig hvis det handler om fare eller alvorlig bekymring.",
-      "Jeg vil gjerne være her med deg nå, men dette må også tas videre til noen som har riktig ansvar.",
-      "Dette høres alvorlig ut. Jeg skal ikke prøve å løse det alene, men jeg skal hjelpe med å få det videre til riktig person.",
-    ],
-  },
-  {
-    title: "Når ansatte eller andre ber frivillige gjøre for mye",
-    phrases: [
-      "Det kan jeg ikke gjøre som frivillig.",
-      "Dette høres ut som en ansattoppgave, så det må en ansvarlig ansatt ta.",
-      "Jeg kan gjerne vente sammen med personen, men jeg kan ikke overta den oppgaven.",
-      "Jeg må holde meg til frivilligrollen min. Hvis det er uklart, må vi avklare det med leder.",
-    ],
-  },
-  {
-    title: "Når du trenger å si nei uten å være avvisende",
-    phrases: [
-      "Jeg skjønner at dette er viktig for deg, men jeg kan ikke gjøre akkurat dette.",
-      "Jeg vil gjerne bidra innenfor det jeg kan gjøre som frivillig.",
-      "Jeg sier nei til oppgaven, ikke til deg.",
-      "Det er bedre at jeg er tydelig nå enn at jeg lover noe jeg ikke kan stå inne for.",
-    ],
+    id: "avklares",
+    label: "Må avklares",
+    helpText: "Når rammen, ansvaret eller tryggheten ikke er tydelig nok.",
   },
 ];
 
-const masteryOptions = [
+const scenarios: Scenario[] = [
   {
-    id: "a",
-    text: "Som frivillig bør jeg hjelpe så mye jeg kan, så lenge jeg har tid.",
+    id: "alene-pa-aktivitet",
+    text: "En person på en aktivitet sitter alene. Du setter deg ned, hilser og spør om vedkommende vil være med i samtalen.",
+    correctChoice: "frivillig",
     feedback:
-      "Det er forståelig å ville hjelpe mest mulig. Men frivilligrollen blir tryggere når hjelpen skjer innenfor en tydelig ramme.",
+      "Dette passer godt i frivilligrollen. Du bidrar med nærvær, kontakt og en lavere terskel inn i fellesskapet.",
   },
   {
-    id: "b",
-    text: "Som frivillig skal jeg bidra med varme og nærvær innenfor en tydelig rolle, og spørre når noe er uklart.",
+    id: "medisiner",
+    text: "En deltaker sier at medisinene ikke virker, og spør hva du mener de bør gjøre.",
+    correctChoice: "ansatt",
     feedback:
-      "Ja. Frivilligrollen handler ikke om å gjøre alt. Den handler om å bidra klokt, varmt og trygt innenfor en rolle som både du og andre kan forstå.",
+      "Dette ligger utenfor frivilligrollen. Du kan lytte og ta personen på alvor, men du skal ikke gi medisinske råd. Her bør personen henvises til riktig fagperson eller kontaktpunkt etter lokal rutine.",
   },
   {
-    id: "c",
-    text: "Som frivillig bør jeg overta oppgaver hvis ansatte eller pårørende ikke rekker dem.",
+    id: "daglige-besok",
+    text: "En pårørende spør om du kan stikke innom moren deres hver dag, fordi hjemmetjenesten har dårlig tid.",
+    correctChoice: "avklares",
     feedback:
-      "Dette er lett å tenke, særlig når behovet er tydelig. Men frivillige skal bidra, ikke overta ansvar som ligger hos andre.",
+      "Dette må avklares. Det er forståelig at pårørende ønsker mer støtte, men frivillige skal ikke utvide oppdraget sitt alene eller bli erstatning for kommunale tjenester.",
+  },
+  {
+    id: "fall-hemmelig",
+    text: "En bruker ber deg holde det hemmelig at de har falt flere ganger den siste uken.",
+    correctChoice: "avklares",
+    feedback:
+      "Dette skal du ikke bære alene. Fall kan være en alvorlig bekymring. Du skal ikke love absolutt hemmelighold, men ta det videre til riktig kontaktperson etter lokal rutine.",
+  },
+  {
+    id: "toalett",
+    text: "En ansatt ber deg hjelpe en person på toalettet før aktiviteten starter.",
+    correctChoice: "ansatt",
+    feedback:
+      "Personlig stell og intim hjelp ligger vanligvis utenfor frivilligrollen. Du kan svare rolig at dette ikke er noe du kan gjøre som frivillig, men at du kan hente en ansatt.",
+  },
+  {
+    id: "kaffe-ved-bordet",
+    text: "Du følger en deltaker bort til bordet, finner en stol og spør om de vil ha kaffe.",
+    correctChoice: "frivillig",
+    feedback:
+      "Dette passer godt i frivilligrollen. Du bidrar praktisk og sosialt på en enkel og trygg måte.",
   },
 ];
 
-function ZonePill({ zoneId }: { zoneId: RoleCompassZone }) {
-  const zone = roleCompassZones.find((item) => item.id === zoneId)!;
+const practicalPhrases = [
+  "Dette må jeg avklare før jeg kan svare.",
+  "Det ligger utenfor min rolle som frivillig, men jeg kan hjelpe deg å finne riktig person.",
+  "Jeg kan lytte, men jeg kan ikke gi råd om dette.",
+  "Jeg skjønner at dette er viktig, og derfor bør det tas videre til kontaktpersonen.",
+  "Jeg kan ikke love å holde dette hemmelig hvis det handler om trygghet eller alvorlig bekymring.",
+  "Jeg kan bidra innenfor det vi har avtalt.",
+];
 
-  return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-mist px-3 py-1 text-sm font-bold text-harbor">
-      <span aria-hidden="true">{zone.marker}</span>
-      {zone.title}
-    </span>
-  );
+function readSavedReflection() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return window.localStorage.getItem(REFLECTION_STORAGE_KEY) ?? "";
 }
 
-function LearningSection({
-  children,
-  eyebrow,
-  title,
-}: {
-  children: React.ReactNode;
-  eyebrow: string;
-  title: string;
-}) {
+function saveReflection(value: string) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(REFLECTION_STORAGE_KEY, value);
+}
+
+function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <Card className="p-7 md:p-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-leaf">{eyebrow}</p>
-      <h2 className="mt-2 text-3xl font-extrabold text-ink">{title}</h2>
-      <div className="mt-5 space-y-4 text-base leading-8 text-slate">{children}</div>
+    <Card className="p-6 md:p-8">
+      <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+        {title}
+      </h2>
+      <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+        {children}
+      </div>
     </Card>
   );
 }
 
-function RoleComparison() {
-  return (
-    <div className="grid gap-4 md:grid-cols-3">
-      {[
-        {
-          title: "Ansatte og kommune",
-          text: "Kan ha ansvar for vedtak, tjenester, journal, faglige vurderinger og lovpålagte oppgaver.",
-        },
-        {
-          title: "Pårørende",
-          text: "Kan ha familieansvar, følelseshistorie, praktiske forpliktelser og bekymringer over tid.",
-        },
-        {
-          title: "Frivillige",
-          text: "Kommer inn som medmennesker, med tid, nærvær, interesse og lav terskel inn i fellesskap.",
-        },
-      ].map((item) => (
-        <section key={item.title} className="rounded-3xl bg-mist p-5">
-          <h3 className="text-lg font-bold text-harbor">{item.title}</h3>
-          <p className="mt-3 text-base leading-7 text-slate">{item.text}</p>
-        </section>
-      ))}
-    </div>
-  );
-}
-
-function RoleCompass({
-  choices,
+function RoleCard({
+  children,
+  title,
 }: {
-  choices: CompassChoice[];
+  children: ReactNode;
+  title: string;
 }) {
-  const counts = roleCompassZones.map((zone) => ({
-    ...zone,
-    count: choices.filter((choice) => {
-      const card = moduleTwoCards.find((item) => item.id === choice.cardId);
-      return card?.correctZone === zone.id;
-    }).length,
-  }));
-
   return (
-    <section
-      className="rounded-[2rem] border border-harbor/8 bg-white p-6 shadow-soft"
-      aria-labelledby="role-compass-title"
-    >
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-            Oppdrag
-          </p>
-          <h2 id="role-compass-title" className="mt-2 text-3xl font-extrabold text-ink">
-            Bygg rollekompasset ditt
-          </h2>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-slate">
-            Kompasset fylles når du vurderer situasjoner. Målet er ikke å svare
-            perfekt, men å øve på å kjenne igjen rollen din.
-          </p>
-        </div>
-        <p className="w-fit rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor">
-          {choices.length} av {moduleTwoCards.length} situasjoner vurdert
-        </p>
-      </div>
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        {counts.map((zone) => (
-          <article
-            key={zone.id}
-            className={`rounded-3xl border p-5 ${
-              zone.id === "contribute"
-                ? "border-pine/35 bg-pine/12"
-                : zone.id === "clarify"
-                  ? "border-honey/50 bg-honey/14"
-                  : zone.id === "stop"
-                    ? "border-red-300 bg-red-50"
-                    : "border-harbor/10 bg-mist"
-            }`}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-xl font-bold text-ink">{zone.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate">{zone.description}</p>
-              </div>
-              <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white text-lg font-black text-harbor shadow-sm">
-                {zone.marker}
-              </span>
-            </div>
-            <p className="mt-4 text-sm font-bold text-harbor">
-              {zone.count} {zone.count === 1 ? "situasjon funnet" : "situasjoner funnet"}
-            </p>
-          </article>
-        ))}
-      </div>
+    <section className="rounded-2xl bg-mist p-5">
+      <h3 className="text-lg font-bold text-harbor">{title}</h3>
+      <div className="mt-3 text-base leading-7 text-slate">{children}</div>
     </section>
   );
 }
 
-function SituationCard({
-  card,
-  choice,
-  onChoose,
-}: {
-  card: RoleCompassCard;
-  choice?: CompassChoice;
-  onChoose: (zone: RoleCompassZone) => void;
-}) {
-  const correctZone = roleCompassZones.find((zone) => zone.id === card.correctZone)!;
-  const chosenZone = choice
-    ? roleCompassZones.find((zone) => zone.id === choice.chosenZone)
-    : undefined;
-  const aligned = choice?.chosenZone === card.correctZone;
-
-  return (
-    <Card className="overflow-hidden p-0">
-      <div className="h-2 bg-gradient-to-r from-pine via-honey to-harbor" />
-      <div className="p-7 md:p-8">
-        <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-          Situasjonskort
-        </p>
-        <h3 className="mt-2 text-3xl font-extrabold text-ink">{card.title}</h3>
-        <p className="mt-4 text-xl leading-9 text-slate">{card.situation}</p>
-
-        <fieldset className="mt-6">
-          <legend className="text-base font-bold text-harbor">
-            Hvor hører dette hjemme i rollekompasset?
-          </legend>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
-            {roleCompassZones.map((zone) => (
-              <button
-                key={zone.id}
-                type="button"
-                aria-pressed={choice?.chosenZone === zone.id}
-                onClick={() => onChoose(zone.id)}
-                className={`min-h-14 rounded-2xl border px-4 py-3 text-left text-base font-bold transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
-                  choice?.chosenZone === zone.id
-                    ? "border-pine bg-pine/20 text-harbor shadow-soft"
-                    : "border-harbor/12 bg-white text-harbor hover:-translate-y-0.5 hover:border-pine/60 hover:bg-mist"
-                }`}
-              >
-                <span className="mr-2" aria-hidden="true">
-                  {zone.marker}
-                </span>
-                {zone.title}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-
-        {choice && chosenZone ? (
-          <section className="mt-6 rounded-3xl bg-mist p-5" aria-live="polite">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Forklaring
-            </p>
-            <p className="mt-2 text-base font-bold leading-7 text-harbor">
-              {aligned ? card.alignedIntro : card.misalignedIntro}
-            </p>
-            {!aligned ? <div className="mt-3"><ZonePill zoneId={card.correctZone} /></div> : null}
-            <div className="mt-4 space-y-3 text-base leading-8 text-slate">
-              {card.feedback.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-          </section>
-        ) : null}
-      </div>
-    </Card>
-  );
-}
-
 export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoProps) {
-  const [choices, setChoices] = useState<CompassChoice[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [masteryAnswer, setMasteryAnswer] = useState<string | null>(null);
-  const currentCard = moduleTwoCards[currentIndex];
-  const currentChoice = choices.find((choice) => choice.cardId === currentCard.id);
-  const assessedCount = choices.length;
-  const insightUnlocked = assessedCount >= REQUIRED_ASSESSMENTS;
-  const masteryComplete = masteryAnswer === "b";
-  const canComplete = insightUnlocked && masteryComplete;
+  const [answers, setAnswers] = useState<Partial<Record<string, RoleChoice>>>({});
+  const [reflection, setReflection] = useState(readSavedReflection);
 
-  const assessedCards = useMemo(
-    () =>
-      choices
-        .map((choice) => moduleTwoCards.find((card) => card.id === choice.cardId))
-        .filter((card): card is RoleCompassCard => Boolean(card)),
-    [choices],
-  );
+  const currentScenario = scenarios[currentIndex];
+  const selectedChoice = answers[currentScenario.id];
+  const selectedOption = roleOptions.find((option) => option.id === selectedChoice);
+  const correctOption = roleOptions.find(
+    (option) => option.id === currentScenario.correctChoice,
+  )!;
+  const completedScenarioCount = scenarios.filter((scenario) => answers[scenario.id]).length;
+  const hasCompletedExercise = completedScenarioCount === scenarios.length;
 
-  function chooseZone(zone: RoleCompassZone) {
-    setChoices((current) => {
-      const existing = current.find((choice) => choice.cardId === currentCard.id);
-      if (existing) {
-        return current.map((choice) =>
-          choice.cardId === currentCard.id ? { ...choice, chosenZone: zone } : choice,
-        );
-      }
-
-      return [...current, { cardId: currentCard.id, chosenZone: zone }];
-    });
+  function chooseRole(choice: RoleChoice) {
+    setAnswers((current) => ({
+      ...current,
+      [currentScenario.id]: choice,
+    }));
   }
 
-  function goToNextCard() {
-    setCurrentIndex((index) => Math.min(index + 1, moduleTwoCards.length - 1));
+  function goToNextScenario() {
+    setCurrentIndex((index) => Math.min(index + 1, scenarios.length - 1));
   }
 
-  function goToPreviousCard() {
+  function goToPreviousScenario() {
     setCurrentIndex((index) => Math.max(index - 1, 0));
+  }
+
+  function handleReflectionChange(value: string) {
+    setReflection(value);
+    saveReflection(value);
   }
 
   return (
     <article className="space-y-8">
-      <ModuleHero courseModule={courseModule} />
+      <section className="rounded-3xl bg-harbor px-6 py-9 shadow-soft md:px-8 md:py-10">
+        <p className="text-sm font-bold uppercase tracking-normal text-pine">
+          Del {courseModule.order} &middot; Trygg som frivillig
+        </p>
+        <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+          Hva er min rolle?
+        </h1>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-white">
+          Frivillige er viktige, men ansvar må ligge riktig sted. Denne delen
+          handler om hva du kan bidra med, hva andre har ansvar for, og når noe
+          må avklares før du går videre.
+        </p>
+      </section>
 
-      <LearningSection eyebrow="Forstå" title="Frivilligrollen er ikke en restrolle">
+      <Section title="Frivillig er ikke det samme som ansatt">
         <p>
-          Det er lett å tenke på frivillige som noen som hjelper til litt der det
-          trengs. Det er sant, men det er ikke nok.
+          Frivillige tilhører frivillig sektor. Det betyr at rollen er en egen
+          rolle, ikke en mindre formell variant av en ansattrolle.
         </p>
         <p>
-          Frivilligrollen er ikke en restrolle som fyller hull når systemet ikke
-          strekker til. Den er heller ikke en billigere versjon av en ansattrolle.
-          Frivillige gjør noe annet.
+          Ansatte og fagpersoner kan ha ansvar for tjenester, vedtak, helsehjelp,
+          dokumentasjon og faglige vurderinger. Frivillige kan bidra med noe
+          annet: tid, nærvær, aktivitet, kontakt og fellesskap.
         </p>
-        <RoleComparison />
-        <p className="rounded-3xl bg-mist p-5 font-bold text-harbor">
-          Som medmenneske kan du bidra med n?rv?r, trygghet og en vei videre.
-          Det er en egen og viktig rolle.
+        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+          Frivillige skal ikke fylle hull i kommunale tjenester. Frivillige skal
+          bidra med noe eget.
         </p>
-      </LearningSection>
+      </Section>
 
-      <LearningSection eyebrow="Avklar" title="Frivillige skal bidra, ikke overta">
-        <p>
-          Frivillighet skal være et supplement og en berikelse. Frivillige kan
-          skape aktivitet, fellesskap, samtaler, turer, møteplasser og små broer
-          mellom mennesker.
+      <Section title="Frivilligrollen i én setning">
+        <p className="text-xl font-bold leading-9 text-harbor">
+          Som frivillig kan du være et medmenneske som skaper kontakt,
+          fellesskap og trygghet innenfor en tydelig avtalt ramme.
         </p>
         <p>
-          Men frivillige skal ikke overta ansvar som ligger hos kommunen, ansatte
-          eller pårørende. Å bidra er å være med. Å overta er å få ansvar.
+          Den setningen er enkel, men viktig. Den sier både at rollen betyr noe,
+          og at den har grenser.
         </p>
+      </Section>
+
+      <Section title="Fire roller som ofte blandes sammen">
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl bg-mist p-5">
-            <h3 className="text-lg font-bold text-harbor">Du kan bidra</h3>
-            <p className="mt-3 text-base leading-7">
-              Du kan følge noen inn i et fellesskap, lytte, vise omsorg og legge
-              merke til noe som bør tas videre.
+          <RoleCard title="Frivillig">
+            <p>
+              Bidrar med aktivitet, nærvær, fellesskap, praktisk støtte innenfor
+              avtalt ramme og en trygg vei inn i lokalsamfunnet.
             </p>
-          </div>
-          <div className="rounded-3xl bg-mist p-5 text-harbor">
-            <h3 className="text-lg font-bold text-harbor">Du skal ikke overta</h3>
-            <p className="mt-3 text-base leading-7 text-slate">
-              Du holder oppdraget trygt n?r du lar ansvar, vurderinger og kriser
-              gå til riktig person eller tjeneste.
+          </RoleCard>
+          <RoleCard title="Ansatt/fagperson">
+            <p>
+              Har ansvar for tjenester, faglige vurderinger, helsehjelp,
+              oppfølging, vedtak og rutiner som krever formell rolle.
             </p>
-          </div>
+          </RoleCard>
+          <RoleCard title="Pårørende">
+            <p>
+              Har en privat relasjon, familiehistorie, følelsesmessige bånd og
+              ofte bekymringer eller ansvar over tid.
+            </p>
+          </RoleCard>
+          <RoleCard title="Personens egen selvbestemmelse">
+            <p>
+              Personen selv har rett til å bli lyttet til, ta valg i eget liv og
+              bli møtt med respekt, også når andre ønsker å hjelpe.
+            </p>
+          </RoleCard>
         </div>
-      </LearningSection>
+      </Section>
 
-      <LearningSection eyebrow="Trygg rolle" title="Rollen blir tryggere når den er tydelig">
-        <p>
-          Noen tror at grenser gjør frivilligheten kaldere. Det motsatte er ofte
-          sant. Tydelige grenser gjør det tryggere å være varm.
-        </p>
-        <p>
-          Når du vet hva rollen din er, slipper du å lure på om du gjør for lite
-          eller for mye. Den du møter, slipper også å bli usikker på hva du
-          egentlig kan bidra med.
-        </p>
-        <p className="rounded-3xl bg-mist p-5 font-bold text-harbor">
-          Rolleavklaring gjør ikke frivillighet byråkratisk. Den gjør
-          frivillighet mulig å stå i over tid.
-        </p>
-      </LearningSection>
-
-      <LearningSection eyebrow="Når du blir usikker" title="Tre spørsmål du kan stille">
-        <div className="grid gap-4 md:grid-cols-3">
+      <Section title="Hva frivillige vanligvis kan bidra med">
+        <ul className="grid gap-3 md:grid-cols-2">
           {[
-            ["1", "Er dette avtalt?", "Er dette en del av oppdraget mitt, eller er det noe som har dukket opp underveis?"],
-            ["2", "Er dette trygt?", "Kan dette føre til risiko for meg, den andre, pårørende, ansatte eller organisasjonen?"],
-            ["3", "Er dette mitt ansvar?", "Ligger dette hos frivilligrollen, eller egentlig hos ansatte, kommune, helsepersonell eller pårørende?"],
-          ].map(([number, title, text]) => (
-            <section key={number} className="rounded-3xl bg-mist p-5">
-              <span className="grid size-10 place-items-center rounded-2xl bg-white text-sm font-black text-harbor">
-                {number}
-              </span>
-              <h3 className="mt-4 text-lg font-bold text-ink">{title}</h3>
-              <p className="mt-3 text-base leading-7">{text}</p>
-            </section>
+            "Hilse, lytte og skape kontakt.",
+            "Invitere inn i aktivitet og fellesskap.",
+            "Følge noen til bordet, døren eller inn i et rom.",
+            "Bidra praktisk innenfor det som er avtalt.",
+            "Legge merke til bekymringer og ta dem videre.",
+            "Være en bro til riktig person eller kontaktpunkt.",
+          ].map((item) => (
+            <li
+              key={item}
+              className="rounded-2xl bg-mist p-4 text-base font-semibold leading-7 text-harbor"
+            >
+              {item}
+            </li>
           ))}
-        </div>
-        <p className="rounded-3xl bg-honey/18 p-5 font-bold text-harbor">
-          Hvis du svarer nei eller blir usikker på ett av spørsmålene, er det et
-          tegn på at du bør stoppe opp og avklare.
-        </p>
-      </LearningSection>
+        </ul>
+      </Section>
 
-      <RoleCompass choices={choices} />
+      <Section title="Hva frivillige vanligvis ikke skal gjøre">
+        <ul className="grid gap-3 md:grid-cols-2">
+          {[
+            "Gi medisinske råd eller vurdere helsetilstand.",
+            "Utføre personlig stell eller intim hjelp.",
+            "Overta oppgaver som ligger hos ansatte eller kommunen.",
+            "Lage private avtaler som utvider oppdraget.",
+            "Love absolutt hemmelighold ved alvorlig bekymring.",
+            "Ta ansvar som egentlig ligger hos pårørende eller fagpersoner.",
+          ].map((item) => (
+            <li
+              key={item}
+              className="rounded-2xl bg-white p-4 text-base font-semibold leading-7 text-slate ring-1 ring-harbor/10"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </Section>
 
-      <section className="space-y-5" aria-labelledby="situation-title">
-        <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Vurder situasjoner
-            </p>
-            <h2 id="situation-title" className="mt-1 text-2xl font-bold text-ink">
-              Situasjon {currentIndex + 1} av {moduleTwoCards.length}
-            </h2>
+      <section className="space-y-5" aria-labelledby="role-exercise-title">
+        <Card className="p-6 md:p-8">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <h2
+                id="role-exercise-title"
+                className="text-2xl font-extrabold leading-tight text-ink md:text-3xl"
+              >
+                Hvilken hatt har du på?
+              </h2>
+              <p className="mt-4 text-base leading-8 text-slate md:text-lg">
+                Du får ett scenario om gangen. Velg hvilken rolle som har riktig
+                retning i situasjonen. Målet er ikke å få karakter, men å øve på
+                hvor ansvaret hører hjemme.
+              </p>
+            </div>
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+              <p className="text-sm font-bold uppercase tracking-normal text-slate">
+                Scenario
+              </p>
+              <p className="mt-1 text-3xl font-extrabold" aria-live="polite">
+                {currentIndex + 1} av {scenarios.length}
+              </p>
+              <p className="mt-2 text-sm font-semibold">
+                {completedScenarioCount} vurdert
+              </p>
+            </div>
           </div>
           <div
-            className="h-3 overflow-hidden rounded-full bg-mist sm:w-64"
+            className="mt-6 h-3 overflow-hidden rounded-full bg-mist"
             role="progressbar"
-            aria-label="Vurderte situasjoner"
+            aria-label="Scenarioer fullført"
             aria-valuemin={0}
-            aria-valuemax={moduleTwoCards.length}
-            aria-valuenow={assessedCount}
+            aria-valuemax={scenarios.length}
+            aria-valuenow={completedScenarioCount}
           >
             <div
               className="h-full rounded-full bg-pine transition-all duration-500"
-              style={{ width: `${(assessedCount / moduleTwoCards.length) * 100}%` }}
+              style={{ width: `${(completedScenarioCount / scenarios.length) * 100}%` }}
             />
           </div>
-        </div>
+        </Card>
 
-        <SituationCard card={currentCard} choice={currentChoice} onChoose={chooseZone} />
+        <Card className="overflow-hidden p-0">
+          <div className="h-2 bg-pine" />
+          <div className="p-6 md:p-8">
+            <h3 className="text-xl font-bold text-harbor">
+              Scenario {currentIndex + 1}
+            </h3>
+            <p className="mt-4 text-xl font-semibold leading-9 text-ink">
+              {currentScenario.text}
+            </p>
+
+            <fieldset className="mt-7">
+              <legend className="text-base font-bold text-harbor">
+                Hvilken rolle peker situasjonen mot?
+              </legend>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {roleOptions.map((option) => {
+                  const isSelected = selectedChoice === option.id;
+
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      aria-pressed={isSelected}
+                      onClick={() => chooseRole(option.id)}
+                      className={`min-h-24 rounded-2xl border p-4 text-left transition duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
+                        isSelected
+                          ? "border-pine bg-pine/18 text-harbor ring-2 ring-pine/45"
+                          : "border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift"
+                      }`}
+                    >
+                      <span className="flex items-start justify-between gap-3">
+                        <span className="text-lg font-extrabold">{option.label}</span>
+                        <span
+                          className={`mt-1 flex size-6 shrink-0 items-center justify-center rounded-full border text-sm font-bold ${
+                            isSelected
+                              ? "border-harbor bg-harbor text-white"
+                              : "border-harbor/25 text-transparent"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          ✓
+                        </span>
+                      </span>
+                      <span className="mt-2 block text-sm font-medium leading-6 text-slate">
+                        {option.helpText}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+
+            {selectedChoice ? (
+              <section
+                className="mt-6 rounded-3xl bg-mist p-5"
+                aria-live="polite"
+                aria-label="Tilbakemelding på scenario"
+              >
+                <h4 className="text-xl font-bold text-harbor">
+                  Riktig retning: {correctOption.label}
+                </h4>
+                {selectedOption && selectedOption.id !== currentScenario.correctChoice ? (
+                  <p className="mt-3 text-base font-semibold leading-7 text-slate">
+                    Du valgte {selectedOption.label}. Det er forståelig at rollen
+                    kan kjennes uklar her. I denne situasjonen er det tryggest å
+                    plassere ansvaret slik:
+                  </p>
+                ) : null}
+                <p className="mt-3 text-base leading-8 text-slate">
+                  {currentScenario.feedback}
+                </p>
+              </section>
+            ) : null}
+          </div>
+        </Card>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-          <Button onClick={goToPreviousCard} variant="secondary" disabled={currentIndex === 0}>
-            Forrige situasjon
+          <Button
+            onClick={goToPreviousScenario}
+            variant="secondary"
+            disabled={currentIndex === 0}
+          >
+            Forrige scenario
           </Button>
           <Button
-            onClick={goToNextCard}
-            disabled={!currentChoice || currentIndex === moduleTwoCards.length - 1}
+            onClick={goToNextScenario}
+            disabled={!selectedChoice || currentIndex === scenarios.length - 1}
           >
-            Neste situasjon
+            Neste scenario
           </Button>
         </div>
       </section>
 
-      {insightUnlocked ? (
-        <section className="space-y-6" aria-live="polite">
-          <section className="rounded-[2rem] border border-pine/30 bg-gradient-to-br from-harbor to-fjord p-7 text-white shadow-glow md:p-9">
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-              Innsikt låst opp
-            </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight">
-              Du trenger ikke være alt.
+      {hasCompletedExercise ? (
+        <section className="space-y-8" aria-live="polite">
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Praktiske formuleringer
             </h2>
-            <p className="mt-5 max-w-3xl text-xl leading-9 text-white/82">
-              Du trenger å vite hva som er ditt bidrag, hva som må avklares, og
-              hvem du spør når noe blir uklart.
-            </p>
-          </section>
-
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Ferdig rollekompass
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Mitt rollekompass
-            </h2>
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              {[
-                "Jeg kan bidra med nærvær, samtale, fellesskap, lavterskel støtte og en trygg vei inn i aktiviteter og møteplasser.",
-                "Jeg må avklare når oppgaven endrer seg, når jeg blir usikker, når noen ønsker mer enn avtalt, eller når situasjonen kan få større konsekvenser enn den først ser ut til.",
-                "Jeg skal huske at helse, medisiner, vedtak, tjenesteansvar, økonomi og formelle vurderinger ligger hos andre med riktig ansvar og myndighet.",
-                "Jeg skal stoppe når noen ber meg gjøre noe utrygt, hemmelig, helsefaglig, økonomisk eller privat på en måte som gjør rollen uklar.",
-                "Når jeg er usikker, skal jeg ikke løse det alene. Jeg skal ta det videre med leder.",
-              ].map((text) => (
-                <p key={text} className="rounded-3xl bg-mist p-5 text-base font-semibold leading-8 text-harbor">
-                  {text}
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {practicalPhrases.map((phrase) => (
+                <p
+                  key={phrase}
+                  className="rounded-2xl bg-mist p-5 text-base font-semibold leading-8 text-harbor"
+                >
+                  «{phrase}»
                 </p>
               ))}
             </div>
           </Card>
 
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Trygge formuleringer
+          <Section title="Dette er kjernen">
+            <p>Frivilligrollen blir tryggere når ansvaret ligger riktig sted.</p>
+            <p>
+              Du kan bidra med varme, kontakt og praktisk støtte innenfor en
+              avtalt ramme. Du skal ikke løse alt alene, gi faglige råd eller
+              overta ansvar som hører hjemme hos ansatte, pårørende eller
+              tjenester.
             </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Setninger du kan bruke når rollen blir uklar
-            </h2>
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {safePhraseGroups.map((group) => (
-                <article key={group.title} className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm">
-                  <h3 className="text-lg font-bold text-harbor">{group.title}</h3>
-                  <ul className="mt-3 space-y-3">
-                    {group.phrases.map((phrase) => (
-                      <li key={phrase} className="text-base leading-8 text-slate">
-                        «{phrase}»
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-          </Card>
+            <p className="font-bold text-harbor">
+              Når du blir usikker, er det ikke et nederlag å stoppe opp. Det er
+              trygg frivillighet.
+            </p>
+          </Section>
 
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Deloppsummering
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Varm, tydelig og trygg
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Oppsummering
             </h2>
-            <div className="mt-5 space-y-4 text-base leading-8 text-slate">
-              <p>
-                Nå har du bygget rollekompasset ditt.
-              </p>
-              <p>
-                Du har sett at frivilligrollen ikke handler om å gjøre mest
-                mulig. Den handler om å bidra på en måte som er trygg, tydelig og
-                mulig å stå i over tid.
-              </p>
-              <p>
-                Noen ganger kan du bidra direkte: med samtale, nærvær,
-                fellesskap, trygghet og en vei inn i aktivitet.
-              </p>
-              <p>
-                Noen ganger må du avklare: fordi situasjonen endrer seg, fordi
-                du blir usikker, eller fordi ansvaret ikke lenger er tydelig.
-              </p>
-              <p>
-                Noen ganger ligger ansvaret hos andre: ansatte, kommunen,
-                helsepersonell, pårørende eller andre med riktig rolle og
-                myndighet.
-              </p>
-              <p>
-                Og noen ganger skal du stoppe: særlig når det handler om penger,
-                helseoppgaver, hemmelige avtaler, privat ansvar eller situasjoner
-                som kan bli utrygge.
-              </p>
-              <p className="font-bold text-harbor">
-                Det gjør deg ikke mindre omsorgsfull. Det gjør deg tryggere.
-              </p>
-              <p className="font-bold text-harbor">
-                En trygg frivillig er ikke en som løser alt alene. En trygg
-                frivillig er en som forstår sitt eget bidrag, kjenner grensene og
-                vet når leder skal kobles på.
-              </p>
-            </div>
-          </Card>
-
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
-              Mestringssjekk
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Hva oppsummerer frivilligrollen best?
-            </h2>
-            <div className="mt-5 grid gap-3">
-              {masteryOptions.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  aria-pressed={masteryAnswer === option.id}
-                  onClick={() => setMasteryAnswer(option.id)}
-                  className={`min-h-14 rounded-2xl border px-5 py-4 text-left text-base font-semibold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
-                    masteryAnswer === option.id
-                      ? "border-pine bg-pine/20 text-harbor"
-                      : "border-harbor/12 bg-white text-harbor hover:border-pine/60 hover:bg-mist"
-                  }`}
+            <ol className="mt-6 grid gap-4 md:grid-cols-2">
+              {[
+                "Frivillige er viktige, men de er ikke ansatte eller fagpersoner.",
+                "Frivilligrollen handler om kontakt, fellesskap og trygg aktivitet innenfor avtalt ramme.",
+                "Ansvar for helsehjelp, vedtak, tjenester og faglige vurderinger ligger hos andre.",
+                "Når noe blir uklart, alvorlig eller større enn avtalt, skal det avklares.",
+              ].map((item, index) => (
+                <li
+                  key={item}
+                  className="flex gap-4 rounded-2xl bg-mist p-4 text-base font-semibold leading-7 text-harbor"
                 >
-                  {option.text}
-                </button>
+                  <span
+                    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-harbor text-sm font-extrabold text-white"
+                    aria-hidden="true"
+                  >
+                    {index + 1}
+                  </span>
+                  <span>{item}</span>
+                </li>
               ))}
-            </div>
-            {masteryAnswer ? (
-              <p className="mt-5 rounded-3xl bg-mist p-5 text-base font-semibold leading-8 text-harbor" aria-live="polite">
-                {masteryOptions.find((option) => option.id === masteryAnswer)?.feedback}
+            </ol>
+          </Card>
+
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Når rollen blir uklar, kan jeg...
+            </h2>
+            <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+              <p>
+                Tenk på en situasjon der det kunne vært fristende å hjelpe mer
+                enn rollen egentlig åpner for.
               </p>
-            ) : null}
+              <p>
+                Hva kan du si eller gjøre for å være både varm og tydelig?
+              </p>
+            </div>
+            <label htmlFor="module-two-reflection" className="sr-only">
+              Når rollen blir uklar, kan jeg
+            </label>
+            <textarea
+              id="module-two-reflection"
+              value={reflection}
+              onChange={(event) => handleReflectionChange(event.target.value)}
+              rows={5}
+              placeholder="Når rollen blir uklar, kan jeg..."
+              className="mt-6 min-h-36 w-full resize-y rounded-2xl border border-harbor/15 bg-white p-4 text-base leading-7 text-ink shadow-sm outline-none transition focus:border-pine focus:ring-4 focus:ring-pine/20"
+            />
+            <p className="mt-3 text-sm font-semibold text-slate">
+              Refleksjonen lagres bare lokalt i nettleseren din og er kun ment
+              for deg!
+            </p>
+          </Card>
+
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Du har fullført Del 2
+            </h2>
+            <h3 className="mt-2 text-xl font-bold text-harbor md:text-2xl">
+              Neste del handler om trygge valg i øyeblikket
+            </h3>
+            <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+              <p>
+                Du har øvd på å skille mellom frivilligrollen, ansattrollen,
+                pårørenderollen og det som må avklares.
+              </p>
+              <p>
+                Når rollen er tydelig, blir det lettere å bidra med varme uten å
+                ta ansvar som hører hjemme et annet sted.
+              </p>
+            </div>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button
+                onClick={onComplete}
+                className="w-full bg-pine text-harbor hover:bg-leaf sm:w-auto"
+              >
+                Gå til Del 3
+              </Button>
+              <Button to="/" variant="secondary" className="w-full sm:w-auto">
+                Til hovedsiden
+              </Button>
+            </div>
           </Card>
         </section>
       ) : (
-        <Card className="p-6">
-          <p className="text-base font-semibold leading-8 text-slate">
-            Vurder minst {REQUIRED_ASSESSMENTS} situasjoner for å låse opp
-            innsikten og ferdigstille rollekompasset.
-          </p>
+        <Card className="p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-semibold text-slate">
+              Gå gjennom alle seks scenarioene for å åpne resten av delen.
+            </p>
+            <Button to="/" variant="secondary">
+              Til hovedsiden
+            </Button>
+          </div>
         </Card>
       )}
 
-      <div className="mt-12 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/trygg-som-frivillig/deler" variant="secondary">
-          Tilbake til deloversikt
-        </Button>
-        <div className="flex flex-col gap-2 sm:items-end">
-          {!canComplete ? (
-            <p className="text-sm font-semibold text-slate">
-              Vurder minst 8 situasjoner og fullfør mestringssjekken for å
-              fullføre delen.
-            </p>
-          ) : null}
-          <Button onClick={onComplete} disabled={!canComplete && !isComplete} className="bg-pine text-harbor hover:bg-leaf">
-            {isComplete ? "Fullført - gå til neste del" : "Fullfør og gå videre"}
-          </Button>
+      {isComplete ? (
+        <div className="sr-only" aria-live="polite">
+          Del 2 er allerede fullført.
         </div>
-      </div>
+      ) : null}
     </article>
   );
 }

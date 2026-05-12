@@ -34,14 +34,14 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-2",
     order: 2,
-    title: "Frivilligrollen: Hva er min plass?",
+    title: "Hva er min rolle?",
     description:
-      "Bygg rollekompasset ditt og bli tryggere på hva du kan bidra med, hva du må avklare, og hva som ligger hos andre.",
+      "Øv på å skille mellom frivilligrollen, ansattrollen, pårørenderollen og det som må avklares.",
     status: "planned",
     learningGoals: [
-      "Forstå frivilligrollen som en egen og verdifull rolle",
-      "Skille mellom å bidra og å overta ansvar",
-      "Øve på å stoppe og avklare når rollen blir uklar",
+      "Forstå hvorfor frivilligrollen ikke er det samme som ansattrollen",
+      "Skille mellom hva frivillige kan bidra med og hva andre har ansvar for",
+      "Øve på å avklare når ansvar, trygghet eller rolle blir uklart",
     ],
   },
   {
