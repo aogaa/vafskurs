@@ -1,4 +1,4 @@
-import type { CourseModule } from "../../data/courseModules";
+﻿import type { CourseModule } from "../../data/courseModules";
 
 type ModuleHeroProps = {
   courseModule: CourseModule;
@@ -16,7 +16,7 @@ export function ModuleHero({ courseModule, description, title }: ModuleHeroProps
         {title ?? courseModule.title}
       </h1>
       {(description ?? courseModule.description) ? (
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-white/75">
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-white">
           {description ?? courseModule.description}
         </p>
       ) : null}

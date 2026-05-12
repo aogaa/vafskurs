@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import heroindex from "../assets/images/heroindex.png";
 
 const courseCards = [
@@ -31,7 +31,7 @@ export function PortalPage() {
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-white sm:text-6xl lg:text-7xl">
               Læring og utvikling for frivillige
             </h1>
-            <p className="mt-6 max-w-3xl text-lg font-medium leading-8 text-white/78 sm:text-xl">
+            <p className="mt-6 max-w-3xl text-lg font-medium leading-8 text-white sm:text-xl">
               Her finner du praktiske kurs om frivillighet, ansvar, fellesskap
               og hvordan mennesker kan stille opp for hverandre på en god måte.
             </p>
@@ -66,7 +66,7 @@ export function PortalPage() {
                     <h3 className="mt-2 text-2xl font-extrabold text-white">
                       {course.title}
                     </h3>
-                    <p className="mt-3 text-base leading-7 text-white/72">
+                    <p className="mt-3 text-base leading-7 text-white">
                       {course.description}
                     </p>
                   </div>

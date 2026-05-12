@@ -229,9 +229,10 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </h1>
         <div className="mt-5 max-w-3xl space-y-3 text-lg leading-8 text-white">
           <p>
-            Frivillighet er ikke én type menneske, én motivasjon eller én måte å
-            bidra på. Det er mennesker som, på ulike måter, er med på å gjøre
-            lokalsamfunnet sterkere.
+            Frivillighet rommer mange mennesker, mange erfaringer og mange måter
+            å bidra på. Noen bidrar med tid, noen med kunnskap, noen med
+            praktisk hjelp, og noen med evnen til å skape gode møter mellom
+            mennesker. Sammen gjør frivillige lokalsamfunnet sterkere.
           </p>
         </div>
       </section>
@@ -241,8 +242,14 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           Et samfunn trenger gode tjenester. Vi trenger helsevesen, skole,
           kommune, beredskap og fagfolk som gjør jobben sin.
         </p>
-        <p>Men et godt samfunn kan ikke bare bygges av tjenester.</p>
-        <p>Det må også bygges av relasjoner.</p>
+        <p>
+          Et trygt og varmt samfunn bygges av relasjoner, tillit og mennesker
+          som tar seg tid til hverandre.
+        </p>
+        <p>
+          En liten handling kan bety mye for den som blir sett, husket eller
+          invitert med.
+        </p>
         <p>
           Vi trenger mennesker som legger merke til hverandre. Mennesker som
           hilser. Mennesker som spør hvordan det går. Mennesker som inviterer
@@ -262,14 +269,14 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           En kopp kaffe. En prat. En tur. En håndsrekning. Et smil ved døren.
           En telefon. En aktivitet noen kan møte opp til.
         </p>
-        <p>Men små ting er ikke nødvendigvis små for den som tar imot.</p>
         <p>
           For noen kan en frivillig aktivitet være ukens høydepunkt. For noen
           kan en samtale gjøre en tung dag litt lettere. For noen kan det å bli
           husket, invitert eller sett bety mer enn vi forstår der og da.
         </p>
         <p className="font-bold text-harbor">
-          Du skal ikke undervurdere betydningen av vanlig menneskelig omtanke.
+          Din omtanke kan gjøre en dag lettere, et møte tryggere og et nærmiljø
+          varmere.
         </p>
       </TextSection>
 
@@ -281,33 +288,28 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           utenfor. Det blir lettere å invitere noen inn.
         </p>
         <p>Frivillige er med på å bygge slike forbindelser.</p>
-        <ul className="space-y-2 rounded-3xl bg-mist p-5 text-base font-semibold leading-7 text-harbor">
-          <li>Ikke ved å overvåke folk.</li>
-          <li>Ikke ved å ta ansvar for alt.</li>
-          <li>Ikke ved å erstatte kommunen, ansatte eller pårørende.</li>
-        </ul>
         <p>
-          Men ved å være til stede. Ved å skape møteplasser. Ved å gjøre
-          terskelen lavere for kontakt. Ved å minne oss om at mennesker fortsatt
-          angår hverandre.
+          Vi gjør det ved å være til stede, skape møteplasser og ved å gjøre det
+          lettere å ta kontakt. Vi gjør det ved å minne hverandre om at vi
+          trenger hverandre, at vi alle har en plass.
         </p>
       </TextSection>
 
       <TextSection
-        title="Frivillighet er noe annet enn kommunale tjenester"
+        title="Frivillighet og kommunale tjenester har ulike roller"
       >
         <p>
-          Kommunen har ansvar for tjenester, vedtak, faglige vurderinger og
-          nødvendig oppfølging.
+          Et godt lokalsamfunn trenger både gode tjenester og sterke fellesskap.
         </p>
-        <p>Frivilligheten har en annen rolle.</p>
         <p>
-          Frivillige kan skape fellesskap, aktivitet, kontakt og tilhørighet.
-          Frivillige kan bidra til at mennesker får flere steder å høre til.
-          Frivillige kan være brobyggere til nærmiljøet.
+          Kommunen har ansvar for tjenester, vedtak, faglige vurderinger og
+          nødvendig oppfølging. Frivilligheten bidrar på en annen måte: gjennom
+          nærvær, aktivitet, relasjoner og steder der mennesker kan høre til.
         </p>
-        <p>Det betyr ikke at frivillige skal gjøre alt.</p>
-        <p>Det betyr at frivillige gjør noe eget.</p>
+        <p>
+          Det ene erstatter ikke det andre. De har ulike oppgaver, og nettopp
+          derfor kan de utfylle hverandre.
+        </p>
         <div className="overflow-hidden rounded-3xl border border-harbor/10 bg-white">
           <div className="grid grid-cols-2 bg-mist text-sm font-bold uppercase text-harbor">
             <div className="border-r border-harbor/10 p-4">Frivillighet</div>
@@ -324,13 +326,14 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           ))}
         </div>
         <p>
-          Frivillige skal ikke erstatte ansatte. Frivillige skal bidra med noe
-          eget.
+          Frivillige bidrar med tid, nærvær og menneskelige møter som gjør
+          fellesskapet sterkere. Det er en annen type innsats enn den kommunen
+          og ansatte har ansvar for, og nettopp derfor er den så verdifull.
         </p>
         <p>
-          Det er viktig å forstå allerede nå, før vi senere går inn i roller,
-          grenser og ansvar. Grensene finnes ikke for å gjøre frivilligheten
-          kaldere. De finnes for å gjøre det tryggere å være varm.
+          Senere i kurset skal vi se nærmere på roller, grenser og ansvar. Ikke
+          for å gjøre frivilligheten mer avstandspreget, men for å gjøre det
+          lettere å bidra trygt, varmt og med god dømmekraft.
         </p>
       </TextSection>
 
@@ -346,16 +349,16 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
               </h2>
               <div className="mt-5 space-y-4 text-base leading-8 text-slate md:text-lg">
                 <p>
-                  Alle frivillige legger merke til litt forskjellige ting først.
-                  Noen ser raskt hvem som står alene. Noen er gode til å skape
-                  trygghet. Noen bygger fellesskap. Noen får mennesker til å
-                  føle seg velkommen.
+                  Tenk deg et nærmiljø der flere kjenner hverandre, flere tør å
+                  møte opp, og flere opplever at de hører til.
                 </p>
-                <p>I denne oppgaven finnes det ikke ett riktig svar.</p>
-                <p className="font-bold text-harbor">
-                  Hva legger du mest merke til når du tenker på et godt
-                  lokalsamfunn? Velg de to byggesteinene som betyr mest for deg.
+                <p>
+                  Slike nærmiljøer oppstår ikke av seg selv. De bygges av
+                  mennesker som tar seg tid, inviterer med, skaper trygghet og
+                  viser omtanke i hverdagen.
                 </p>
+                <p>Hva mener du er viktigst for å bygge et slikt lokalsamfunn?</p>
+                <p className="font-bold text-harbor">Velg to byggesteiner.</p>
               </div>
             </div>
             <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">

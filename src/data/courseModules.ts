@@ -126,6 +126,10 @@ export const courseModules: CourseModule[] = [
   },
 ];
 
+export const visibleCourseModules = courseModules.filter(
+  (courseModule) => courseModule.order <= 6,
+);
+
 export function getModuleById(moduleId: string) {
   return courseModules.find((courseModule) => courseModule.id === moduleId);
 }

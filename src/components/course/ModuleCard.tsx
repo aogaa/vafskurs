@@ -1,4 +1,4 @@
-import type { CourseModule } from "../../data/courseModules";
+﻿import type { CourseModule } from "../../data/courseModules";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
@@ -34,7 +34,7 @@ export function ModuleCard({ courseModule, status }: ModuleCardProps) {
       <div className="flex h-full flex-col p-6">
         <p
           className={`text-sm font-bold uppercase tracking-normal ${
-            isComplete || isNext ? "text-leaf" : "text-slate"
+            isComplete || isNext ? "text-harbor" : "text-slate"
           }`}
         >
           Del {courseModule.order}
@@ -47,7 +47,7 @@ export function ModuleCard({ courseModule, status }: ModuleCardProps) {
         </p>
         <div className="mt-auto space-y-4 pt-7">
           {copy.statusLabel ? (
-            <p className="text-base font-bold text-leaf">{copy.statusLabel}</p>
+            <p className="text-base font-bold text-harbor">{copy.statusLabel}</p>
           ) : null}
           <Button
             to={`/trygg-som-frivillig/deler/${courseModule.id}`}

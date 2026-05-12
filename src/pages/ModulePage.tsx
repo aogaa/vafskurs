@@ -9,7 +9,7 @@ import { ModuleOne } from "../components/modules/ModuleOne";
 import { ModuleThree } from "../components/modules/ModuleThree";
 import { ModuleTwo } from "../components/modules/ModuleTwo";
 import { Button } from "../components/ui/Button";
-import { courseModules, getModuleById } from "../data/courseModules";
+import { getModuleById, visibleCourseModules } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
 
 const transitionCopy: Record<string, string> = {
@@ -46,7 +46,7 @@ export function ModulePage() {
     );
   }
 
-  const previousModules = courseModules.filter(
+  const previousModules = visibleCourseModules.filter(
     (item) => item.order < courseModule.order,
   );
   const canOpenModule = previousModules.every((item) => isModuleComplete(item.id));
@@ -71,7 +71,7 @@ export function ModulePage() {
 
   const isComplete = isModuleComplete(courseModule.id);
   const courseModuleId = courseModule.id;
-  const nextCourseModule = courseModules.find(
+  const nextCourseModule = visibleCourseModules.find(
     (item) => item.order === courseModule.order + 1,
   );
 

@@ -1,5 +1,5 @@
 import type { CourseModule } from "../../data/courseModules";
-import { courseModules } from "../../data/courseModules";
+import { visibleCourseModules } from "../../data/courseModules";
 
 type ModuleProgressProps = {
   courseModule: CourseModule;
@@ -10,10 +10,10 @@ export function ModuleProgress({ courseModule, isModuleComplete }: ModuleProgres
   return (
     <div
       className="flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between"
-      aria-label={`Del ${courseModule.order} av ${courseModules.length}`}
+      aria-label={`Del ${courseModule.order} av ${visibleCourseModules.length}`}
     >
       <div className="flex items-center gap-2" aria-hidden="true">
-        {courseModules.map((item) => (
+        {visibleCourseModules.map((item) => (
           <div
             key={item.id}
             className={`h-2 w-6 rounded-full transition-colors ${
@@ -27,7 +27,7 @@ export function ModuleProgress({ courseModule, isModuleComplete }: ModuleProgres
         ))}
       </div>
       <span className="text-sm font-bold text-slate">
-        Del {courseModule.order} av {courseModules.length}
+        Del {courseModule.order} av {visibleCourseModules.length}
       </span>
     </div>
   );

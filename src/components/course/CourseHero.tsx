@@ -13,18 +13,15 @@ export function CourseHero() {
             lokalsamfunn.
           </p>
           <p>
-            Frivillighet handler ikke om å kunne alt eller løse alt. Det handler
-            om å møte mennesker med varme, forstå rollen sin og vite hvem man kan
-            spørre når noe blir uklart.
+            Frivillighet er noe av det fineste vi gjør sammen. Det handler om
+            mennesker som ser hverandre, stiller opp for hverandre og bygger
+            fellesskap der de bor. Når du er frivillig, er du med på å gjøre
+            nærmiljøet varmere, tryggere og mer levende.
           </p>
           <p>
-            I dette kurset får du en praktisk innføring i frivilligrollen, gode
-            grenser, ansvar og samspill med andre. Målet er at du skal bli
-            tryggere på hva du kan bidra med - og hva du ikke skal stå alene
-            med.
-          </p>
-          <p>
-            Kurset er i ti korte deler og du trenger ikke noen forberedelser.
+            Dette kurset skal gi deg en tydeligere forståelse av
+            frivilligrollen, slik at det blir lettere å bidra med trygghet,
+            omtanke og god dømmekraft i møte med andre mennesker.
           </p>
         </div>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">

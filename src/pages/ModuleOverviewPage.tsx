@@ -1,12 +1,14 @@
 import { ModuleGrid } from "../components/course/ModuleGrid";
 import { PageContainer } from "../components/layout/PageContainer";
 import { SectionTitle } from "../components/ui/SectionTitle";
-import { courseModules } from "../data/courseModules";
+import { visibleCourseModules } from "../data/courseModules";
 import { useProgress } from "../hooks/useProgress";
 
 export function ModuleOverviewPage() {
   const { isModuleComplete } = useProgress();
-  const nextModule = courseModules.find((courseModule) => !isModuleComplete(courseModule.id));
+  const nextModule = visibleCourseModules.find(
+    (courseModule) => !isModuleComplete(courseModule.id),
+  );
 
   return (
     <PageContainer className="space-y-8">
@@ -18,7 +20,7 @@ export function ModuleOverviewPage() {
         />
       </header>
       <ModuleGrid
-        modules={courseModules}
+        modules={visibleCourseModules}
         nextModuleId={nextModule?.id}
         isModuleComplete={isModuleComplete}
       />

@@ -1,4 +1,4 @@
-type ProgressSummaryProps = {
+﻿type ProgressSummaryProps = {
   completedCount: number;
   nextModuleTitle?: string;
   totalCount: number;
@@ -24,7 +24,7 @@ export function ProgressSummary({
     >
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+          <p className="text-sm font-bold uppercase tracking-normal text-harbor">
             Trygghetsreisen
           </p>
           <h2 className="mt-1 text-2xl font-bold text-ink">

@@ -1,11 +1,11 @@
-import logommm from "../../assets/images/logommm.png";
+﻿import logommm from "../../assets/images/logommm.png";
 
 export function Footer() {
   return (
     <footer className="bg-harbor text-white">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-8 sm:px-8 lg:px-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-2 text-sm leading-6 text-white/72">
+          <div className="space-y-2 text-sm leading-6 text-white">
             <p>© Stiftelsen Vestre Aker Frivilligsentral · Org.nr. 981 099 167</p>
             <p>© Andresen & Aas · Org.nr. 935 650 372</p>
           </div>

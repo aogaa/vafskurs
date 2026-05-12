@@ -1,4 +1,4 @@
-type UnlockedInsightCardProps = {
+﻿type UnlockedInsightCardProps = {
   courseLinkText?: string;
   insight: string;
   supportText: string;
@@ -25,11 +25,11 @@ export function UnlockedInsightCard({
           <h2 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight">
             {insight}
           </h2>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/78">
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white">
             {supportText}
           </p>
           {courseLinkText ? (
-            <p className="mt-5 max-w-3xl rounded-3xl border border-white/12 bg-white/8 p-5 text-base font-semibold leading-8 text-white/82">
+            <p className="mt-5 max-w-3xl rounded-3xl border border-white/12 bg-white/8 p-5 text-base font-semibold leading-8 text-white">
               {courseLinkText}
             </p>
           ) : null}

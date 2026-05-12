@@ -229,7 +229,7 @@ function LearningSection({
 }) {
   return (
     <Card className="p-7 md:p-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-leaf">{eyebrow}</p>
+      <p className="text-sm font-bold uppercase tracking-normal text-harbor">{eyebrow}</p>
       <h2 className="mt-2 text-3xl font-extrabold text-ink">{title}</h2>
       <div className="mt-5 space-y-4 text-base leading-8 text-slate">{children}</div>
     </Card>
@@ -270,7 +270,7 @@ function TrustCompass({ choices }: { choices: TrustChoice[] }) {
           <h2 id="trust-compass-title" className="mt-2 text-3xl font-extrabold">
             Hva gjør jeg med det jeg vet?
           </h2>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-white/78">
+          <p className="mt-3 max-w-3xl text-base leading-7 text-white">
             Kompasset hjelper deg å skille mellom det som kan bli hos deg, det
             du kan be om råd om, det leder må vite, og det som kan kreve rask
             handling.
@@ -297,7 +297,7 @@ function TrustCompass({ choices }: { choices: TrustChoice[] }) {
                 {level.letter}
               </span>
             </div>
-            <p className="mt-3 text-sm leading-6 text-white/76">{level.action}</p>
+            <p className="mt-3 text-sm leading-6 text-white">{level.action}</p>
             <p className="mt-4 text-sm font-bold text-pine">
               {level.count} {level.count === 1 ? "kort funnet" : "kort funnet"}
             </p>
@@ -332,7 +332,7 @@ function TrustCaseCard({
             Fortrolighetsmappe
           </p>
           <h3 className="mt-3 text-3xl font-extrabold leading-tight">{trustCase.title}</h3>
-          <p className="mt-5 rounded-3xl bg-white/10 p-5 text-lg font-semibold leading-8 text-white/88">
+          <p className="mt-5 rounded-3xl bg-white/10 p-5 text-lg font-semibold leading-8 text-white">
             {trustCase.situation}
           </p>
           <div className="mt-5 grid grid-cols-4 gap-2" aria-hidden="true">
@@ -427,7 +427,7 @@ function MasteryCheck({
     <Card className="p-7 md:p-8">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+          <p className="text-sm font-bold uppercase tracking-normal text-harbor">
             Mestringssjekk
           </p>
           <h2 className="mt-2 text-3xl font-extrabold text-ink">
@@ -627,7 +627,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
       <section className="space-y-5" aria-labelledby="trust-test-title">
         <div className="flex flex-col gap-4 rounded-[2rem] bg-white p-5 shadow-soft lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
               Tillitstesten
             </p>
             <h2 id="trust-test-title" className="mt-1 text-3xl font-extrabold text-ink">
@@ -663,7 +663,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
 
         <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
               Situasjonskort
             </p>
             <h3 className="mt-1 text-2xl font-bold text-ink">
@@ -713,7 +713,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
               {checklistItems.map((item, index) => (
                 <li
                   key={item}
-                  className="grid gap-3 rounded-2xl bg-white/10 p-4 text-base font-semibold leading-7 text-white/88 sm:grid-cols-[auto_1fr]"
+                  className="grid gap-3 rounded-2xl bg-white/10 p-4 text-base font-semibold leading-7 text-white sm:grid-cols-[auto_1fr]"
                 >
                   <span className="font-black text-pine">{index + 1}.</span>
                   <span>{item}</span>
@@ -723,7 +723,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           </section>
 
           <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
               Trygge formuleringer
             </p>
             <h2 className="mt-2 text-3xl font-extrabold text-ink">
@@ -782,7 +782,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           <MasteryCheck answers={masteryAnswers} onAnswer={answerMastery} />
 
           <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-leaf">
+            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
               Bro til Del 5
             </p>
             <h2 className="mt-2 text-3xl font-extrabold text-ink">

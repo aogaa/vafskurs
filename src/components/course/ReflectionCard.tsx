@@ -1,4 +1,4 @@
-import type { ModuleOneCard } from "../../data/moduleOneCards";
+﻿import type { ModuleOneCard } from "../../data/moduleOneCards";
 
 type ReflectionCardProps = {
   card: ModuleOneCard;
@@ -117,7 +117,7 @@ export function ReflectionCard({
       <span className="mt-6 block text-2xl font-bold leading-8">{card.title}</span>
       <span
         className={`mt-4 block text-base leading-7 ${
-          isSelected ? "text-white/78" : "text-slate"
+          isSelected ? "text-white" : "text-slate"
         }`}
       >
         {card.shortText}
