@@ -63,14 +63,14 @@ const scenarios: Scenario[] = [
     text: "En pårørende spør om du kan stikke innom moren deres hver dag, fordi hjemmetjenesten har dårlig tid.",
     correctChoice: "avklares",
     feedback:
-      "Dette må avklares. Det er forståelig at pårørende ønsker mer støtte, men frivillige skal ikke utvide oppdraget sitt alene eller bli erstatning for kommunale tjenester.",
+      "Dette må avklares. Det er forståelig at pårørende ønsker mer støtte, men frivillige skal ikke utvide oppdraget sitt alene eller bli erstatning for kommunale tjenester. På Frivilligsentralen er det daglig leder som er kontaktperson når slike spørsmål må avklares.",
   },
   {
     id: "fall-hemmelig",
     text: "En bruker ber deg holde det hemmelig at de har falt flere ganger den siste uken.",
     correctChoice: "avklares",
     feedback:
-      "Dette skal du ikke bære alene. Fall kan være en alvorlig bekymring. Du skal ikke love absolutt hemmelighold, men ta det videre til riktig kontaktperson etter lokal rutine.",
+      "Dette skal du ikke bære alene. Fall kan være en alvorlig bekymring. Du skal ikke love absolutt hemmelighold, men ta det videre til riktig kontaktperson etter lokal rutine. På Frivilligsentralen er det daglig leder som er kontaktperson.",
   },
   {
     id: "toalett",
@@ -173,6 +173,29 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
   function handleReflectionChange(value: string) {
     setReflection(value);
     saveReflection(value);
+  }
+
+  function getOptionClasses(optionId: RoleChoice) {
+    const base =
+      "min-h-24 rounded-2xl border p-4 text-left transition duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine";
+
+    if (!selectedChoice) {
+      return `${base} border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift`;
+    }
+
+    if (optionId === currentScenario.correctChoice) {
+      return `${base} border-pine bg-pine/20 text-harbor ring-2 ring-pine/45`;
+    }
+
+    if (optionId === selectedChoice) {
+      return `${base} border-red-400 bg-red-50 text-red-950 ring-2 ring-red-200`;
+    }
+
+    if (optionId === "avklares") {
+      return `${base} border-honey/70 bg-honey/18 text-harbor`;
+    }
+
+    return `${base} border-harbor/12 bg-mist text-harbor`;
   }
 
   return (
@@ -279,7 +302,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           ].map((item) => (
             <li
               key={item}
-              className="rounded-2xl bg-white p-4 text-base font-semibold leading-7 text-slate ring-1 ring-harbor/10"
+              className="rounded-2xl bg-white p-4 text-base font-semibold leading-7 text-harbor ring-1 ring-harbor/15"
             >
               {item}
             </li>
@@ -354,17 +377,13 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
                       type="button"
                       aria-pressed={isSelected}
                       onClick={() => chooseRole(option.id)}
-                      className={`min-h-24 rounded-2xl border p-4 text-left transition duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
-                        isSelected
-                          ? "border-pine bg-pine/18 text-harbor ring-2 ring-pine/45"
-                          : "border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift"
-                      }`}
+                      className={getOptionClasses(option.id)}
                     >
                       <span className="flex items-start justify-between gap-3">
                         <span className="text-lg font-extrabold">{option.label}</span>
                         <span
                           className={`mt-1 flex size-6 shrink-0 items-center justify-center rounded-full border text-sm font-bold ${
-                            isSelected
+                            isSelected || (selectedChoice && option.id === currentScenario.correctChoice)
                               ? "border-harbor bg-harbor text-white"
                               : "border-harbor/25 text-transparent"
                           }`}
@@ -407,19 +426,18 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         </Card>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-          <Button
-            onClick={goToPreviousScenario}
-            variant="secondary"
-            disabled={currentIndex === 0}
-          >
-            Forrige scenario
-          </Button>
-          <Button
-            onClick={goToNextScenario}
-            disabled={!selectedChoice || currentIndex === scenarios.length - 1}
-          >
-            Neste scenario
-          </Button>
+          {currentIndex > 0 ? (
+            <Button onClick={goToPreviousScenario} variant="secondary">
+              Forrige scenario
+            </Button>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {currentIndex < scenarios.length - 1 ? (
+            <Button onClick={goToNextScenario} disabled={!selectedChoice}>
+              Neste scenario
+            </Button>
+          ) : null}
         </div>
       </section>
 
@@ -433,7 +451,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               {practicalPhrases.map((phrase) => (
                 <p
                   key={phrase}
-                  className="rounded-2xl bg-mist p-5 text-base font-semibold leading-8 text-harbor"
+                  className="flex min-h-32 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-8 text-harbor"
                 >
                   «{phrase}»
                 </p>
@@ -441,19 +459,24 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
             </div>
           </Card>
 
-          <Section title="Dette er kjernen">
-            <p>Frivilligrollen blir tryggere når ansvaret ligger riktig sted.</p>
-            <p>
-              Du kan bidra med varme, kontakt og praktisk støtte innenfor en
-              avtalt ramme. Du skal ikke løse alt alene, gi faglige råd eller
-              overta ansvar som hører hjemme hos ansatte, pårørende eller
-              tjenester.
-            </p>
-            <p className="font-bold text-harbor">
-              Når du blir usikker, er det ikke et nederlag å stoppe opp. Det er
-              trygg frivillighet.
-            </p>
-          </Section>
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+              Dette er kjernen
+            </h2>
+            <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-harbor md:text-lg">
+              <p>Frivilligrollen blir tryggere når ansvaret ligger riktig sted.</p>
+              <p>
+                Du kan bidra med varme, kontakt og praktisk støtte innenfor en
+                avtalt ramme. Du skal ikke løse alt alene, gi faglige råd eller
+                overta ansvar som hører hjemme hos ansatte, pårørende eller
+                tjenester.
+              </p>
+              <p className="font-bold">
+                Når du blir usikker, er det ikke et nederlag å stoppe opp. Det
+                er trygg frivillighet.
+              </p>
+            </div>
+          </Card>
 
           <Card className="p-6 md:p-8">
             <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
@@ -468,7 +491,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               ].map((item, index) => (
                 <li
                   key={item}
-                  className="flex gap-4 rounded-2xl bg-mist p-4 text-base font-semibold leading-7 text-harbor"
+                  className="flex min-h-32 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-7 text-harbor"
                 >
                   <span
                     className="flex size-8 shrink-0 items-center justify-center rounded-full bg-harbor text-sm font-extrabold text-white"
