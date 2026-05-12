@@ -14,12 +14,12 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-1",
     order: 1,
-    title: "Hva betyr frivillighet for lokalsamfunnet?",
+    title: "Du er en del av noe større",
     description:
-      "Se hvordan du som frivillig kan bidra til fellesskap, nærvær og trygghet der du bor.",
+      "Se hvorfor frivillighet handler om relasjoner, fellesskap og tryggere nærmiljøer.",
     status: "active",
     ingress:
-      "Du ønsker å bidra fordi du vil gjøre noe godt. Denne delen viser hvordan frivillighet styrker lokalsamfunnet, og hvorfor små møter mellom mennesker kan bety mer enn de ser ut til.",
+      "Du kommer hit fordi du ønsker å bidra. Denne delen viser hvorfor frivillighet ikke handler om å fylle hull, men om å bygge broer mellom mennesker.",
     learningGoals: [
       "Forstå hvorfor frivillighet har verdi for lokalsamfunnet",
       "Se hvordan du bidrar med relasjoner, nærvær og fellesskap",
