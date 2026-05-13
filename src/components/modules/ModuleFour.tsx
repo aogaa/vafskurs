@@ -1,19 +1,25 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import type { CourseModule } from "../../data/courseModules";
-import {
-  moduleFourTrustCases,
-  trustLevels,
-  type TrustCase,
-  type TrustLevel,
-} from "../../data/moduleFourTrustCases";
-import { ModuleHero } from "../course/ModuleHero";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 
-const REQUIRED_CASES = 8;
-const REQUIRED_MASTERY = 4;
-const TRUST_CHOICES_STORAGE_KEY = "trygg-som-frivillig:del-4-tillit-svar";
-const MASTERY_STORAGE_KEY = "trygg-som-frivillig:del-4-mestring-svar";
+const ANSWERS_STORAGE_KEY = "trygg-som-frivillig:del-4-sluttovelse-svar";
+const PERSONAL_RULE_STORAGE_KEY = "trygg-som-frivillig:del-4-huskeregel";
+
+type ChoiceId = "a" | "b" | "c";
+
+type FinalScenario = {
+  id: string;
+  title: string;
+  situation: string;
+  choices: Array<{
+    id: ChoiceId;
+    label: string;
+  }>;
+  recommendedChoiceId: ChoiceId;
+  feedback: string;
+  safePhrase: string;
+};
 
 type ModuleFourProps = {
   courseModule: CourseModule;
@@ -21,82 +27,165 @@ type ModuleFourProps = {
   onComplete: () => void;
 };
 
-type TrustChoice = {
-  caseId: string;
-  level: TrustLevel;
-};
+const scenarios: FinalScenario[] = [
+  {
+    id: "ansvarlig",
+    title: "Scenario 1: Du blir gjort til «den ansvarlige»",
+    situation:
+      "Du er frivillig på en åpen møteplass. En deltaker virker forvirret og sier at hun ikke finner veien hjem. En annen deltaker sier til deg: «Du får følge henne hjem. Du er jo frivillig her.»",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Følger henne hjem alene, fordi noen må ta ansvar." },
+      {
+        id: "b",
+        label: "Stopper opp og kontakter ansvarlig person på stedet eller kontaktpersonen din.",
+      },
+      { id: "c", label: "Spør en annen deltaker om å følge henne hjem i stedet." },
+    ],
+    feedback:
+      "Dette kan handle om trygghet, ansvar og mulig sårbarhet. Som frivillig skal du ikke automatisk bli ansvarlig for å følge noen hjem når situasjonen er uklar. Du kan bidra, men rammen må avklares.",
+    safePhrase:
+      "Jeg vil gjerne hjelpe, men dette må vi gjøre på riktig måte. Jeg kontakter ansvarlig person, så finner vi ut hva som er tryggest.",
+  },
+  {
+    id: "liten-oppgave",
+    title: "Scenario 2: Du får en oppgave som virker liten",
+    situation:
+      "Etter en aktivitet spør en deltaker om du kan låse deg inn i boden, hente rullatoren hennes og sette den utenfor inngangsdøren neste morgen før hun skal ut.",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Sier ja, siden det bare tar to minutter." },
+      {
+        id: "b",
+        label: "Sier at dette må avklares, fordi det handler om tilgang, ansvar og avtale.",
+      },
+      { id: "c", label: "Ber henne sende deg en SMS som påminnelse." },
+    ],
+    feedback:
+      "Små oppgaver kan virke uskyldige, men kan skape ansvar, forventninger og praktisk risiko. Hvis noe gjelder nøkler, tilgang, hjelpemidler, avtaler eller sikkerhet, bør det avklares.",
+    safePhrase:
+      "Det høres enkelt ut, men jeg kan ikke avtale det direkte. Jeg må sjekke med kontaktpersonen først.",
+  },
+  {
+    id: "vurdere-noen",
+    title: "Scenario 3: Du blir bedt om å vurdere noen",
+    situation:
+      "En ansatt spør deg etter en aktivitet: «Synes du han virker dårligere enn før? Vi rekker ikke følge med på alt.»",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Gir din vurdering av helsen hans." },
+      {
+        id: "b",
+        label: "Sier bare det du konkret har observert, uten å konkludere.",
+      },
+      { id: "c", label: "Sier at du ikke vil blande deg." },
+    ],
+    feedback:
+      "Frivillige kan se viktige ting, men skal ikke gjøre faglige vurderinger. Du kan dele konkrete observasjoner gjennom riktig kanal, men ikke diagnostisere eller konkludere.",
+    safePhrase:
+      "Jeg kan ikke vurdere helsen hans, men jeg kan si hva jeg la merke til: Han virket trøttere enn vanlig og gikk tidligere enn han pleier.",
+  },
+  {
+    id: "fast-losning",
+    title: "Scenario 4: Noen vil ha deg som fast løsning",
+    situation:
+      "En deltaker sier: «Du er så flink med telefonen min. Kan vi avtale at jeg alltid kommer til deg når jeg får problemer med BankID, passord og sånt?»",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Sier ja, fordi digital hjelp er nyttig." },
+      {
+        id: "b",
+        label: "Sier at du gjerne hjelper innenfor aktiviteten, men at private faste avtaler må avklares.",
+      },
+      { id: "c", label: "Tar passordet hennes og ordner det raskt." },
+    ],
+    feedback:
+      "Digital hjelp kan være innenfor, men passord, BankID og private faste avtaler er risikoområder. Du skal ikke håndtere sensitive innlogginger eller bli en privat teknisk ansvarlig.",
+    safePhrase:
+      "Jeg kan gjerne hjelpe deg med det som passer innenfor aktiviteten, men jeg kan ikke ta ansvar for BankID, passord eller faste private avtaler. Det må vi eventuelt avklare med kontaktpersonen.",
+  },
+  {
+    id: "kritikk-kommunen",
+    title: "Scenario 5: Du får høre kritikk om kommunen",
+    situation:
+      "En deltaker blir irritert og sier: «Hjemmetjenesten gjør ingenting riktig. Kan ikke du si fra til dem for meg?»",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Lover å ta saken direkte med hjemmetjenesten." },
+      {
+        id: "b",
+        label: "Lytter, men forklarer at du ikke kan være klagekanal eller saksbehandler.",
+      },
+      { id: "c", label: "Sier at kommunen sikkert gjør så godt den kan, og bytter tema." },
+    ],
+    feedback:
+      "Som frivillig kan du lytte og ta personen på alvor, men du skal ikke bli saksbehandler, klageinstans eller mellomledd i en sak du ikke har ansvar for. Du kan hjelpe personen videre til riktig kanal.",
+    safePhrase:
+      "Jeg skjønner at dette er frustrerende. Jeg kan ikke behandle eller ta over saken, men jeg kan hjelpe deg med å finne ut hvem du bør kontakte.",
+  },
+  {
+    id: "love-mer",
+    title: "Scenario 6: Du kjenner at du har lyst til å love mer",
+    situation:
+      "Du møter en person som sier at hun nesten aldri ser noen. Du får vondt av henne og får lyst til å si: «Jeg kan komme innom deg hver uke.»",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Lover ukentlige besøk, fordi hun trenger det." },
+      {
+        id: "b",
+        label: "Lar være å love noe der og da, og tar behovet videre til kontaktpersonen.",
+      },
+      { id: "c", label: "Sier at hun må prøve å komme seg mer ut." },
+    ],
+    feedback:
+      "Hjelpelyst er bra, men løfter skaper forventninger. Før du lover faste besøk, må det være avklart med organisasjonen og passe med rollen, kapasiteten og oppdraget.",
+    safePhrase:
+      "Jeg skjønner at du savner mer kontakt. Jeg kan ikke love faste besøk her og nå, men jeg kan ta det videre med kontaktpersonen.",
+  },
+  {
+    id: "uklar-avtale",
+    title: "Scenario 7: Du oppdager at avtalen er uklar",
+    situation:
+      "Du møter opp til en aktivitet og får beskjed om at «det meste ordner seg underveis». Du vet ikke hvem som er ansvarlig, hva du skal gjøre hvis noe skjer, eller hvem du skal kontakte etterpå.",
+    recommendedChoiceId: "b",
+    choices: [
+      { id: "a", label: "Starter likevel, fordi frivillighet må være fleksibelt." },
+      { id: "b", label: "Ber om de viktigste avklaringene før du går i gang." },
+      { id: "c", label: "Lager dine egne rutiner der og da." },
+    ],
+    feedback:
+      "Fleksibilitet er viktig, men uklarhet om ansvar og kontaktvei gjør frivilligrollen utrygg. Før du starter, bør du vite hvem du spør, hva oppdraget er, og hva du gjør hvis noe skjer.",
+    safePhrase:
+      "Jeg vil gjerne bidra, men før vi starter trenger jeg å vite hvem som er ansvarlig, hva rollen min er, og hvem jeg kontakter hvis noe blir uklart.",
+  },
+];
 
-type MasteryQuestion = {
-  id: string;
-  question: string;
-  correctOptionId: string;
-  options: Array<{
-    id: string;
-    text: string;
-    feedback: string;
-  }>;
-};
+const reminderOptions = [
+  "Jeg skal ikke løse alt alene.",
+  "Når jeg blir usikker, skal jeg stoppe og avklare.",
+  "Jeg kan være varm og tydelig samtidig.",
+  "Jeg skal bidra som frivillig, ikke som ansatt eller pårørende.",
+  "Det er ansvarlig å si nei når noe går utenfor rollen min.",
+];
 
-function isTrustLevel(value: string): value is TrustLevel {
-  return trustLevels.some((level) => level.id === value);
+function isChoiceId(value: string): value is ChoiceId {
+  return value === "a" || value === "b" || value === "c";
 }
 
-function readSavedChoices(): TrustChoice[] {
-  if (typeof window === "undefined") {
-    return [];
-  }
-
-  try {
-    const value = window.localStorage.getItem(TRUST_CHOICES_STORAGE_KEY);
-    const parsed = value ? JSON.parse(value) : [];
-
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed
-      .filter(
-        (item: unknown): item is TrustChoice =>
-          typeof item === "object" &&
-          item !== null &&
-          "caseId" in item &&
-          "level" in item &&
-          typeof item.caseId === "string" &&
-          typeof item.level === "string" &&
-          moduleFourTrustCases.some((trustCase) => trustCase.id === item.caseId) &&
-          isTrustLevel(item.level),
-      )
-      .slice(0, moduleFourTrustCases.length);
-  } catch {
-    return [];
-  }
-}
-
-function saveChoices(value: TrustChoice[]) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.setItem(TRUST_CHOICES_STORAGE_KEY, JSON.stringify(value));
-}
-
-function readSavedMasteryAnswers(): Record<string, string> {
+function readSavedAnswers(): Partial<Record<string, ChoiceId>> {
   if (typeof window === "undefined") {
     return {};
   }
 
   try {
-    const value = window.localStorage.getItem(MASTERY_STORAGE_KEY);
+    const value = window.localStorage.getItem(ANSWERS_STORAGE_KEY);
     const parsed = value ? JSON.parse(value) : {};
-    const next: Record<string, string> = {};
+    const next: Partial<Record<string, ChoiceId>> = {};
 
-    for (const question of masteryQuestions) {
-      const answer = parsed[question.id];
-      if (
-        typeof answer === "string" &&
-        question.options.some((option) => option.id === answer)
-      ) {
-        next[question.id] = answer;
+    for (const scenario of scenarios) {
+      const answer = parsed[scenario.id];
+      if (typeof answer === "string" && isChoiceId(answer)) {
+        next[scenario.id] = answer;
       }
     }
 
@@ -106,820 +195,494 @@ function readSavedMasteryAnswers(): Record<string, string> {
   }
 }
 
-function saveMasteryAnswers(value: Record<string, string>) {
+function saveAnswers(value: Partial<Record<string, ChoiceId>>) {
   if (typeof window === "undefined") {
     return;
   }
 
-  window.localStorage.setItem(MASTERY_STORAGE_KEY, JSON.stringify(value));
+  window.localStorage.setItem(ANSWERS_STORAGE_KEY, JSON.stringify(value));
 }
 
-const checklistItems = [
-  "Jeg skal behandle private opplysninger med respekt.",
-  "Jeg deler ikke personlige opplysninger med uvedkommende.",
-  "Taushet betyr ikke at jeg må love absolutt hemmelighold.",
-  "Når jeg er usikker, kan jeg be leder om veiledning.",
-  "Jeg deler minst mulig, men nok til at riktig person kan følge opp.",
-  "Bekymringer for liv, helse, sikkerhet, økonomisk utnyttelse eller alvorlig belastning skal ikke bæres alene.",
-  "Ved akutt fare følger jeg lokal rutine og bruker riktig akuttinstans ved behov.",
-  "Jeg har gjort min del når jeg sier fra gjennom riktig kanal.",
-  "Jeg har ikke alltid krav på å vite hva som skjer videre.",
-  "Tillit bevares best når jeg er både varsom og tydelig.",
-];
+function readSavedPersonalRule() {
+  if (typeof window === "undefined") {
+    return "";
+  }
 
-const phraseGroups = [
-  {
-    title: "Når noen forteller noe personlig",
-    phrases: [
-      "Takk for at du forteller meg dette.",
-      "Jeg setter pris på at du stoler på meg.",
-      "Jeg skal behandle det du forteller med respekt.",
-    ],
-  },
-  {
-    title: "Når noen ber om absolutt hemmelighold",
-    phrases: [
-      "Jeg kan ikke love at jeg aldri sier noe videre, for noen ganger må vi be om hjelp. Men jeg lover at jeg ikke deler mer enn nødvendig, og at jeg bruker riktig vei.",
-      "Jeg hører at dette er viktig for deg. Hvis dette handler om trygghet eller fare, må jeg ta det videre til leder slik at du ikke står alene med det.",
-    ],
-  },
-  {
-    title: "Når frivillig må koble på leder",
-    phrases: [
-      "Dette er litt mer enn jeg skal håndtere alene som frivillig. Jeg vil ta det videre til leder på en ryddig måte.",
-      "Jeg vil gjerne hjelpe deg med å få dette til riktig person, men jeg kan ikke løse det alene.",
-      "Jeg kommer ikke til å dele dette med uvedkommende, men jeg må ta det videre til leder.",
-    ],
-  },
-  {
-    title: "Når pårørende spør om private samtaler",
-    phrases: [
-      "Jeg forstår at du er bekymret, men jeg kan ikke gjengi private samtaler uten at dette er avklart.",
-      "Det beste er at jeg tar spørsmålet videre til leder, så håndterer vi det på riktig måte.",
-    ],
-  },
-  {
-    title: "Når frivillig trenger støtte etterpå",
-    phrases: [
-      "Jeg trenger å snakke med leder om en situasjon som gjorde inntrykk på meg.",
-      "Jeg er usikker på om dette er noe jeg skal ta videre, og trenger veiledning.",
-    ],
-  },
-];
-
-const masteryQuestions: MasteryQuestion[] = [
-  {
-    id: "hovedregel",
-    question: "Hva er hovedregelen når du får vite noe privat som frivillig?",
-    correctOptionId: "b",
-    options: [
-      {
-        id: "a",
-        text: "Jeg kan dele historien hvis jeg ikke bruker navn.",
-        feedback:
-          "Selv uten navn kan private opplysninger gjenkjennes eller bli feil å dele.",
-      },
-      {
-        id: "b",
-        text: "Jeg deler det ikke med uvedkommende, og tar det bare videre hvis det er nødvendig.",
-        feedback:
-          "Riktig. Fortrolighet handler om respekt, og videreformidling skal bare skje når riktig person faktisk trenger informasjonen.",
-      },
-      {
-        id: "c",
-        text: "Jeg må alltid fortelle leder alt jeg får vite.",
-        feedback:
-          "Ikke alt må videre. Mennesker skal kunne dele personlige ting uten at alt blir en sak.",
-      },
-    ],
-  },
-  {
-    id: "hemmelighold",
-    question:
-      "Hva gjør du hvis noen forteller noe alvorlig og ber deg love å aldri si det videre?",
-    correctOptionId: "b",
-    options: [
-      {
-        id: "a",
-        text: "Jeg lover absolutt hemmelighold for å bevare tilliten.",
-        feedback:
-          "Det kan kjennes omsorgsfullt, men alvorlige bekymringer skal ikke bæres alene.",
-      },
-      {
-        id: "b",
-        text: "Jeg lover ikke absolutt hemmelighold, men forklarer rolig at alvorlige bekymringer må tas videre til riktig person.",
-        feedback:
-          "Riktig. Du kan være varsom og respektfull uten å love mer taushet enn du kan holde.",
-      },
-      {
-        id: "c",
-        text: "Jeg avslutter samtalen så jeg slipper å få vite mer.",
-        feedback:
-          "Du kan lytte rolig. Poenget er å ikke stå alene hvis innholdet er alvorlig.",
-      },
-    ],
-  },
-  {
-    id: "nok-informasjon",
-    question: "Hvor mye bør du dele med leder ved en bekymring?",
-    correctOptionId: "a",
-    options: [
-      {
-        id: "a",
-        text: "Minst mulig, men nok til at leder kan forstå og følge opp.",
-        feedback:
-          "Riktig. God videreformidling er konkret, rolig og begrenset til det som trengs.",
-      },
-      {
-        id: "b",
-        text: "Hele samtalen, slik at leder får alle detaljer.",
-        feedback:
-          "Som regel trenger leder ikke hele samtalen. Del det som er nødvendig for vurdering og oppfølging.",
-      },
-      {
-        id: "c",
-        text: "Så lite som mulig, helst uten å forklare hva bekymringen gjelder.",
-        feedback:
-          "Leder må få nok informasjon til å forstå hva som bør følges opp.",
-      },
-    ],
-  },
-  {
-    id: "etterpa",
-    question:
-      "Hvorfor får du ikke alltid vite hva som skjer videre etter at du har meldt en bekymring?",
-    correctOptionId: "c",
-    options: [
-      {
-        id: "a",
-        text: "Fordi bekymringen sannsynligvis ikke var viktig nok.",
-        feedback:
-          "Manglende detaljer tilbake betyr ikke at bekymringen ble ignorert.",
-      },
-      {
-        id: "b",
-        text: "Fordi frivillige ikke skal bry seg etter at de har sagt fra.",
-        feedback:
-          "Du kan fortsatt bry deg og be om støtte for din egen del, men du har ikke krav på alle detaljer.",
-      },
-      {
-        id: "c",
-        text: "Fordi andre kan være bundet av taushetsplikt, og fordi jeg ikke alltid trenger detaljer for å ha gjort min del.",
-        feedback:
-          "Riktig. Når riktig kanal er brukt, ligger videre vurdering hos dem som har ansvar og myndighet.",
-      },
-    ],
-  },
-  {
-    id: "akutt",
-    question: "Hva gjør du hvis du tror det kan være akutt fare?",
-    correctOptionId: "b",
-    options: [
-      {
-        id: "a",
-        text: "Jeg venter og tar det med leder neste gang vi møtes.",
-        feedback:
-          "Akutt fare kan ikke vente til neste møte eller neste kontordag.",
-      },
-      {
-        id: "b",
-        text: "Jeg følger lokal akutt rutine og bruker riktig akuttinstans ved behov.",
-        feedback:
-          "Riktig. Ved fare for liv, helse eller sikkerhet må handling skje raskt etter lokal rutine.",
-      },
-      {
-        id: "c",
-        text: "Jeg lover personen å ikke si noe, siden tillit er viktigst.",
-        feedback:
-          "Tillit er viktig, men akutt fare må håndteres raskt og riktig.",
-      },
-    ],
-  },
-];
-
-function LearningSection({
-  children,
-  eyebrow,
-  title,
-}: {
-  children: React.ReactNode;
-  eyebrow: string;
-  title: string;
-}) {
-  return (
-    <Card className="p-7 md:p-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-harbor">{eyebrow}</p>
-      <h2 className="mt-2 text-3xl font-extrabold text-ink">{title}</h2>
-      <div className="mt-5 space-y-4 text-base leading-8 text-slate">{children}</div>
-    </Card>
-  );
+  return window.localStorage.getItem(PERSONAL_RULE_STORAGE_KEY) ?? "";
 }
 
-function activateOnKeyboard(
-  event: React.KeyboardEvent<HTMLButtonElement>,
-  action: () => void,
-) {
-  if (event.key !== "Enter" && event.key !== " " && event.key !== "Spacebar") {
+function savePersonalRule(value: string) {
+  if (typeof window === "undefined") {
     return;
   }
 
-  event.preventDefault();
-  action();
+  window.localStorage.setItem(PERSONAL_RULE_STORAGE_KEY, value);
 }
 
-function TrustCompass({ choices }: { choices: TrustChoice[] }) {
-  const counts = trustLevels.map((level) => ({
-    ...level,
-    count: choices.filter((choice) => {
-      const trustCase = moduleFourTrustCases.find((item) => item.id === choice.caseId);
-      return trustCase?.correctLevel === level.id;
-    }).length,
-  }));
-
+function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <section
-      className="rounded-[2rem] bg-white p-6 text-harbor shadow-soft ring-1 ring-harbor/8"
-      aria-labelledby="trust-compass-title"
-    >
-      <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-        <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-            Fire nivåer
-          </p>
-          <h2 id="trust-compass-title" className="mt-2 text-3xl font-extrabold">
-            Hva gjør jeg med det jeg vet?
-          </h2>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-white">
-            Kompasset hjelper deg å skille mellom det som kan bli hos deg, det
-            du kan be om råd om, det leder må vite, og det som kan kreve rask
-            handling.
-          </p>
-        </div>
-        <p className="w-fit rounded-2xl bg-white/10 px-4 py-2 text-sm font-bold text-pine">
-          {choices.length} av {moduleFourTrustCases.length} situasjoner vurdert
-        </p>
-      </div>
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {counts.map((level, index) => (
-          <article
-            key={level.id}
-            className="rounded-3xl border border-white/12 bg-white/8 p-5"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-black uppercase tracking-normal text-pine">
-                  Nivå {index + 1}
-                </p>
-                <h3 className="mt-2 text-xl font-bold">{level.title}</h3>
-              </div>
-              <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white text-base font-black text-harbor">
-                {level.letter}
-              </span>
-            </div>
-            <p className="mt-3 text-sm leading-6 text-white">{level.action}</p>
-            <p className="mt-4 text-sm font-bold text-pine">
-              {level.count} {level.count === 1 ? "kort funnet" : "kort funnet"}
-            </p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function TrustCaseCard({
-  choice,
-  onChoose,
-  trustCase,
-}: {
-  choice?: TrustChoice;
-  onChoose: (level: TrustLevel) => void;
-  trustCase: TrustCase;
-}) {
-  const chosenLevel = choice
-    ? trustLevels.find((level) => level.id === choice.level)
-    : undefined;
-  const correctLevel = trustLevels.find((level) => level.id === trustCase.correctLevel)!;
-  const aligned = choice?.level === trustCase.correctLevel;
-
-  return (
-    <Card className="overflow-hidden p-0">
-      <div className="h-2 bg-gradient-to-r from-harbor via-fjord to-pine" />
-      <div className="grid gap-0 lg:grid-cols-[1fr_0.85fr]">
-        <div className="bg-gradient-to-br from-harbor to-fjord p-7 text-white md:p-8">
-          <p className="text-sm font-bold uppercase tracking-normal text-pine">
-            Fortrolighetsmappe
-          </p>
-          <h3 className="mt-3 text-3xl font-extrabold leading-tight">{trustCase.title}</h3>
-          <p className="mt-5 rounded-3xl bg-white/10 p-5 text-lg font-semibold leading-8 text-white">
-            {trustCase.situation}
-          </p>
-          <div className="mt-5 grid grid-cols-4 gap-2" aria-hidden="true">
-            {trustLevels.map((level) => (
-              <span
-                key={level.id}
-                className={`h-2 rounded-full ${
-                  choice?.level === level.id ? "bg-pine" : "bg-white/22"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="p-7 md:p-8">
-          <fieldset>
-            <legend className="text-base font-bold text-harbor">
-              Hva gjør du med det du får vite?
-            </legend>
-            <div className="mt-4 grid gap-3">
-              {trustLevels.map((level) => {
-                const selected = choice?.level === level.id;
-                return (
-                  <button
-                    key={level.id}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => onChoose(level.id)}
-                    onKeyDown={(event) =>
-                      activateOnKeyboard(event, () => onChoose(level.id))
-                    }
-                    className={`min-h-14 rounded-2xl border px-4 py-4 text-left transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine motion-safe:hover:-translate-y-0.5 ${
-                      selected
-                        ? `${level.classes} shadow-soft`
-                        : "border-harbor/12 bg-white text-harbor hover:border-pine/60 hover:bg-mist"
-                    }`}
-                  >
-                    <span className="flex items-start gap-3">
-                      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-mist text-sm font-black text-harbor">
-                        {level.letter}
-                      </span>
-                      <span>
-                        <span className="block text-base font-black">
-                          {level.shortTitle}
-                        </span>
-                        <span className="mt-1 block text-sm font-semibold leading-6">
-                          {level.description}
-                        </span>
-                      </span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
-
-          {choice && chosenLevel ? (
-            <section
-              className={`mt-6 rounded-3xl border p-5 ${correctLevel.classes}`}
-              aria-live="polite"
-            >
-              <p className="text-sm font-bold uppercase tracking-normal">
-                {aligned ? "Trygg vurdering" : "Se kompasset en gang til"}
-              </p>
-              <p className="mt-2 text-base font-bold leading-7">
-                {aligned
-                  ? `Dette hører hjemme i: ${correctLevel.title}.`
-                  : `Du valgte ${chosenLevel.shortTitle}. Her er trygg håndtering: ${correctLevel.shortTitle}.`}
-              </p>
-              <p className="mt-3 text-base font-semibold leading-8">
-                {trustCase.feedback}
-              </p>
-            </section>
-          ) : null}
-        </div>
+    <Card className="p-6 md:p-8">
+      <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+        {title}
+      </h2>
+      <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
+        {children}
       </div>
     </Card>
   );
 }
 
-function MasteryCheck({
-  answers,
-  onAnswer,
-}: {
-  answers: Record<string, string>;
-  onAnswer: (questionId: string, optionId: string) => void;
-}) {
-  const correctCount = masteryQuestions.filter(
-    (question) => answers[question.id] === question.correctOptionId,
-  ).length;
-
+function SmallCard({ children }: { children: ReactNode }) {
   return (
-    <Card className="p-7 md:p-8">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-normal text-harbor">
-            Mestringssjekk
-          </p>
-          <h2 className="mt-2 text-3xl font-extrabold text-ink">
-            Har du trygg nok retning?
-          </h2>
-        </div>
-        <p className="flex min-h-11 w-fit items-center justify-center rounded-2xl bg-mist px-4 py-2 text-center text-sm font-bold text-harbor [text-wrap:balance]">
-          Trygge svar: {correctCount} av {masteryQuestions.length}.
-        </p>
-      </div>
-      <div className="mt-6 grid gap-5">
-        {masteryQuestions.map((question, index) => {
-          const selectedOptionId = answers[question.id];
-          const selectedOption = question.options.find(
-            (option) => option.id === selectedOptionId,
-          );
-          const isCorrect = selectedOptionId === question.correctOptionId;
-
-          return (
-            <section
-              key={question.id}
-              className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm"
-            >
-              <h3 className="text-lg font-bold leading-7 text-ink">
-                {index + 1}. {question.question}
-              </h3>
-              <div className="mt-4 grid gap-3">
-                {question.options.map((option) => {
-                  const selected = selectedOptionId === option.id;
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      aria-pressed={selected}
-                      onClick={() => onAnswer(question.id, option.id)}
-                      onKeyDown={(event) =>
-                        activateOnKeyboard(event, () => onAnswer(question.id, option.id))
-                      }
-                      className={`min-h-14 rounded-2xl border px-5 py-4 text-left text-base font-semibold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
-                        selected
-                          ? isCorrect
-                            ? "border-pine bg-pine/14 text-harbor"
-                            : "border-honey/55 bg-honey/18 text-harbor"
-                          : "border-harbor/12 bg-white text-harbor hover:border-pine/60 hover:bg-mist"
-                      }`}
-                    >
-                      {option.text}
-                    </button>
-                  );
-                })}
-              </div>
-              {selectedOption ? (
-                <p
-                  className="mt-4 flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-semibold leading-7 text-harbor [text-wrap:balance]"
-                  aria-live="polite"
-                >
-                  {selectedOption.feedback}
-                </p>
-              ) : null}
-            </section>
-          );
-        })}
-      </div>
-    </Card>
+    <li className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]">
+      {children}
+    </li>
   );
 }
 
 export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourProps) {
-  const [choices, setChoices] = useState<TrustChoice[]>(readSavedChoices);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [masteryAnswers, setMasteryAnswers] = useState<Record<string, string>>(
-    readSavedMasteryAnswers,
+  const [answers, setAnswers] = useState<Partial<Record<string, ChoiceId>>>(
+    readSavedAnswers,
   );
+  const [personalRule, setPersonalRule] = useState(readSavedPersonalRule);
 
-  const currentCase = moduleFourTrustCases[currentIndex];
-  const currentChoice = choices.find((choice) => choice.caseId === currentCase.id);
-  const assessedCount = choices.length;
-  const checklistUnlocked = assessedCount >= REQUIRED_CASES;
-  const correctMasteryCount = masteryQuestions.filter(
-    (question) => masteryAnswers[question.id] === question.correctOptionId,
-  ).length;
-  const masteryComplete =
-    Object.keys(masteryAnswers).length === masteryQuestions.length &&
-    correctMasteryCount >= REQUIRED_MASTERY;
-  const canComplete = checklistUnlocked && masteryComplete;
+  const currentScenario = scenarios[currentIndex];
+  const selectedChoice = answers[currentScenario.id];
+  const completedScenarioCount = scenarios.filter((scenario) => answers[scenario.id]).length;
+  const hasCompletedExercise = completedScenarioCount === scenarios.length;
+  const recommendedChoice = currentScenario.choices.find(
+    (choice) => choice.id === currentScenario.recommendedChoiceId,
+  )!;
 
-  const correctChoicesCount = useMemo(
+  const recommendedCount = useMemo(
     () =>
-      choices.filter((choice) => {
-        const trustCase = moduleFourTrustCases.find((item) => item.id === choice.caseId);
-        return trustCase?.correctLevel === choice.level;
-      }).length,
-    [choices],
+      scenarios.filter((scenario) => answers[scenario.id] === scenario.recommendedChoiceId)
+        .length,
+    [answers],
   );
 
-  function chooseLevel(level: TrustLevel) {
-    setChoices((current) => {
-      const existing = current.find((choice) => choice.caseId === currentCase.id);
-      if (existing) {
-        const next = current.map((choice) =>
-          choice.caseId === currentCase.id ? { ...choice, level } : choice,
-        );
-        saveChoices(next);
-        return next;
-      }
-
-      const next = [...current, { caseId: currentCase.id, level }];
-      saveChoices(next);
+  function chooseAnswer(choiceId: ChoiceId) {
+    setAnswers((current) => {
+      const next = { ...current, [currentScenario.id]: choiceId };
+      saveAnswers(next);
       return next;
     });
   }
 
-  function goToNextCase() {
-    setCurrentIndex((index) => Math.min(index + 1, moduleFourTrustCases.length - 1));
+  function handleRuleChange(value: string) {
+    setPersonalRule(value);
+    savePersonalRule(value);
   }
 
-  function goToPreviousCase() {
-    setCurrentIndex((index) => Math.max(index - 1, 0));
-  }
+  function getChoiceClasses(choiceId: ChoiceId) {
+    const base =
+      "min-h-24 rounded-2xl border p-4 text-left text-base font-bold leading-7 transition duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine";
 
-  function answerMastery(questionId: string, optionId: string) {
-    setMasteryAnswers((current) => {
-      const next = { ...current, [questionId]: optionId };
-      saveMasteryAnswers(next);
-      return next;
-    });
+    if (!selectedChoice) {
+      return `${base} border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift`;
+    }
+
+    if (choiceId === currentScenario.recommendedChoiceId) {
+      return `${base} border-pine bg-pine/18 text-harbor ring-2 ring-pine/45`;
+    }
+
+    if (choiceId === selectedChoice) {
+      return `${base} border-honey/70 bg-honey/18 text-harbor ring-2 ring-honey/30`;
+    }
+
+    return `${base} border-harbor/12 bg-mist text-harbor`;
   }
 
   return (
     <article className="space-y-8">
-      <ModuleHero courseModule={courseModule} />
+      <section className="rounded-3xl bg-harbor px-6 py-9 shadow-soft md:px-8 md:py-10">
+        <p className="text-sm font-bold uppercase tracking-normal text-white">
+          Del {courseModule.order} &middot; Avslutning
+        </p>
+        <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+          Klar til å bidra
+        </h1>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-white">
+          Du skal ikke kunne alt. Du skal vite hva du gjør når du ikke vet.
+        </p>
+      </section>
 
-      <LearningSection eyebrow="Tillit" title="Tillit er grunnmuren">
+      <Section title="Hva denne delen handler om">
+        <p>Nå har du vært gjennom det viktigste.</p>
         <p>
-          Når du er frivillig, kan mennesker fortelle deg ting de ikke sier til
-          så mange andre. Det kan være små hverdagslige ting, minner fra et
-          langt liv, bekymringer, savn, skam, konflikter eller tanker de har
-          båret på lenge.
+          Du har sett hvorfor frivillighet betyr noe. Du har sett hva rollen din
+          er. Og du har øvd på hva du kan gjøre når noe blir uklart.
+        </p>
+        <p>Denne siste delen handler om å samle trådene.</p>
+        <p>Ikke fordi du skal kunne alt. Det skal du ikke.</p>
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
+          Men fordi du skal vite hva du gjør når du ikke vet.
         </p>
         <p>
-          Det skjer fordi du møter dem som menneske. Tillit vokser ofte når noen
-          har tid til å lytte og være til stede.
+          Som frivillig skal du ikke bære vanskelige situasjoner alene. Du skal
+          ikke være ansatt, behandler, saksbehandler, pårørende eller
+          krisekontakt. Du skal være frivillig.
         </p>
-        <p>
-          Å være til å stole på betyr ikke at du skal bære alt alene. Det betyr
-          at du ikke deler private opplysninger unødvendig, at du ikke forteller
-          videre til uvedkommende, og at du bare kobler på riktig person når det
-          faktisk trengs.
-        </p>
-        <p className="flex min-h-28 items-center justify-center rounded-3xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
-          Noen ting skal bli mellom deg og den du møter. Andre ting bør du be
-          leder om råd om. Noen bekymringer må tas videre. Og noen få
-          situasjoner kan være så alvorlige at de må håndteres raskt etter lokal
-          rutine.
-        </p>
-      </LearningSection>
+        <p className="font-bold text-harbor">Det er mer enn nok.</p>
+      </Section>
 
-      <LearningSection eyebrow="Fortrolighet" title="Taushet er ikke absolutt hemmelighold">
+      <Section title="Det viktigste du har lært">
+        <p>Som frivillig er du en del av noe større.</p>
         <p>
-          Som frivillig får du ofte innblikk i menneskers private liv. Det kan
-          være informasjon om helse, familie, økonomi, ensomhet, konflikter,
-          sorg, tro, livsvalg eller ting personen synes er vanskelig.
+          Du bidrar til et lokalsamfunn der mennesker ser hverandre, møter
+          hverandre og bryr seg om hverandre. Det kan virke lite i øyeblikket,
+          men det betyr mye.
         </p>
-        <p className="flex min-h-28 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-bold leading-8 text-harbor [text-wrap:balance]">
-          Du skal ikke dele private opplysninger med andre som ikke trenger å
-          vite det.
-        </p>
+        <p>Du har også en tydelig rolle.</p>
         <p>
-          Det gjelder også hvis historien er rørende, spennende, trist eller
-          lærerik. Selv gode intensjoner kan bli feil hvis et menneskes privatliv
-          blir gjort til samtaleemne for andre.
+          Du kan bidra med tid, nærvær, aktivitet, samtale, praktisk
+          lavterskelhjelp når det er avklart, og brobygging til fellesskap og
+          møteplasser.
         </p>
         <p>
-          Men taushet betyr ikke at du må love absolutt hemmelighold. Hvis noen
-          forteller deg noe som gjør deg bekymret for liv, helse, sikkerhet
-          eller alvorlig belastning, skal du ikke stå alene med det. Da skal du
-          bruke riktig vei videre, som regel leder.
+          Men du skal ikke overta ansvar som tilhører ansatte, kommunen,
+          pårørende eller fagpersoner.
         </p>
-      </LearningSection>
+        <ul className="grid gap-3 md:grid-cols-3">
+          <SmallCard>Det er ikke et nederlag å si nei.</SmallCard>
+          <SmallCard>Det er ikke kaldt å sette grenser.</SmallCard>
+          <SmallCard>Det er ikke feil å stoppe opp og spørre.</SmallCard>
+        </ul>
+        <p>
+          Tvert imot. Det er slik frivillig arbeid blir trygt, både for deg og
+          for den du møter.
+        </p>
+      </Section>
 
-      <TrustCompass choices={choices} />
-
-      <LearningSection eyebrow="Del klokt" title="Del minst mulig, men nok">
+      <Section title="Når du blir usikker">
+        <p>Det kommer til å skje at du blir usikker.</p>
         <p>
-          Når du tar noe videre til leder, trenger du ikke fortelle alt. Du skal
-          ikke gjengi hele samtalen hvis det ikke er nødvendig. Fortell det som
-          gjør at leder kan forstå situasjonen og vurdere riktig oppfølging.
+          Kanskje noen ber deg gjøre noe du ikke vet om du kan gjøre. Kanskje
+          noen forteller deg noe alvorlig. Kanskje du får en dårlig magefølelse.
+          Kanskje du kjenner at en situasjon blir for stor for deg.
         </p>
-        <div className="grid gap-3 md:grid-cols-2">
+        <p>Da er ikke målet at du skal ha alle svarene. Målet er at du stopper opp.</p>
+        <ul className="grid gap-3 md:grid-cols-2">
           {[
-            "Hva har du sett?",
-            "Hva har du hørt?",
-            "Hva gjør deg bekymret?",
-            "Er det akutt?",
-            "Hva har du allerede gjort?",
+            "Er dette innenfor rollen min?",
+            "Er dette noe som må avklares?",
+            "Er dette noe jeg ikke skal gjøre?",
+            "Hvem bør jeg kontakte?",
+            "Er dette akutt?",
           ].map((question) => (
-            <p
-              key={question}
-              className="flex min-h-20 items-center justify-center rounded-2xl bg-mist px-4 py-3 text-center font-bold text-harbor [text-wrap:balance]"
-            >
-              {question}
-            </p>
+            <SmallCard key={question}>{question}</SmallCard>
           ))}
-        </div>
-      </LearningSection>
+        </ul>
+        <p>
+          Hvis noe er akutt, skal du bruke nødnummer. Hvis noe er uklart eller
+          bekymringsfullt, skal du kontakte riktig person i organisasjonen eller
+          etter den lokale rutinen.
+        </p>
+        <p className="font-bold text-harbor">
+          Hvis du kjenner deg presset, utrygg eller usikker, skal du ikke løse
+          det alene.
+        </p>
+      </Section>
 
-      <section className="space-y-5" aria-labelledby="trust-test-title">
-        <div className="flex flex-col gap-4 rounded-[2rem] bg-white p-5 shadow-soft lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
-              Tillitstesten
-            </p>
-            <h2 id="trust-test-title" className="mt-1 text-3xl font-extrabold text-ink">
-              Hva gjør du med det du får vite?
-            </h2>
-            <p className="mt-2 max-w-2xl text-base leading-7 text-slate">
-              Vurder fortrolighetsmappen. Målet er trygg dømmekraft, ikke å bli
-              redd for vanskelige samtaler.
-            </p>
-          </div>
-          <div className="min-w-52">
-            <p className="text-sm font-bold text-harbor">
-              {assessedCount} av {moduleFourTrustCases.length} situasjoner
-              vurdert
-            </p>
-            <div
-              className="mt-2 h-3 overflow-hidden rounded-full bg-mist"
-              role="progressbar"
-              aria-label="Vurderte situasjoner i Tillitstesten"
-              aria-valuemin={0}
-              aria-valuemax={moduleFourTrustCases.length}
-              aria-valuenow={assessedCount}
-            >
-              <div
-                className="h-full rounded-full bg-pine transition-all duration-500 motion-reduce:transition-none"
-                style={{
-                  width: `${(assessedCount / moduleFourTrustCases.length) * 100}%`,
-                }}
-              />
+      <Section title="Hvem spør du?">
+        <p>Som frivillig skal du alltid vite hvem du kan kontakte.</p>
+        <p>
+          Det kan være frivilligkoordinator, aktivitetsleder, kontaktperson i
+          organisasjonen, ansvarlig ansatt eller en annen definert person.
+        </p>
+        <p>Det viktigste er ikke tittelen.</p>
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
+          Det viktigste er at du vet hvor du går når du trenger hjelp.
+        </p>
+        <p>Før du starter som frivillig, bør du vite:</p>
+        <ul className="grid gap-3 md:grid-cols-2">
+          {[
+            "Hvem kontakter jeg hvis jeg blir usikker?",
+            "Hvem kontakter jeg hvis jeg må avlyse?",
+            "Hvem kontakter jeg hvis jeg blir bekymret for noen?",
+            "Hva gjør jeg hvis noe er akutt?",
+            "Hva gjør jeg hvis jeg selv opplever noe ubehagelig?",
+          ].map((question) => (
+            <SmallCard key={question}>{question}</SmallCard>
+          ))}
+        </ul>
+        <p>
+          Hvis du ikke vet svaret på dette, er det ikke du som har gjort noe
+          galt. Da må det avklares før du går videre.
+        </p>
+      </Section>
+
+      <Section title="Ditt viktigste prinsipp som frivillig">
+        <p>Det finnes mange gode prinsipper for frivillig arbeid.</p>
+        <p>Men dette er kanskje det viktigste:</p>
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
+          Du skal bidra med det som er innenfor rollen din, og spørre når noe går
+          utenfor den.
+        </p>
+        <ul className="grid gap-3 md:grid-cols-2">
+          <SmallCard>Du kan være varm uten å bli grenseløs.</SmallCard>
+          <SmallCard>Du kan bry deg uten å ta over ansvar.</SmallCard>
+          <SmallCard>Du kan lytte uten å bli behandler.</SmallCard>
+          <SmallCard>Du kan hjelpe uten å love mer enn du kan holde.</SmallCard>
+        </ul>
+        <p>
+          Du kan være viktig i noens liv uten å bli den eneste personen de har.
+          Trygg frivillighet handler ikke om å gjøre mest mulig.
+        </p>
+        <p className="font-bold text-harbor">
+          Det handler om å gjøre riktig nok, på en måte som varer.
+        </p>
+      </Section>
+
+      <section className="space-y-5" aria-labelledby="final-exercise-title">
+        <Card className="p-6 md:p-8">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <h2
+                id="final-exercise-title"
+                className="text-2xl font-extrabold leading-tight text-ink md:text-3xl"
+              >
+                Sluttøvelse: Hva gjør du nå?
+              </h2>
+              <div className="mt-4 space-y-4 text-base leading-8 text-slate md:text-lg">
+                <p>
+                  I denne øvelsen får du korte situasjoner. De er ikke laget for
+                  å lære deg nye regler, men for å teste om du kjenner igjen
+                  hovedpoengene fra kurset.
+                </p>
+                <p>
+                  Målet er ikke å være perfekt. Målet er å øve på å stoppe opp,
+                  tenke gjennom rollen din og velge en trygg vei videre.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+              <p className="text-sm font-bold uppercase tracking-normal text-slate">
+                Scenario
+              </p>
+              <p className="mt-1 text-3xl font-extrabold" aria-live="polite">
+                {currentIndex + 1} av {scenarios.length}
+              </p>
+              <p className="mt-2 text-sm font-semibold">
+                Trygg retning funnet: {recommendedCount}.
+              </p>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
-              Situasjonskort
-            </p>
-            <h3 className="mt-1 text-2xl font-bold text-ink">
-              Situasjon {currentIndex + 1} av {moduleFourTrustCases.length}
-            </h3>
+          <div
+            className="mt-6 h-3 overflow-hidden rounded-full bg-mist"
+            role="progressbar"
+            aria-label="Scenarioer vurdert"
+            aria-valuemin={0}
+            aria-valuemax={scenarios.length}
+            aria-valuenow={completedScenarioCount}
+          >
+            <div
+              className="h-full rounded-full bg-pine transition-all duration-500"
+              style={{ width: `${(completedScenarioCount / scenarios.length) * 100}%` }}
+            />
           </div>
-          <p className="flex min-h-11 w-fit items-center justify-center rounded-2xl bg-mist px-4 py-2 text-center text-sm font-bold text-harbor [text-wrap:balance]">
-            Trygge vurderinger funnet: {correctChoicesCount}.
-          </p>
-        </div>
+        </Card>
 
-        <TrustCaseCard
-          choice={currentChoice}
-          onChoose={chooseLevel}
-          trustCase={currentCase}
-        />
+        <Card className="overflow-hidden p-0">
+          <div className="h-2 bg-pine" />
+          <div className="p-6 md:p-8">
+            <h3 className="text-2xl font-extrabold text-ink">
+              {currentScenario.title}
+            </h3>
+            <p className="mt-5 flex min-h-36 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-semibold leading-9 text-ink [text-wrap:balance]">
+              {currentScenario.situation}
+            </p>
+
+            <fieldset className="mt-7">
+              <legend className="text-base font-bold text-harbor">
+                Hva gjør du?
+              </legend>
+              <div className="mt-4 grid gap-3">
+                {currentScenario.choices.map((choice) => (
+                  <button
+                    key={choice.id}
+                    type="button"
+                    aria-pressed={selectedChoice === choice.id}
+                    onClick={() => chooseAnswer(choice.id)}
+                    className={getChoiceClasses(choice.id)}
+                  >
+                    <span className="flex items-start gap-3">
+                      <span
+                        className="grid size-8 shrink-0 place-items-center rounded-full bg-harbor text-sm font-extrabold uppercase text-white"
+                        aria-hidden="true"
+                      >
+                        {choice.id}
+                      </span>
+                      <span>{choice.label}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+
+            {selectedChoice ? (
+              <section className="mt-6 rounded-3xl bg-mist p-5" aria-live="polite">
+                <p className="text-sm font-bold uppercase tracking-normal text-harbor">
+                  Trygg retning
+                </p>
+                <h4 className="mt-2 text-xl font-bold text-harbor">
+                  Anbefalt valg: {recommendedChoice.id.toUpperCase()}.
+                </h4>
+                <p className="mt-3 text-base leading-8 text-slate">
+                  {currentScenario.feedback}
+                </p>
+                <div className="mt-5 rounded-2xl bg-white p-5 text-harbor ring-1 ring-harbor/10">
+                  <p className="text-sm font-bold uppercase tracking-normal">
+                    Trygg formulering
+                  </p>
+                  <p className="mt-2 text-base font-bold leading-8">
+                    «{currentScenario.safePhrase}»
+                  </p>
+                </div>
+              </section>
+            ) : null}
+          </div>
+        </Card>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-          <Button
-            onClick={goToPreviousCase}
-            onKeyDown={(event) => activateOnKeyboard(event, goToPreviousCase)}
-            variant="secondary"
-            disabled={currentIndex === 0}
-          >
-            Forrige situasjon
-          </Button>
-          <Button
-            onClick={goToNextCase}
-            onKeyDown={(event) => activateOnKeyboard(event, goToNextCase)}
-            disabled={!currentChoice || currentIndex === moduleFourTrustCases.length - 1}
-          >
-            Neste situasjon
-          </Button>
+          {currentIndex > 0 ? (
+            <Button
+              onClick={() => setCurrentIndex((index) => Math.max(index - 1, 0))}
+              variant="secondary"
+            >
+              Forrige scenario
+            </Button>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {currentIndex < scenarios.length - 1 ? (
+            <Button
+              onClick={() =>
+                setCurrentIndex((index) => Math.min(index + 1, scenarios.length - 1))
+              }
+              disabled={!selectedChoice}
+            >
+              Neste scenario
+            </Button>
+          ) : null}
         </div>
       </section>
 
-      {checklistUnlocked ? (
-        <section className="space-y-6" aria-live="polite">
-          <section className="rounded-[2rem] border border-pine/30 bg-gradient-to-br from-harbor to-fjord p-7 text-white shadow-glow md:p-9">
-            <p className="text-sm font-bold uppercase tracking-normal text-pine">
-              Huskeliste låst opp
-            </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight">
-              Min huskeliste for taushet, tillit og bekymring
+      {hasCompletedExercise ? (
+        <section className="space-y-8" aria-live="polite">
+          <Card className="border-pine/40 bg-mist p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-harbor md:text-3xl">
+              Du har øvd på trygg retning
             </h2>
-            <ol className="mt-6 grid gap-3">
-              {checklistItems.map((item, index) => (
-                <li
-                  key={item}
-                  className="grid gap-3 rounded-2xl bg-white/10 p-4 text-base font-semibold leading-7 text-white sm:grid-cols-[auto_1fr]"
-                >
-                  <span className="font-black text-pine">{index + 1}.</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ol>
-          </section>
-
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
-              Trygge formuleringer
+            <p className="mt-4 max-w-4xl text-base font-semibold leading-8 text-slate md:text-lg">
+              Du har øvd på å stoppe opp, kjenne igjen rollen din og velge trygg
+              vei videre.
             </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Setninger du kan bruke
-            </h2>
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {phraseGroups.map((group) => (
-                <article
-                  key={group.title}
-                  className="rounded-3xl border border-harbor/8 bg-white p-5 shadow-sm"
-                >
-                  <h3 className="text-lg font-bold text-harbor">{group.title}</h3>
-                  <ul className="mt-3 space-y-3">
-                    {group.phrases.map((phrase) => (
-                      <li key={phrase} className="text-base leading-8 text-slate">
-                        «{phrase}»
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
           </Card>
 
-          <LearningSection
-            eyebrow="Etterpå"
-            title="Hvorfor du ikke alltid får vite hva som skjer videre"
-          >
-            <p>
-              Når du har meldt en bekymring til leder, kan det hende du ikke får
-              vite så mye om hva som skjer videre.
-            </p>
-            <p>
-              Det kan føles rart. Du har kanskje vært den som oppdaget noe
-              viktig, og du bryr deg om personen. Da er det naturlig å ønske å
-              vite hvordan det går.
-            </p>
-            <p>
-              Men ansatte, kommunen, helse- og omsorgstjenester og andre
-              ansvarlige kan være bundet av taushetsplikt. De kan ofte ikke gi
-              deg detaljer om vurderinger, tiltak, helseopplysninger,
-              familieforhold eller videre oppfølging.
-            </p>
-            <p className="flex min-h-28 items-center justify-center rounded-3xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
-              Det betyr ikke at bekymringen din ikke ble tatt på alvor. Som
-              frivillig er din oppgave å si fra gjennom riktig kanal. Deretter må
-              riktig ansvarlig person eller tjeneste vurdere veien videre.
-            </p>
-            <p>
-              Du kan fortsatt be leder om støtte for din egen del, særlig hvis
-              situasjonen gjorde inntrykk på deg. Men du har ikke krav på å få
-              vite alt som skjer videre med personen.
-            </p>
-          </LearningSection>
-
-          <MasteryCheck answers={masteryAnswers} onAnswer={answerMastery} />
-
-          <Card className="p-7 md:p-8">
-            <p className="text-sm font-bold uppercase tracking-normal text-harbor">
-              Bro til Del 5
-            </p>
-            <h2 className="mt-2 text-3xl font-extrabold text-ink">
-              Fra informasjon til gode møter
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Din egen huskeregel
             </h2>
-            <p className="mt-5 text-base leading-8 text-slate">
-              Nå har du trent på hva du gjør med informasjon du får vite som
-              frivillig. I neste del går vi videre til selve møtet mellom
-              mennesker: hvordan du skaper gode samtaler, viser respekt, lytter
-              godt og samtidig holder rollen tydelig.
+            <p className="mt-5 max-w-4xl text-base leading-8 text-slate md:text-lg">
+              Før du avslutter kurset, velg én huskeregel du vil ta med deg
+              videre. Du kan også skrive din egen.
             </p>
+            <div className="mt-6 grid gap-3 md:grid-cols-2">
+              {reminderOptions.map((rule) => (
+                <button
+                  key={rule}
+                  type="button"
+                  aria-pressed={personalRule === rule}
+                  onClick={() => handleRuleChange(rule)}
+                  className={`flex min-h-28 items-center justify-center rounded-2xl border p-5 text-center text-base font-bold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine [text-wrap:balance] ${
+                    personalRule === rule
+                      ? "border-pine bg-pine/18 text-harbor ring-2 ring-pine/45"
+                      : "border-harbor/10 bg-mist text-harbor hover:border-pine/55"
+                  }`}
+                >
+                  {rule}
+                </button>
+              ))}
+            </div>
+            <label
+              htmlFor="module-four-personal-rule"
+              className="mt-6 block text-base font-bold text-harbor"
+            >
+              Min huskeregel som frivillig er:
+            </label>
+            <textarea
+              id="module-four-personal-rule"
+              value={personalRule}
+              onChange={(event) => handleRuleChange(event.target.value)}
+              rows={4}
+              placeholder="Min huskeregel som frivillig er..."
+              className="mt-3 min-h-28 w-full resize-y rounded-2xl border border-harbor/15 bg-white p-4 text-base leading-7 text-ink shadow-sm outline-none transition focus:border-pine focus:ring-4 focus:ring-pine/20"
+            />
+            <p className="mt-3 text-sm font-semibold text-slate">
+              Huskeregelen lagres bare lokalt i nettleseren din og sendes ikke
+              noe sted.
+            </p>
+          </Card>
+
+          <Section title="Avslutning">
+            <p>Du trenger ikke kunne alt for å være en god frivillig.</p>
+            <p>Du trenger ikke ha svar på alle spørsmål.</p>
+            <p>Du trenger ikke løse alle problemer.</p>
+            <p>
+              Det viktigste er at du forstår rollen din, kjenner grensene dine
+              og vet hvem du kan spørre når noe blir uklart.
+            </p>
+            <p>Frivillighet handler ikke om å være perfekt.</p>
+            <p>
+              Det handler om å stille opp på en måte som er trygg, menneskelig og
+              bærekraftig.
+            </p>
+            <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
+              Du er viktig. Og du står ikke alene.
+            </p>
+          </Section>
+
+          <Card className="p-6 md:p-8">
+            <h2 className="text-2xl font-extrabold text-ink md:text-3xl">
+              Du er klar til å bidra trygt
+            </h2>
+            <p className="mt-5 max-w-4xl text-base leading-8 text-slate md:text-lg">
+              Du har samlet hovedpoengene fra kurset og øvd på praktiske
+              situasjoner der rollen kan bli uklar.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button
+                onClick={onComplete}
+                className="w-full bg-pine text-harbor hover:bg-leaf sm:w-auto"
+              >
+                Fullfør kurset
+              </Button>
+              <Button to="/" variant="secondary" className="w-full sm:w-auto">
+                Til hovedsiden
+              </Button>
+            </div>
           </Card>
         </section>
       ) : (
-        <Card className="p-6">
-          <p className="text-base font-semibold leading-8 text-slate">
-            Gjennomfør minst {REQUIRED_CASES} situasjoner for å låse opp
-            huskelisten, trygge formuleringer og mestringssjekken.
-          </p>
+        <Card className="p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-semibold text-slate">
+              Gå gjennom alle scenarioene for å åpne avslutningen.
+            </p>
+            <Button to="/" variant="secondary">
+              Til hovedsiden
+            </Button>
+          </div>
         </Card>
       )}
 
-      <div className="mt-12 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/trygg-som-frivillig/deler" variant="secondary">
-          Tilbake til deloversikt
-        </Button>
-        <div className="flex flex-col gap-2 sm:items-end">
-          {!canComplete ? (
-            <p className="text-sm font-semibold text-slate">
-              Vurder minst 8 situasjoner og få minst 4 av 5 trygge svar i
-              mestringssjekken for å fullføre delen.
-            </p>
-          ) : null}
-          <Button
-            onClick={onComplete}
-            onKeyDown={(event) => activateOnKeyboard(event, onComplete)}
-            disabled={!canComplete && !isComplete}
-            className="bg-pine text-harbor hover:bg-leaf"
-          >
-            {isComplete ? "Fullført - gå til neste del" : "Fullfør og gå videre"}
-          </Button>
+      {isComplete ? (
+        <div className="sr-only" aria-live="polite">
+          Del 4 er allerede fullført.
         </div>
-      </div>
+      ) : null}
     </article>
   );
 }
-
-
-
-
-

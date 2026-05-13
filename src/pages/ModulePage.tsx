@@ -16,11 +16,11 @@ const transitionCopy: Record<string, string> = {
   "modul-1":
     "Nå har du sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er, og hvordan rollen kan være både varm og trygg.",
   "modul-2":
-    "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på trygge valg i praksis.",
+    "Nå har du bygget rollekompasset ditt. Neste steg handler om hva du gjør når noe blir uklart.",
   "modul-3":
-    "Nå har du øvd på å stoppe, avklare og bruke riktig hjelp når noe blir uklart. Neste steg handler om taushet, tillit og bekymring.",
+    "Nå har du øvd på å stoppe, avklare og bruke riktig hjelp når noe blir uklart. Neste steg er å samle læringen og gjøre deg klar til å bidra.",
   "modul-4":
-    "Nå har du trent på hva du gjør med informasjon du får vite som frivillig. Neste steg handler om gode møter med mennesker.",
+    "Du har fullført kurset. Du trenger ikke kunne alt. Du skal vite hva du gjør når du ikke vet.",
 };
 
 export function ModulePage() {
@@ -107,7 +107,12 @@ export function ModulePage() {
         />
       ) : null}
       {showCompletion ? (
-        <CompletionPanel transitionText={transitionCopy[courseModule.id]} />
+        <CompletionPanel
+          nextLabel={!nextCourseModule ? "Til hovedsiden" : undefined}
+          nextTo={!nextCourseModule ? "/" : undefined}
+          title={!nextCourseModule ? "Kurset er fullført" : undefined}
+          transitionText={transitionCopy[courseModule.id]}
+        />
       ) : courseModule.id === "modul-1" ? (
         <ModuleOne
           courseModule={courseModule}

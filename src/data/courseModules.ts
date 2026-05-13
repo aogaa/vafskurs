@@ -60,14 +60,14 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-4",
     order: 4,
-    title: "Taushet, tillit og bekymring",
+    title: "Klar til å bidra",
     description:
-      "Hva du kan holde for deg selv, hva som må tas videre, og hvordan du melder bekymring trygt.",
+      "Samle det viktigste fra kurset og øv på trygge valg i praktiske situasjoner.",
     status: "planned",
     learningGoals: [
-      "Skille mellom vanlig fortrolighet, veiledningsbehov, bekymring og alvorlig fare",
-      "Forstå at taushet og tillit ikke betyr absolutt hemmelighold",
-      "Dele minst mulig, men nok til at riktig person kan følge opp",
+      "Kjenne igjen når du kan bidra selv og når noe må avklares",
+      "Vite hvem du spør når noe blir uklart",
+      "Samle en personlig huskeregel for trygg frivillighet",
     ],
   },
   {
@@ -127,7 +127,7 @@ export const courseModules: CourseModule[] = [
 ];
 
 export const visibleCourseModules = courseModules.filter(
-  (courseModule) => courseModule.order <= 6,
+  (courseModule) => courseModule.order <= 4,
 );
 
 export function getModuleById(moduleId: string) {

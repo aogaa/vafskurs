@@ -894,7 +894,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               Du har fullført Del 2
             </h2>
             <h3 className="mt-2 text-xl font-bold text-harbor md:text-2xl">
-              Neste del handler om gode møter med mennesker
+              Neste del handler om hva du gjør når noe blir uklart
             </h3>
             <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
               <p>

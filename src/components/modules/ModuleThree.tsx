@@ -1197,7 +1197,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
                 Du har fullført Del 3
               </h2>
               <h3 className="mt-2 text-xl font-bold text-harbor md:text-2xl">
-                Neste del handler om taushet, tillit og bekymring
+                Neste del samler det viktigste du har lært
               </h3>
               <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
                 <p>Du skal ikke løse alt alene.</p>
