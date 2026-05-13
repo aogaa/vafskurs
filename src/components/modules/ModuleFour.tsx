@@ -48,23 +48,27 @@ const scenarios: FinalScenario[] = [
       "Jeg vil gjerne hjelpe, men dette må vi gjøre på riktig måte. Jeg kontakter ansvarlig person, så finner vi ut hva som er tryggest.",
   },
   {
-    id: "liten-oppgave",
-    title: "Scenario 2: Du får en oppgave som virker liten",
+    id: "fast-privat-avtale",
+    title: "Scenario 2: Noen ber deg gjøre noe som binder deg framover",
     situation:
-      "Etter en aktivitet spør en deltaker om du kan låse deg inn i boden, hente rullatoren hennes og sette den utenfor inngangsdøren neste morgen før hun skal ut.",
+      "Etter en aktivitet spør en deltaker om du kan lage en fast privat avtale: «Kan ikke du bare komme innom meg hver tirsdag og hjelpe meg med småting hjemme? Det er ikke så mye, bare litt rydding, litt bæring og sånt.»",
     recommendedChoiceId: "b",
     choices: [
-      { id: "a", label: "Sier ja, siden det bare tar to minutter." },
+      { id: "a", label: "Sier ja, fordi det er hyggelig å kunne hjelpe." },
       {
         id: "b",
-        label: "Sier at dette må avklares, fordi det handler om tilgang, ansvar og avtale.",
+        label:
+          "Sier at du ikke kan lage en fast privat avtale, men at du kan ta ønsket videre til kontaktpersonen.",
       },
-      { id: "c", label: "Ber henne sende deg en SMS som påminnelse." },
+      {
+        id: "c",
+        label: "Sier ja, men bare hvis deltakeren lover å ikke fortelle det til andre.",
+      },
     ],
     feedback:
-      "Små oppgaver kan virke uskyldige, men kan skape ansvar, forventninger og praktisk risiko. Hvis noe gjelder nøkler, tilgang, hjelpemidler, avtaler eller sikkerhet, bør det avklares.",
+      "Her er ikke problemet at frivillige aldri kan gjøre små praktiske ting. Mange små oppgaver kan være helt innenfor, hvis de er trygge og passer med rammen for aktiviteten eller oppdraget. Problemet her er at det blir en fast privat avtale utenfor rammen. Da kan det skape forventninger, ansvar og uklarhet om rollen din.",
     safePhrase:
-      "Det høres enkelt ut, men jeg kan ikke avtale det direkte. Jeg må sjekke med kontaktpersonen først.",
+      "Jeg skjønner at det hadde vært fint å få hjelp til sånt. Jeg kan ikke lage en fast privat avtale, men jeg kan ta det videre med kontaktpersonen, så ser vi hva som er mulig innenfor riktig ramme.",
   },
   {
     id: "vurdere-noen",
