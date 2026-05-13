@@ -387,7 +387,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
 
       <Card className="p-6 md:p-8">
         <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
-          Dette skal du ta med deg videre
+          Dette kan du ta med deg videre
         </h2>
         <ul className="mt-6 grid gap-4 md:grid-cols-2">
           {[

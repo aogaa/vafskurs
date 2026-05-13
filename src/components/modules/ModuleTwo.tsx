@@ -420,7 +420,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           ].map((item) => (
             <li
               key={item}
-              className="rounded-2xl bg-mist p-4 text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor"
             >
               {item}
             </li>
