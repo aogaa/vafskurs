@@ -263,7 +263,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           mennesker. Det er verdifullt.
         </p>
         <p>Men det er også viktig å vite hva rollen din er.</p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Du er ikke ansatt uten lønn. Du er ikke en ekstra kommunal tjeneste. Du
           er ikke pårørende. Du er ikke saksbehandler, behandler eller ansvarlig
           for å løse alt som er vanskelig i et annet menneskes liv.
@@ -328,7 +328,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           du må gjøre faglige vurderinger, håndtere helseoppgaver eller bære
           ansvar du ikke har fått opplæring, mandat eller rammer til å bære.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Godt samarbeid krever tydelige grenser. Ikke fordi vi skal gjøre
           frivilligheten kaldere, men fordi tydelige grenser gjør det tryggere å
           være varm.
@@ -395,7 +395,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
       </Section>
 
       <Section title="Supplement og berikelse - ikke erstatning">
-        <p className="rounded-2xl bg-mist p-5 text-xl font-bold leading-9 text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
           Som frivillig bidrar du med noe ekstra i menneskers liv, ikke overta
           det andre har ansvar for.
         </p>
@@ -420,7 +420,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           ].map((item) => (
             <li
               key={item}
-              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -546,7 +546,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
             </p>
           </RoleCard>
         </div>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Du skal ikke bli løsningen på alt som mangler rundt et menneske. Du kan
           bidra. Men du skal ikke bære systemets, familiens eller tjenestens
           ansvar alene.
@@ -563,7 +563,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           som forstår rollen sin, spør når noe er uklart og sier fra når noe må
           avklares.
         </p>
-        <p className="rounded-2xl bg-mist p-5 text-xl font-bold leading-9 text-harbor">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
           Stopp. Tenk. Avklar.
         </p>
         <p>Stopp når du kjenner at noe er uklart.</p>
@@ -583,7 +583,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           ].map((item) => (
             <li
               key={item}
-              className="rounded-2xl bg-mist p-4 text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -739,7 +739,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               {practicalPhrases.map((phrase) => (
                 <p
                   key={phrase}
-                  className="flex min-h-32 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-8 text-harbor"
+                  className="flex min-h-32 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-8 text-harbor [text-wrap:balance]"
                 >
                   «{phrase}»
                 </p>
@@ -764,7 +764,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
                 (question, index) => (
                   <p
                     key={question}
-                    className="flex min-h-28 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-5 text-center text-lg font-bold leading-7 text-harbor"
+                    className="flex min-h-28 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-5 text-center text-lg font-bold leading-7 text-harbor [text-wrap:balance]"
                   >
                     <span
                       className="flex size-8 items-center justify-center rounded-full bg-harbor text-sm font-extrabold text-white"
@@ -792,7 +792,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               deg.
             </p>
             <p>Da er det lett å føle at du må gjøre mer.</p>
-            <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+            <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
               Men du skal ikke bære alt ansvar.
             </p>
             <p>
@@ -845,7 +845,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               ].map((item, index) => (
                 <li
                   key={item}
-                  className="flex min-h-32 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-7 text-harbor"
+                  className="flex min-h-32 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-5 text-center text-base font-semibold leading-7 text-harbor [text-wrap:balance]"
                 >
                   <span
                     className="flex size-8 shrink-0 items-center justify-center rounded-full bg-harbor text-sm font-extrabold text-white"

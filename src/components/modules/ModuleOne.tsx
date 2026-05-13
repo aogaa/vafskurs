@@ -304,7 +304,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           grunn til å gå ut. En frivillig kan være den som gjør at et menneske
           kjenner: Her er det plass til meg.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Vanlig menneskelig omtanke kan gjøre en dag lettere, et møte tryggere
           og et nærmiljø varmere.
         </p>
@@ -377,7 +377,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           å høre til. En samtale kan bli starten på en relasjon. En invitasjon
           kan gjøre at noen våger å komme tilbake.
         </p>
-        <div className="rounded-2xl bg-mist p-5 text-lg font-bold leading-8 text-harbor">
+        <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-mist p-5 text-center text-lg font-bold leading-8 text-harbor [text-wrap:balance]">
           <p>Slik bygges fellesskap.</p>
           <p>Slik bygges tillit.</p>
           <p>Slik bygges lokalsamfunn.</p>
@@ -400,7 +400,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           ].map((item) => (
             <li
               key={item}
-              className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-7 text-harbor"
+              className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -546,7 +546,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
               ].map((item, index) => (
                 <li
                   key={item}
-                  className="flex gap-4 rounded-2xl bg-mist p-4 text-base font-semibold leading-7 text-harbor"
+                  className="flex min-h-28 flex-col items-center justify-center gap-3 rounded-2xl bg-mist p-4 text-center text-base font-semibold leading-7 text-harbor [text-wrap:balance]"
                 >
                   <span
                     className="flex size-8 shrink-0 items-center justify-center rounded-full bg-harbor text-sm font-extrabold text-white"

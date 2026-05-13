@@ -37,8 +37,8 @@ export function ProgressSummary({
             </p>
           ) : null}
         </div>
-        <p className="w-fit rounded-2xl bg-mist px-4 py-2 text-base font-bold text-harbor">
-          {percent}% fullført
+        <p className="flex min-h-11 w-fit items-center justify-center rounded-2xl bg-mist px-4 py-2 text-center text-base font-bold text-harbor [text-wrap:balance]">
+          Fullført: {percent}%.
         </p>
       </div>
       <div

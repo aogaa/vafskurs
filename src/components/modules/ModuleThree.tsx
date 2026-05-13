@@ -506,7 +506,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           deg noe alvorlig. Kanskje du opplever press. Kanskje du ser noe som
           gjør deg bekymret. Eller kanskje du bare får en dårlig magefølelse.
         </p>
-        <p className="rounded-2xl bg-mist p-5 text-xl font-bold leading-9 text-harbor">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
           Du skal ikke løse alt alene.
         </p>
         <p>
@@ -544,7 +544,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           ].map((item) => (
             <li
               key={item}
-              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -593,18 +593,18 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
         </p>
         <ul className="grid gap-3 md:grid-cols-2">
           {[
-            "noen ber deg gjøre noe utenfor avtalen",
-            "du får vite noe alvorlig",
-            "du opplever press fra bruker eller pårørende",
-            "du blir usikker på om en situasjon er trygg",
-            "du ser tegn på at noen ikke har det bra",
-            "noen ber deg holde noe hemmelig",
-            "du opplever ubehag eller grenseoverskridende oppførsel",
-            "du får en dårlig magefølelse",
+            "Noen ber deg gjøre noe utenfor avtalen.",
+            "Du får vite noe alvorlig.",
+            "Du opplever press fra bruker eller pårørende.",
+            "Du blir usikker på om en situasjon er trygg.",
+            "Du ser tegn på at noen ikke har det bra.",
+            "Noen ber deg holde noe hemmelig.",
+            "Du opplever ubehag eller grenseoverskridende oppførsel.",
+            "Du får en dårlig magefølelse.",
           ].map((item) => (
             <li
               key={item}
-              className="rounded-2xl bg-mist p-4 text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -627,7 +627,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           Men taushetsløftet betyr ikke at du skal stå alene med vanskelige
           situasjoner.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Hvis du er bekymret, usikker eller har opplevd noe ubehagelig, skal du
           kunne snakke med lederen eller kontaktpersonen din. Det er ikke
           sladder. Det er trygg og ansvarlig frivillighet.
@@ -644,7 +644,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           Noen ganger kan en bruker si: «Du må ikke si dette til noen.» Møt det
           med ro og respekt, men ikke lov absolutt hemmelighold.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Jeg skal ikke dele dette med uvedkommende. Men hvis jeg blir bekymret
           for deg eller for noen andre, må jeg kunne snakke med lederen min for å
           finne ut hva som er riktig å gjøre.
@@ -681,7 +681,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           Du skal ikke konkludere, diagnostisere eller etterforske. Men du kan
           si fra til lederen din:
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Jeg vet ikke om dette er noe, men jeg vil gjerne drøfte det med deg.
         </p>
       </Section>
@@ -702,7 +702,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           ].map((item) => (
             <li
               key={item}
-              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -728,7 +728,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           til lege, komme innom utenfor avtalen, hjelpe på badet eller kjøre noen
           hjem.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Når du blir bedt om noe som ikke er avtalt, trenger du ikke svare ja
           med én gang. Du kan si: «Det må jeg avklare med kontaktpersonen min
           først.»
@@ -784,7 +784,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           situasjonen utrygg, eller du av andre grunner kjenner at dette ikke er
           greit, har du lov til å sette grense.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Jeg opplever dette som ubehagelig. Hvis det fortsetter, må jeg avslutte
           besøket.
         </p>
@@ -841,7 +841,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           ].map((item) => (
             <li
               key={item}
-              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor"
+              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
             >
               {item}
             </li>
@@ -864,7 +864,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           ikke vite nøyaktig hva som skal skje videre. Det du trenger, er å vite
           når du skal stoppe opp og avklare.
         </p>
-        <p className="rounded-2xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Det gjør deg ikke mindre omsorgsfull. Det gjør deg tryggere som
           frivillig.
         </p>
@@ -955,7 +955,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
         <Card className="overflow-hidden p-0">
           <div className="h-2 bg-pine" />
           <div className="p-6 md:p-8">
-            <p className="rounded-3xl bg-mist p-5 text-xl font-semibold leading-9 text-ink">
+            <p className="flex min-h-32 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-semibold leading-9 text-ink [text-wrap:balance]">
               {currentScenario.situation}
             </p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
@@ -1031,7 +1031,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
             </Card>
 
             <Card className="p-6 md:p-8">
-              <p className="rounded-3xl bg-mist p-5 text-xl font-semibold leading-9 text-ink">
+              <p className="flex min-h-32 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-semibold leading-9 text-ink [text-wrap:balance]">
                 {currentPhraseTask.situation}
               </p>
               <div className="mt-6 grid gap-3">
@@ -1124,7 +1124,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
                               «{pair.weaker}»
                             </p>
                           </div>
-                          <div className="rounded-2xl bg-mist p-4">
+                          <div className="flex min-h-28 flex-col items-center justify-center rounded-2xl bg-mist p-4 text-center [text-wrap:balance]">
                             <p className="text-sm font-bold uppercase text-harbor">
                               Bedre å melde videre
                             </p>
@@ -1137,7 +1137,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
                     );
                   })}
                 </div>
-                <p className="mt-6 rounded-2xl bg-mist p-5 text-base font-bold leading-8 text-harbor">
+                <p className="mt-6 flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-8 text-harbor [text-wrap:balance]">
                   Du skal ikke diagnostisere, etterforske eller konkludere. Du
                   skal beskrive det du har sett, hørt eller opplevd, og ta det
                   videre til riktig person.
@@ -1181,7 +1181,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
                     })}
                   </div>
                   {masteryComplete ? (
-                    <p className="mt-6 rounded-2xl bg-mist p-5 text-base font-bold leading-8 text-harbor">
+                    <p className="mt-6 flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-8 text-harbor [text-wrap:balance]">
                       Du trenger ikke løse alt. Du trenger å vite når du skal
                       stoppe, hvem du skal spørre, og når du må handle raskt.
                     </p>

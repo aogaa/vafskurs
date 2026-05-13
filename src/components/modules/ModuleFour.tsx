@@ -513,8 +513,8 @@ function MasteryCheck({
             Har du trygg nok retning?
           </h2>
         </div>
-        <p className="w-fit rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor">
-          {correctCount} av {masteryQuestions.length} trygge svar
+        <p className="flex min-h-11 w-fit items-center justify-center rounded-2xl bg-mist px-4 py-2 text-center text-sm font-bold text-harbor [text-wrap:balance]">
+          Trygge svar: {correctCount} av {masteryQuestions.length}.
         </p>
       </div>
       <div className="mt-6 grid gap-5">
@@ -560,7 +560,7 @@ function MasteryCheck({
               </div>
               {selectedOption ? (
                 <p
-                  className="mt-4 rounded-2xl bg-mist p-4 text-base font-semibold leading-7 text-harbor"
+                  className="mt-4 flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-semibold leading-7 text-harbor [text-wrap:balance]"
                   aria-live="polite"
                 >
                   {selectedOption.feedback}
@@ -656,7 +656,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           videre til uvedkommende, og at du bare kobler på riktig person når det
           faktisk trengs.
         </p>
-        <p className="rounded-3xl bg-mist p-5 font-bold text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-3xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
           Noen ting skal bli mellom deg og den du møter. Andre ting bør du be
           leder om råd om. Noen bekymringer må tas videre. Og noen få
           situasjoner kan være så alvorlige at de må håndteres raskt etter lokal
@@ -670,7 +670,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           være informasjon om helse, familie, økonomi, ensomhet, konflikter,
           sorg, tro, livsvalg eller ting personen synes er vanskelig.
         </p>
-        <p className="rounded-3xl bg-mist p-5 text-xl font-bold leading-8 text-harbor">
+        <p className="flex min-h-28 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-bold leading-8 text-harbor [text-wrap:balance]">
           Du skal ikke dele private opplysninger med andre som ikke trenger å
           vite det.
         </p>
@@ -705,7 +705,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
           ].map((question) => (
             <p
               key={question}
-              className="rounded-2xl bg-mist px-4 py-3 font-bold text-harbor"
+              className="flex min-h-20 items-center justify-center rounded-2xl bg-mist px-4 py-3 text-center font-bold text-harbor [text-wrap:balance]"
             >
               {question}
             </p>
@@ -759,8 +759,8 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
               Situasjon {currentIndex + 1} av {moduleFourTrustCases.length}
             </h3>
           </div>
-          <p className="w-fit rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor">
-            {correctChoicesCount} trygge vurderinger funnet
+          <p className="flex min-h-11 w-fit items-center justify-center rounded-2xl bg-mist px-4 py-2 text-center text-sm font-bold text-harbor [text-wrap:balance]">
+            Trygge vurderinger funnet: {correctChoicesCount}.
           </p>
         </div>
 
@@ -856,7 +856,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
               deg detaljer om vurderinger, tiltak, helseopplysninger,
               familieforhold eller videre oppfølging.
             </p>
-            <p className="rounded-3xl bg-mist p-5 font-bold text-harbor">
+            <p className="flex min-h-28 items-center justify-center rounded-3xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
               Det betyr ikke at bekymringen din ikke ble tatt på alvor. Som
               frivillig er din oppgave å si fra gjennom riktig kanal. Deretter må
               riktig ansvarlig person eller tjeneste vurdere veien videre.
