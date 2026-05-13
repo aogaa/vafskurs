@@ -47,14 +47,14 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-3",
     order: 3,
-    title: "Gode møter med mennesker",
+    title: "Når noe blir uklart - stopp og avklar",
     description:
-      "Øv på å møte mennesker med respekt, ro og omtanke uten å presse, fikse eller overta.",
+      "Lær hva du gjør når noe blir uklart, bekymringsfullt eller ubehagelig.",
     status: "planned",
     learningGoals: [
-      "Invitere til kontakt uten å presse",
-      "Lytte uten å overta samtalen eller gi råd du ikke skal gi",
-      "Bidra til verdighet og selvbestemmelse i små øyeblikk",
+      "Bruke Stopp og avklar-kompasset når du blir usikker",
+      "Skille mellom det du kan fortsette med, det du må avklare og akutt fare",
+      "Beskrive det du har sett og hørt uten å diagnostisere eller konkludere",
     ],
   },
   {

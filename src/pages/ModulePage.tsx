@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CompletionPanel } from "../components/course/CompletionPanel";
 import { ModuleLayout } from "../components/course/ModuleLayout";
@@ -18,7 +18,7 @@ const transitionCopy: Record<string, string> = {
   "modul-2":
     "Nå har du bygget rollekompasset ditt. Neste steg er å se nærmere på trygge valg i praksis.",
   "modul-3":
-    "Nå har du øvd på gode møter med mennesker. Neste steg handler om tillit, taushet og hva som må tas videre.",
+    "Nå har du øvd på å stoppe, avklare og bruke riktig hjelp når noe blir uklart. Neste steg handler om taushet, tillit og bekymring.",
   "modul-4":
     "Nå har du trent på hva du gjør med informasjon du får vite som frivillig. Neste steg handler om gode møter med mennesker.",
 };
@@ -29,6 +29,10 @@ export function ModulePage() {
   const courseModule = moduleId ? getModuleById(moduleId) : undefined;
   const { isModuleComplete, markModuleComplete } = useProgress();
   const [showCompletion, setShowCompletion] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [moduleId]);
 
   if (!courseModule) {
     return (
