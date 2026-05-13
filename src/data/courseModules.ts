@@ -70,65 +70,9 @@ export const courseModules: CourseModule[] = [
       "Samle en personlig huskeregel for trygg frivillighet",
     ],
   },
-  {
-    id: "modul-5",
-    order: 5,
-    title: "Gode møter med mennesker",
-    description:
-      "Hvordan du skaper gode samtaler, viser respekt, lytter godt og holder rollen tydelig.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-6",
-    order: 6,
-    title: "Å si ja, nei og «det må jeg avklare»",
-    description:
-      "Praktiske formuleringer for tydelige og vennlige grenser.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-7",
-    order: 7,
-    title: "Taushet og fortrolighet",
-    description:
-      "Forstå hva du kan dele, hva du skal holde for deg selv, og når du må spørre.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-8",
-    order: 8,
-    title: "Verdighet og respekt i praksis",
-    description:
-      "Små valg i møte med mennesker kan gi stor opplevelse av verdighet.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-9",
-    order: 9,
-    title: "Når jeg blir bekymret",
-    description:
-      "Hva du gjør når magefølelsen sier at noe ikke er som det skal.",
-    status: "planned",
-    learningGoals: [],
-  },
-  {
-    id: "modul-10",
-    order: 10,
-    title: "Bilder, historier og sosiale medier",
-    description:
-      "Trygge valg når du vil dele noe fra frivillig arbeid.",
-    status: "planned",
-    learningGoals: [],
-  },
 ];
 
-export const visibleCourseModules = courseModules.filter(
-  (courseModule) => courseModule.order <= 4,
-);
+export const visibleCourseModules = courseModules;
 
 export function getModuleById(moduleId: string) {
   return courseModules.find((courseModule) => courseModule.id === moduleId);

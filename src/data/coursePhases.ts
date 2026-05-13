@@ -21,24 +21,10 @@ export const coursePhases: CoursePhase[] = [
     moduleIds: ["modul-2", "modul-3"],
   },
   {
-    id: "sett-trygge-grenser",
-    title: "Delområde 3: Sett trygge grenser",
+    id: "klar-til-a-bidra",
+    title: "Delområde 3: Klar til å bidra",
     description:
-      "Innenfor, avklar og utenfor: grensesetting, fortrolighet og trygge formuleringer.",
-    moduleIds: ["modul-4", "modul-5", "modul-6", "modul-7"],
-  },
-  {
-    id: "mot-mennesker-godt",
-    title: "Delområde 4: Møt mennesker godt",
-    description:
-      "Verdighet, respekt, relasjoner og hvordan du møter mennesker på en trygg og menneskelig måte.",
-    moduleIds: ["modul-8"],
-  },
-  {
-    id: "stopp-avklar-ta-vare",
-    title: "Delområde 5: Stopp, avklar og håndter trygt",
-    description:
-      "Bekymring, avklaring og trygge valg når situasjoner kan få større konsekvenser.",
-    moduleIds: ["modul-9", "modul-10"],
+      "Oppsummering og mestringssjekk før du fullfører kurset.",
+    moduleIds: ["modul-4"],
   },
 ];

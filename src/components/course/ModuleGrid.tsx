@@ -24,14 +24,9 @@ function getCardStatus(
 }
 
 export function ModuleGrid({ isModuleComplete, modules, nextModuleId }: ModuleGridProps) {
-  const visibleModules = modules.filter(
-    (courseModule) =>
-      isModuleComplete(courseModule.id) || courseModule.id === nextModuleId,
-  );
-
   return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-      {visibleModules.map((courseModule) => (
+    <div className="grid gap-5 md:grid-cols-2">
+      {modules.map((courseModule) => (
         <ModuleCard
           key={courseModule.id}
           courseModule={courseModule}

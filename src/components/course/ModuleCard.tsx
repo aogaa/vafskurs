@@ -12,7 +12,7 @@ type ModuleCardProps = {
 const statusCopy: Record<ModuleCardStatus, { statusLabel: string; button: string }> = {
   complete: { statusLabel: "Gjennomført", button: "Prøv igjen" },
   next: { statusLabel: "", button: "Fortsett" },
-  upcoming: { statusLabel: "", button: "" },
+  upcoming: { statusLabel: "Ikke åpnet ennå", button: "Se del" },
 };
 
 export function ModuleCard({ courseModule, status }: ModuleCardProps) {
