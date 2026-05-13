@@ -34,7 +34,7 @@ export const courseModules: CourseModule[] = [
   {
     id: "modul-2",
     order: 2,
-    title: "Hva er min rolle?",
+    title: "Frivilligrollen - hva er min rolle?",
     description:
       "Øv på å skille mellom frivilligrollen, ansattrollen, pårørenderollen og det som må avklares.",
     status: "planned",
