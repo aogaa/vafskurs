@@ -150,6 +150,179 @@ function saveAnswers(value: Partial<Record<string, RoleChoice>>) {
   window.localStorage.setItem(ANSWERS_STORAGE_KEY, JSON.stringify(value));
 }
 
+type RoleExpandData = {
+  id: string;
+  icon: string;
+  title: string;
+  canDo: string[];
+  cannotDo: string[];
+};
+
+const roleExpandData: RoleExpandData[] = [
+  {
+    id: "frivillig",
+    icon: "🤝",
+    title: "Frivillig",
+    canDo: [
+      "Nærvær, samtale og medmenneskelighet",
+      "Aktivitet og fellesskap",
+      "Følge til møteplass (når avtalt)",
+      "Praktisk lavterskelhjelp (når avtalt)",
+      "Brobygging mellom mennesker",
+    ],
+    cannotDo: [
+      "Helsehjelp eller medisinhåndtering",
+      "Personlig stell og pleie",
+      "Håndtere økonomi eller bankkort",
+      "Saksbehandling eller juridiske vurderinger",
+      "Faglige vurderinger",
+    ],
+  },
+  {
+    id: "ansatt",
+    icon: "🏥",
+    title: "Ansatt / fagperson",
+    canDo: [
+      "Faglige vurderinger og oppfølging",
+      "Helsehjelp og pleie",
+      "Vedtak og saksbehandling",
+      "Dokumentasjon og rutiner",
+      "Formelt tjenesteansvar",
+    ],
+    cannotDo: [
+      "Erstatte frivillig nærvær og varme",
+      "Alltid ha tid til lange samtaler og fellesskap",
+    ],
+  },
+  {
+    id: "parorende",
+    icon: "👨‍👩‍👧",
+    title: "Pårørende",
+    canDo: [
+      "Familierelasjon og nære bånd",
+      "Privat omsorg og støtte",
+      "Kjenne personen over lang tid",
+    ],
+    cannotDo: [
+      "Bestemme hva frivillige skal gjøre",
+      "Utvide frivilliges oppdrag på egenhånd",
+      "Erstatte kommunale tjenester",
+    ],
+  },
+  {
+    id: "kommune",
+    icon: "🏛️",
+    title: "Kommune / tjenester",
+    canDo: [
+      "Lovpålagte tjenester og vedtak",
+      "Rettigheter og faglig oppfølging",
+      "Nødvendige helse- og omsorgstjenester",
+    ],
+    cannotDo: [
+      "Dekkes av frivillige når kapasiteten er lav",
+      "Overlate formelt ansvar til frivillig sektor",
+    ],
+  },
+];
+
+function RoleExpandCard({
+  role,
+  isActive,
+  isAnyActive,
+  onToggle,
+}: {
+  role: RoleExpandData;
+  isActive: boolean;
+  isAnyActive: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      className={`overflow-hidden rounded-2xl border transition-all duration-200 ${
+        isActive
+          ? "border-pine/45 bg-white shadow-lift"
+          : isAnyActive
+          ? "border-harbor/8 bg-white opacity-50"
+          : "border-harbor/10 bg-white hover:border-pine/30 hover:shadow-soft"
+      }`}
+    >
+      <button
+        type="button"
+        aria-expanded={isActive}
+        onClick={onToggle}
+        className="w-full p-5 text-left focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl" aria-hidden="true">{role.icon}</span>
+            <span className="text-lg font-extrabold text-ink">{role.title}</span>
+          </div>
+          <span
+            className={`text-lg text-harbor transition-transform duration-300 ${
+              isActive ? "rotate-180" : ""
+            }`}
+            aria-hidden="true"
+          >
+            ▾
+          </span>
+        </div>
+        {!isActive && (
+          <p className="mt-1 text-sm font-medium text-slate">
+            Trykk for å se ansvar og grenser
+          </p>
+        )}
+      </button>
+
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          isActive ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div className="grid gap-3 px-5 pb-5 sm:grid-cols-2">
+            <div className="rounded-xl bg-pine/10 p-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-pine">
+                Kan bidra med
+              </p>
+              <ul className="mt-3 space-y-2">
+                {role.canDo.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2 text-sm font-medium leading-6 text-harbor"
+                  >
+                    <span className="mt-0.5 shrink-0 font-bold text-pine" aria-hidden="true">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl bg-mist p-4 ring-1 ring-harbor/8">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate">
+                Skal ikke gjøre
+              </p>
+              <ul className="mt-3 space-y-2">
+                {role.cannotDo.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2 text-sm font-medium leading-6 text-slate"
+                  >
+                    <span className="mt-0.5 shrink-0 text-harbor/40" aria-hidden="true">
+                      –
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Section({ children, title }: { children: ReactNode; title: string }) {
   return (
     <Card className="p-6 md:p-8">
@@ -184,6 +357,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
     readSavedAnswers,
   );
   const [reflection, setReflection] = useState(readSavedReflection);
+  const [activeRole, setActiveRole] = useState<string | null>(null);
 
   const currentScenario = scenarios[currentIndex];
   const selectedChoice = answers[currentScenario.id];
@@ -335,64 +509,35 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         </p>
       </Section>
 
-      <Section title="Fire roller som ikke må blandes sammen">
-        <p>
+      <Card className="p-6 md:p-8">
+        <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+          Fire roller som ikke må blandes sammen
+        </h2>
+        <p className="mt-5 max-w-4xl text-base leading-8 text-slate md:text-lg">
           I frivillig arbeid møter du ofte fire ulike roller: den frivillige, den
           ansatte, den pårørende og kommunen. Alle kan ha betydning i et
-          menneskes liv, men de har ulikt ansvar.
+          menneskes liv, men de har ulikt ansvar. Trykk på en rolle for å se
+          hva den innebærer.
         </p>
-        <div className="grid gap-4 md:grid-cols-2">
-          <RoleCard title="Din rolle som frivillig">
-            <p>
-              Som frivillig bidrar du med tid, nærvær, aktivitet, samtale og
-              medmenneskelighet innenfor avtalte rammer. Du kan se mennesker,
-              lytte, invitere, følge til aktivitet, bidra til fellesskap og
-              melde fra hvis noe gir grunn til bekymring.
-            </p>
-            <p>
-              Du skal ikke ha ansvar for tjenester, behandling, saksbehandling
-              eller familiens oppgaver.
-            </p>
-          </RoleCard>
-          <RoleCard title="Den ansattes rolle">
-            <p>
-              Den ansatte har en formell rolle. Ansatte kan ha ansvar for
-              faglige vurderinger, oppfølging, dokumentasjon, tjenester, vedtak,
-              rutiner og sikkerhet.
-            </p>
-            <p>
-              Der du som frivillig kan bidra med menneskelig kontakt og
-              aktivitet, har ansatte ofte ansvar for det som krever fag,
-              myndighet eller tjenesteansvar.
-            </p>
-          </RoleCard>
-          <RoleCard title="Pårørendes rolle">
-            <p>
-              Pårørende kan være familie, ektefelle, barn, søsken, venner eller
-              andre nære personer. Noen pårørende gjør svært mye. Andre har
-              mindre kontakt. Noen er slitne, bekymret eller står i vanskelige
-              valg.
-            </p>
-            <p>
-              Pårørende kan være viktige samarbeidspartnere, men de bestemmer
-              ikke automatisk hva du skal gjøre som frivillig. Du skal følge
-              rammen for oppdraget, og brukerens egne ønsker må tas på alvor.
-            </p>
-          </RoleCard>
-          <RoleCard title="Kommunens rolle">
-            <p>
-              Kommunen har ansvar for lovpålagte tjenester, vedtak, faglig
-              oppfølging og nødvendige helse- og omsorgstjenester der det er
-              aktuelt.
-            </p>
-            <p>
-              Du kan samarbeide med kommunen, men du skal ikke brukes til å
-              dekke over manglende kommunale tjenester. Frivillighet skal være
-              et supplement og en berikelse. Ikke en erstatning.
-            </p>
-          </RoleCard>
+        <div className="mt-6 grid gap-3 md:grid-cols-2">
+          {roleExpandData.map((role) => (
+            <RoleExpandCard
+              key={role.id}
+              role={role}
+              isActive={activeRole === role.id}
+              isAnyActive={activeRole !== null}
+              onToggle={() =>
+                setActiveRole((current) => (current === role.id ? null : role.id))
+              }
+            />
+          ))}
         </div>
-      </Section>
+        {activeRole === null && (
+          <p className="mt-4 text-center text-sm font-semibold text-slate" aria-live="polite">
+            Trykk på en av rollene over for å utforske ansvaret.
+          </p>
+        )}
+      </Card>
 
       <Section title="Supplement og berikelse - ikke erstatning">
         <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
