@@ -298,7 +298,7 @@ function RoleExpandCard({
                 ))}
               </ul>
             </div>
-            <div className="rounded-xl bg-mist p-4 ring-1 ring-harbor/8">
+            <div className="rounded-xl border border-harbor/12 bg-mist p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-slate">
                 Skal ikke gjøre
               </p>
