@@ -775,9 +775,21 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           <button
             type="button"
             onClick={() => setRevealedConsequences((n) => Math.min(n + 1, 6))}
-            className="rounded-xl bg-mist px-5 py-2.5 text-sm font-bold text-harbor transition hover:bg-harbor/10 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+            className="flex w-full items-center justify-between gap-4 rounded-2xl border-2 border-dashed border-harbor/20 bg-white px-6 py-4 text-base font-bold text-harbor transition duration-200 hover:border-pine/50 hover:bg-pine/8 hover:text-pine focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
           >
-            Vis neste ({revealedConsequences} av 6)
+            <span className="flex items-center gap-3">
+              <span
+                className="grid size-8 place-items-center rounded-full bg-harbor/10 text-sm"
+                aria-hidden="true"
+              >
+                {revealedConsequences + 1}
+              </span>
+              Vis neste konsekvens
+            </span>
+            <span className="flex items-center gap-2 text-sm font-semibold text-slate">
+              <span>{revealedConsequences} av 6 vist</span>
+              <span aria-hidden="true" className="text-lg">↓</span>
+            </span>
           </button>
         ) : null}
         <p className="font-bold text-harbor">
