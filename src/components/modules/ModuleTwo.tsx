@@ -323,10 +323,187 @@ function RoleExpandCard({
   );
 }
 
-function Section({ children, title }: { children: ReactNode; title: string }) {
+type KanIkkeItem = {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+};
+
+const kanData: KanIkkeItem[] = [
+  {
+    id: "sosial",
+    icon: "☕",
+    title: "Sosial kontakt",
+    description:
+      "Komme på besøk, hilse, ta en kaffe, gå en tur, delta i aktivitet eller bare være til stede.",
+  },
+  {
+    id: "samtale",
+    icon: "💬",
+    title: "Samtale",
+    description:
+      "Lytte, stille gode spørsmål, vise interesse og gi noen mulighet til å fortelle, mimre og dele.",
+  },
+  {
+    id: "aktivitet",
+    icon: "🚶",
+    title: "Aktivitet",
+    description:
+      "Bidra til at mennesker kommer seg ut, møter andre og deltar på noe meningsfullt.",
+  },
+  {
+    id: "folge",
+    icon: "🗺️",
+    title: "Følge innenfor avtalte rammer",
+    description:
+      "Følge en person til aktivitet eller møteplass når oppdraget er tydelig avklart på forhånd.",
+  },
+  {
+    id: "praktisk",
+    icon: "🙌",
+    title: "Praktisk lavterskelhjelp",
+    description:
+      "Vise vei, sette frem stoler, lese et brev sammen — enkle oppgaver som er trygge og avklarte.",
+  },
+  {
+    id: "brobygging",
+    icon: "🌉",
+    title: "Brobygging",
+    description:
+      "Gjøre det lettere for noen å komme inn i et fellesskap — introdusere, vise vei, si «jeg kan bli med deg første gangen».",
+  },
+];
+
+const ikkeData: KanIkkeItem[] = [
+  {
+    id: "helse",
+    icon: "💊",
+    title: "Helsehjelp og medisiner",
+    description:
+      "Gi helsehjelp, dosere medisiner, vurdere behandling eller håndtere medisinsk oppfølging.",
+  },
+  {
+    id: "stell",
+    icon: "🚿",
+    title: "Personlig stell og pleie",
+    description:
+      "Hjelpe med toalettbesøk, dusj, påkledning, bleieskift, sårstell eller annen intim pleie.",
+  },
+  {
+    id: "okonomi",
+    icon: "💳",
+    title: "Økonomi",
+    description:
+      "Håndtere bankkort, PIN-koder, kontanter, regninger, Vipps eller andre økonomiske avtaler.",
+  },
+  {
+    id: "saksbehandling",
+    icon: "📋",
+    title: "Saksbehandling og vurderinger",
+    description:
+      "Opptre som saksbehandler, vurdere rettigheter, gi juridiske eller medisinske råd.",
+  },
+];
+
+function KanIkkeToggle() {
+  const [activeTab, setActiveTab] = useState<"kan" | "ikke">("kan");
+  const items = activeTab === "kan" ? kanData : ikkeData;
+
   return (
     <Card className="p-6 md:p-8">
       <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+        Hva kan du bidra med — og hva skal du ikke gjøre?
+      </h2>
+      <p className="mt-3 max-w-4xl text-base leading-8 text-slate md:text-lg">
+        Velg hvilken side du vil utforske. Begge er like viktige å kjenne.
+      </p>
+      <div className="mt-5 flex gap-1.5 rounded-2xl bg-mist p-1.5">
+        <button
+          type="button"
+          onClick={() => setActiveTab("kan")}
+          className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-pine ${
+            activeTab === "kan"
+              ? "bg-pine text-white shadow-soft"
+              : "text-slate hover:text-harbor"
+          }`}
+        >
+          <span aria-hidden="true">✓</span>
+          Kan bidra med
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("ikke")}
+          className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-pine ${
+            activeTab === "ikke"
+              ? "bg-harbor text-white shadow-soft"
+              : "text-slate hover:text-harbor"
+          }`}
+        >
+          <span aria-hidden="true">–</span>
+          Skal ikke gjøre
+        </button>
+      </div>
+      <div
+        className="mt-5 grid gap-3 md:grid-cols-2"
+        aria-live="polite"
+        aria-label={activeTab === "kan" ? "Kan bidra med" : "Skal ikke gjøre"}
+      >
+        {items.map((item) => (
+          <div
+            key={item.id}
+            className={`flex gap-4 rounded-2xl border p-4 transition-colors duration-200 ${
+              activeTab === "kan"
+                ? "border-pine/20 bg-pine/8"
+                : "border-harbor/12 bg-mist"
+            }`}
+          >
+            <span
+              className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-xl bg-white text-xl shadow-sm"
+              aria-hidden="true"
+            >
+              {item.icon}
+            </span>
+            <div>
+              <p className="font-extrabold text-ink">{item.title}</p>
+              <p className="mt-1 text-sm leading-6 text-slate">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p
+        className={`mt-5 flex min-h-16 items-center justify-center rounded-xl p-4 text-center text-sm font-bold [text-wrap:balance] ${
+          activeTab === "kan" ? "bg-pine/10 text-pine" : "bg-harbor/8 text-harbor"
+        }`}
+      >
+        {activeTab === "kan"
+          ? "Det viktigste er at oppgaven er avklart, trygg og innenfor den rollen du har sagt ja til."
+          : "Å sette grenser er ikke mangel på omsorg. Det er en del av omsorgen."}
+      </p>
+    </Card>
+  );
+}
+
+function Section({
+  children,
+  icon,
+  title,
+}: {
+  children: ReactNode;
+  icon?: string;
+  title: string;
+}) {
+  return (
+    <Card className="border-l-4 border-pine/40 p-6 md:p-8">
+      <h2 className="flex items-center gap-3 text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+        {icon ? (
+          <span
+            className="grid size-10 shrink-0 place-items-center rounded-2xl bg-pine/12 text-xl"
+            aria-hidden="true"
+          >
+            {icon}
+          </span>
+        ) : null}
         {title}
       </h2>
       <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
@@ -358,6 +535,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
   );
   const [reflection, setReflection] = useState(readSavedReflection);
   const [activeRole, setActiveRole] = useState<string | null>(null);
+  const [revealedConsequences, setRevealedConsequences] = useState(1);
 
   const currentScenario = scenarios[currentIndex];
   const selectedChoice = answers[currentScenario.id];
@@ -430,31 +608,51 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         </p>
       </section>
 
-      <Section title="Når du er frivillig, har du en egen rolle">
+      <Section icon="🎯" title="Når du er frivillig, har du en egen rolle">
         <p>
           Når du er frivillig, stiller du opp fordi du vil bidra. Du bruker av
           din egen tid, ditt eget engasjement og din egen evne til å møte andre
           mennesker. Det er verdifullt.
         </p>
         <p>Men det er også viktig å vite hva rollen din er.</p>
-        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
-          Du er ikke ansatt uten lønn. Du er ikke en ekstra kommunal tjeneste. Du
-          er ikke pårørende. Du er ikke saksbehandler, behandler eller ansvarlig
-          for å løse alt som er vanskelig i et annet menneskes liv.
-        </p>
-        <p>Du er frivillig.</p>
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            "Ansatt uten lønn",
+            "Ekstra kommunal tjeneste",
+            "Pårørende",
+            "Saksbehandler eller behandler",
+          ].map((item) => (
+            <div
+              key={item}
+              className="flex items-center gap-2 rounded-xl bg-mist p-3 text-sm font-semibold text-slate/70"
+            >
+              <span
+                className="grid size-5 shrink-0 place-items-center rounded-full bg-harbor/10 text-xs font-black text-harbor/50"
+                aria-hidden="true"
+              >
+                ✕
+              </span>
+              {item}
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-center rounded-2xl bg-harbor px-6 py-8 text-center text-white">
+          <p className="text-4xl font-black leading-tight md:text-5xl">
+            Du er frivillig.
+          </p>
+        </div>
         <p>
           Det betyr at du kan bidra med noe helt eget: nærvær, tid, samtale,
           aktivitet, menneskelig kontakt og en vei inn i fellesskap. Du kan være
           en person som ser, lytter, inviterer og følger opp innenfor trygge
           rammer.
         </p>
-        <p className="font-bold text-harbor">
+        <p className="flex min-h-16 items-center justify-center rounded-xl bg-pine/10 p-4 text-center font-bold text-pine [text-wrap:balance]">
           Det er en viktig rolle. Men den er ikke grenseløs.
         </p>
       </Section>
 
-      <Section title="Du er ikke ansatt uten lønn">
+      <Section icon="💼" title="Du er ikke ansatt uten lønn">
         <p>
           Det kan være lett å tenke at frivillige er mennesker som gjør ansattes
           oppgaver gratis. Det er en misforståelse.
@@ -482,7 +680,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         </p>
       </Section>
 
-      <Section title="Du er en del av frivillig sektor">
+      <Section icon="🤝" title="Du er en del av frivillig sektor">
         <p>
           Når du som frivillig samarbeider med kommunale tjenester, kan det skape
           gode resultater. Mange mennesker får et bedre hverdagsliv når
@@ -539,7 +737,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
         )}
       </Card>
 
-      <Section title="Supplement og berikelse - ikke erstatning">
+      <Section icon="🧩" title="Supplement og berikelse - ikke erstatning">
         <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
           Som frivillig bidrar du med noe ekstra i menneskers liv, ikke overta
           det andre har ansvar for.
@@ -562,143 +760,35 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
             "Kommunen eller ansatte kan tro at oppgaven er løst.",
             "Pårørende kan få forventninger du ikke kan leve opp til.",
             "Det kan oppstå risiko for bruker, deg og organisasjonen.",
-          ].map((item) => (
-            <li
-              key={item}
-              className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
-            >
-              {item}
-            </li>
-          ))}
+          ]
+            .slice(0, revealedConsequences)
+            .map((item) => (
+              <li
+                key={item}
+                className="flex min-h-24 animate-[fadeIn_240ms_ease-out] items-center justify-center rounded-2xl bg-mist p-4 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
+              >
+                {item}
+              </li>
+            ))}
         </ul>
+        {revealedConsequences < 6 ? (
+          <button
+            type="button"
+            onClick={() => setRevealedConsequences((n) => Math.min(n + 1, 6))}
+            className="rounded-xl bg-mist px-5 py-2.5 text-sm font-bold text-harbor transition hover:bg-harbor/10 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+          >
+            Vis neste ({revealedConsequences} av 6)
+          </button>
+        ) : null}
         <p className="font-bold text-harbor">
           Å sette grenser er derfor ikke mangel på omsorg. Det er en del av
           omsorgen.
         </p>
       </Section>
 
-      <Section title="Hva du vanligvis kan bidra med">
-        <p>
-          Du kan bidra på mange måter. Det viktigste er at oppgaven er avklart,
-          trygg og innenfor den rollen du har sagt ja til.
-        </p>
-        <div className="grid gap-4 md:grid-cols-2">
-          <RoleCard title="Sosial kontakt">
-            <p>
-              Du kan være en som kommer på besøk, hilser, tar en kaffe, går en
-              tur, deltar i en aktivitet eller bare er til stede. For noen kan
-              det bety mer enn vi forstår.
-            </p>
-          </RoleCard>
-          <RoleCard title="Samtale">
-            <p>
-              Du kan lytte, stille gode spørsmål, vise interesse og gi et
-              menneske mulighet til å fortelle, mimre, le, tenke høyt eller dele
-              noe fra livet sitt.
-            </p>
-            <p>
-              Men du er ikke behandler. Hvis samtalen blir alvorlig, tung eller
-              handler om fare, helse, vold, selvmordstanker eller andre krevende
-              forhold, skal du ikke bære det alene.
-            </p>
-          </RoleCard>
-          <RoleCard title="Aktivitet">
-            <p>
-              Du kan bidra til at mennesker kommer seg ut, møter andre og blir
-              med på noe meningsfullt: tur, spill, hobby, leksehjelp, kultur,
-              matfellesskap, språktrening, trim, sang, håndarbeid eller helt
-              enkle møteplasser.
-            </p>
-            <p>Aktivitet handler om å gi mennesker en plass å høre til.</p>
-          </RoleCard>
-          <RoleCard title="Følge innenfor avtalte rammer">
-            <p>
-              Noen ganger kan du følge en person til en aktivitet, en møteplass
-              eller et arrangement. Det kan senke terskelen for å delta.
-            </p>
-            <p>
-              Følgeoppdrag må være tydelig avklart: hvor dere skal, hva du har
-              ansvar for, hva du ikke har ansvar for, og hvem du kontakter hvis
-              noe skjer.
-            </p>
-          </RoleCard>
-          <RoleCard title="Praktisk lavterskelhjelp når det er avklart">
-            <p>
-              I noen sammenhenger kan du bidra med enkel praktisk hjelp, som å
-              vise vei, sette frem stoler, lese et brev sammen eller hjelpe noen
-              å finne frem på mobilen.
-            </p>
-            <p>
-              Praktisk hjelp kan fort gli over i ansvar. Derfor må oppgaven være
-              trygg, enkel og avklart.
-            </p>
-          </RoleCard>
-          <RoleCard title="Brobygging til fellesskap og møteplasser">
-            <p>
-              Du kan være den som gjør det lettere for noen å komme inn i et
-              fellesskap. Du kan introdusere en ny deltaker for andre, vise vei
-              til en aktivitet eller si: «Jeg kan bli med deg første gangen.»
-            </p>
-          </RoleCard>
-        </div>
-      </Section>
+      <KanIkkeToggle />
 
-      <Section title="Hva frivillige vanligvis ikke skal gjøre">
-        <p>
-          Det finnes oppgaver du vanligvis ikke skal gjøre som frivillig. Ikke
-          fordi du ikke er flink nok eller snill nok, men fordi oppgavene krever
-          annet ansvar, annen kompetanse eller andre rammer.
-        </p>
-        <div className="grid gap-4 md:grid-cols-2">
-          <RoleCard title="Helsehjelp og medisiner">
-            <p>
-              Du skal normalt ikke gi helsehjelp, dosere medisiner, minne om
-              medisiner på en måte som gjør deg ansvarlig, vurdere medisiner
-              eller håndtere medisinsk behandling.
-            </p>
-            <p>
-              Hvis noen trenger helsehjelp, skal det håndteres av helsepersonell
-              eller riktig tjeneste.
-            </p>
-          </RoleCard>
-          <RoleCard title="Personlig stell">
-            <p>
-              Du skal vanligvis ikke hjelpe med toalettbesøk, dusj, påkledning,
-              bleieskift, sårstell eller andre former for personlig stell og
-              pleie.
-            </p>
-            <p>
-              Dette kan være intimt, sårbart og faglig krevende. Det skal ikke
-              legges på deg som frivillig.
-            </p>
-          </RoleCard>
-          <RoleCard title="Økonomi">
-            <p>
-              Du skal normalt ikke håndtere bankkort, PIN-koder, kontanter,
-              regninger, Vipps, innkjøp med brukerens penger eller økonomiske
-              avtaler.
-            </p>
-          </RoleCard>
-          <RoleCard title="Saksbehandling og vurderinger">
-            <p>
-              Du skal ikke opptre som saksbehandler, vurdere rettigheter, love
-              tjenester eller gi juridiske eller medisinske råd som om du er
-              fagperson.
-            </p>
-            <p>
-              Du kan hjelpe noen å finne riktig sted å henvende seg. Men du skal
-              ikke bli systemet for dem.
-            </p>
-          </RoleCard>
-        </div>
-        <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
-          Du skal ikke bli løsningen på alt som mangler rundt et menneske. Du kan
-          bidra. Men du skal ikke bære systemets, familiens eller tjenestens
-          ansvar alene.
-        </p>
-      </Section>
-
-      <Section title="Når du blir usikker: stopp og avklar">
+      <Section icon="🧭" title="Når du blir usikker: stopp og avklar">
         <p>
           Du trenger ikke ha svar på alt. Det viktigste er at du vet hva du gjør
           når du blir usikker.
@@ -738,6 +828,14 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           Det er ikke feigt å stoppe opp. Det er ansvarlig.
         </p>
       </Section>
+
+      <div className="flex items-center gap-4 py-2" aria-hidden="true">
+        <div className="h-px flex-1 bg-harbor/10" />
+        <p className="text-sm font-bold uppercase tracking-widest text-harbor/40">
+          Øvelse
+        </p>
+        <div className="h-px flex-1 bg-harbor/10" />
+      </div>
 
       <section className="space-y-5" aria-labelledby="role-exercise-title">
         <Card className="p-6 md:p-8">
