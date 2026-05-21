@@ -185,16 +185,25 @@ function getProfile(selectedIds: BuildingBlockId[]) {
   return profiles[rule?.profileId ?? "lokalsamfunnsbyggeren"];
 }
 
+// ── TextSection ──────────────────────────────────────────────────────────────
+
 function TextSection({
   children,
   title,
+  icon,
 }: {
   children: React.ReactNode;
   title: string;
+  icon?: string;
 }) {
   return (
-    <Card className="p-6 md:p-8">
-      <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+    <Card className="border-l-4 border-pine/40 p-6 md:p-8">
+      <h2 className="flex items-center gap-3 text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+        {icon && (
+          <span className="shrink-0 text-2xl md:text-3xl" aria-hidden="true">
+            {icon}
+          </span>
+        )}
         {title}
       </h2>
       <div className="mt-5 max-w-4xl space-y-4 text-base leading-8 text-slate md:text-lg">
@@ -203,6 +212,230 @@ function TextSection({
     </Card>
   );
 }
+
+// ── SupplementLayers ─────────────────────────────────────────────────────────
+
+type SupplementLayerData = {
+  id: string;
+  label: string;
+  icon: string;
+  widthClass: string;
+  bgClass: string;
+  textClass: string;
+  description: string;
+  animDelay: string;
+};
+
+const supplementLayers: SupplementLayerData[] = [
+  {
+    id: "frivillig",
+    label: "Frivillig",
+    icon: "🤝",
+    widthClass: "w-3/5",
+    bgClass: "bg-pine",
+    textClass: "text-harbor",
+    description:
+      "Som frivillig legger du til noe ekstra: nærvær, fellesskap og menneskelig kontakt. Du er ikke en del av det formelle systemet — du er et varmt tillegg til det.",
+    animDelay: "300ms",
+  },
+  {
+    id: "parorende",
+    label: "Pårørende",
+    icon: "👨‍👩‍👧",
+    widthClass: "w-4/5",
+    bgClass: "bg-harbor/70",
+    textClass: "text-white",
+    description:
+      "Familie og nære bidrar med kjærlighet, kunnskap og kontinuitet over tid. De kjenner personen på en måte ingen tjeneste kan erstatte.",
+    animDelay: "150ms",
+  },
+  {
+    id: "ansatte",
+    label: "Kommune / Ansatte",
+    icon: "🏛️",
+    widthClass: "w-full",
+    bgClass: "bg-harbor",
+    textClass: "text-white",
+    description:
+      "Den formelle grunnmuren: lovpålagte tjenester, faglig oppfølging, vedtak og sikkerhet. Alltid til stede, uansett om du er frivillig eller ikke.",
+    animDelay: "0ms",
+  },
+];
+
+function SupplementLayers() {
+  const [activeLayer, setActiveLayer] = useState<string | null>(null);
+  const [hidingVolunteer, setHidingVolunteer] = useState(false);
+
+  return (
+    <Card className="p-6 md:p-8">
+      <h3 className="text-xl font-extrabold text-ink md:text-2xl">
+        Frivillige supplerer — de erstatter ikke
+      </h3>
+      <p className="mt-2 text-sm leading-7 text-slate">
+        Klikk på hvert lag for å lære mer om rollen det spiller.
+      </p>
+
+      <div className="mt-8 flex flex-col items-center gap-3">
+        {supplementLayers.map((layer) => {
+          const isActive = activeLayer === layer.id;
+          const isHidden = hidingVolunteer && layer.id === "frivillig";
+
+          return (
+            <div
+              key={layer.id}
+              className={layer.widthClass}
+              style={{
+                animation: `slideUp 500ms ease-out ${layer.animDelay} both`,
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveLayer(isActive ? null : layer.id)}
+                aria-pressed={isActive}
+                className={`w-full rounded-2xl px-5 py-4 text-left transition-all duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-pine ${layer.bgClass} ${layer.textClass} ${
+                  isHidden ? "opacity-30" : "opacity-95 hover:opacity-100"
+                }`}
+              >
+                <span className="flex items-center justify-between">
+                  <span className="flex items-center gap-2.5">
+                    <span className="text-xl" aria-hidden="true">
+                      {layer.icon}
+                    </span>
+                    <span className="text-base font-extrabold">{layer.label}</span>
+                  </span>
+                  <span className="text-xs opacity-60" aria-hidden="true">
+                    {isActive ? "▲" : "▼"}
+                  </span>
+                </span>
+              </button>
+
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${
+                  isActive ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+                aria-live="polite"
+              >
+                <div className="overflow-hidden">
+                  <p className="mt-2 rounded-2xl bg-mist px-5 py-4 text-sm leading-7 text-slate">
+                    {layer.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-8 flex justify-center">
+        <button
+          type="button"
+          onClick={() => setHidingVolunteer(!hidingVolunteer)}
+          className="rounded-2xl border-2 border-dashed border-harbor/20 px-5 py-2.5 text-sm font-bold text-slate transition hover:border-harbor/40 hover:text-ink focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+        >
+          {hidingVolunteer ? "✓ Vis frivillige igjen" : "Hva skjer uten frivillige?"}
+        </button>
+      </div>
+
+      {hidingVolunteer && (
+        <p
+          className="mt-4 animate-[fadeIn_240ms_ease-out] text-center text-sm font-semibold text-harbor"
+          aria-live="polite"
+        >
+          Grunnmuren står. Men noe varmt mangler.
+        </p>
+      )}
+    </Card>
+  );
+}
+
+// ── Activity chips ────────────────────────────────────────────────────────────
+
+const activities: { label: string; icon: string }[] = [
+  { label: "Møteplass", icon: "🏡" },
+  { label: "Barneidrett", icon: "⚽" },
+  { label: "Turer og friluft", icon: "🌲" },
+  { label: "Leksehjelp", icon: "📚" },
+  { label: "Matlaging", icon: "🍲" },
+  { label: "Styrearbeid", icon: "📋" },
+  { label: "Konserter", icon: "🎵" },
+  { label: "Loppemarked", icon: "🛍️" },
+  { label: "Språkkafé", icon: "☕" },
+  { label: "Kurs", icon: "🎓" },
+  { label: "Besøkstjeneste", icon: "🏠" },
+  { label: "Håndarbeidsgruppe", icon: "🧶" },
+];
+
+// ── CollectibleTakeaways ──────────────────────────────────────────────────────
+
+const takeawayItems: string[] = [
+  "Frivillighet begynner ofte i små handlinger.",
+  "Små handlinger kan bygge tillit, tilhørighet og fellesskap.",
+  "Et trygt lokalsamfunn trenger mennesker som ser hverandre.",
+  "Frivillighet skal skje på de frivilliges premisser.",
+  "Frivillighet finnes i mange former, men bygger på samme kraft: mennesker som bidrar til fellesskapet.",
+  "Å være frivillig er å være del av noe større.",
+];
+
+function CollectibleTakeaways() {
+  const [collected, setCollected] = useState<number[]>([]);
+
+  function toggle(index: number) {
+    setCollected((current) =>
+      current.includes(index) ? current.filter((i) => i !== index) : [...current, index],
+    );
+  }
+
+  return (
+    <Card className="p-6 md:p-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
+          Dette kan du ta med deg videre
+        </h2>
+        <span
+          className="rounded-full bg-mist px-3 py-1 text-sm font-bold text-slate"
+          aria-live="polite"
+        >
+          {collected.length} av {takeawayItems.length} samlet
+        </span>
+      </div>
+      <p className="mt-2 text-sm leading-6 text-slate">
+        Klikk på de punktene du tar med deg fra denne delen.
+      </p>
+
+      <ul className="mt-6 grid gap-4 md:grid-cols-2">
+        {takeawayItems.map((item, index) => {
+          const isCollected = collected.includes(index);
+          return (
+            <li key={item}>
+              <button
+                type="button"
+                onClick={() => toggle(index)}
+                aria-pressed={isCollected}
+                className={`flex min-h-28 w-full flex-col items-center justify-center gap-3 rounded-2xl border p-5 text-center text-base font-bold leading-7 transition-all duration-200 [text-wrap:balance] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
+                  isCollected
+                    ? "border-pine/45 bg-pine/18 text-harbor ring-2 ring-pine/30"
+                    : "border-transparent bg-mist text-harbor hover:border-pine/25 hover:bg-pine/8"
+                }`}
+              >
+                {isCollected && (
+                  <span
+                    className="flex size-6 animate-[fadeIn_150ms_ease-out] items-center justify-center rounded-full bg-harbor text-sm text-white"
+                    aria-hidden="true"
+                  >
+                    ✓
+                  </span>
+                )}
+                {item}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </Card>
+  );
+}
+
+// ── ModuleOne ─────────────────────────────────────────────────────────────────
 
 export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOneProps) {
   const [selectedIds, setSelectedIds] = useState<BuildingBlockId[]>(
@@ -272,7 +505,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </h1>
       </section>
 
-      <TextSection title="Hvorfor frivillighet betyr noe">
+      <TextSection title="Hvorfor frivillighet betyr noe" icon="🌱">
         <p>
           Se for deg et lokalsamfunn der mennesker hilser på hverandre. Der noen
           legger merke til hvem som kommer, og hvem som ikke kommer. Der det
@@ -291,7 +524,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </p>
       </TextSection>
 
-      <TextSection title="Små handlinger bygger store fellesskap">
+      <TextSection title="Små handlinger bygger store fellesskap" icon="🏘️">
         <p>
           Et godt samfunn trenger gode tjenester, trygge systemer og fagfolk som
           gjør jobben sin. Det trenger også noe mer: mennesker som ser hverandre,
@@ -304,7 +537,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           grunn til å gå ut. En frivillig kan være den som gjør at et menneske
           kjenner: Her er det plass til meg.
         </p>
-        <p className="flex min-h-24 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]">
+        <p className="flex min-h-24 items-center justify-center rounded-2xl border border-pine/20 bg-mist p-5 text-center font-bold text-harbor shadow-sm [text-wrap:balance]">
           Vanlig menneskelig omtanke kan gjøre en dag lettere, et møte tryggere
           og et nærmiljø varmere.
         </p>
@@ -314,7 +547,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </p>
       </TextSection>
 
-      <TextSection title="Trygghet begynner med at vi kjenner hverandre">
+      <TextSection title="Trygghet begynner med at vi kjenner hverandre" icon="🔗">
         <p>Et lokalsamfunn blir tryggere når mennesker kjenner hverandre litt.</p>
         <p>
           Når vi kjenner hverandre, blir det lettere å spørre om hjelp. Det blir
@@ -334,21 +567,27 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </p>
       </TextSection>
 
-      <TextSection title="Frivillighet finnes overalt">
+      <SupplementLayers />
+
+      <TextSection title="Frivillighet finnes overalt" icon="🌍">
         <p>
           Frivillighet rommer mange mennesker, mange erfaringer og mange måter å
           bidra på.
         </p>
-        <p>
-          Noen er frivillige på en møteplass. Noen trener barn og unge. Noen går
-          tur med andre. Noen hjelper til på leksehjelp. Noen lager mat. Noen
-          sitter i styrer. Noen arrangerer konserter, loppemarkeder, språkkafeer,
-          kurs, besøkstjenester eller håndarbeidsgrupper.
-        </p>
-        <p>
-          Noen bidrar ofte. Noen bidrar av og til. Noen har lang erfaring. Andre
-          er helt nye.
-        </p>
+
+        <div className="flex flex-wrap gap-2 py-1" aria-label="Eksempler på frivillig aktivitet">
+          {activities.map((activity) => (
+            <span
+              key={activity.label}
+              className="flex items-center gap-1.5 rounded-full border border-harbor/12 bg-mist px-3.5 py-1.5 text-sm font-semibold text-harbor"
+            >
+              <span aria-hidden="true">{activity.icon}</span>
+              {activity.label}
+            </span>
+          ))}
+        </div>
+
+        <p>Noen bidrar ofte. Noen bidrar av og til. Noen har lang erfaring. Andre er helt nye.</p>
         <p>
           Formene er ulike, men kraften er den samme: mennesker som bidrar til
           at flere kan høre til.
@@ -360,7 +599,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </p>
       </TextSection>
 
-      <TextSection title="Å være del av noe større">
+      <TextSection title="Å være del av noe større" icon="✨">
         <p>Når du er frivillig, er du en del av en større sammenheng.</p>
         <p>
           Du er en del av et lokalsamfunn der mennesker gjør mer enn å bo ved
@@ -377,7 +616,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           å høre til. En samtale kan bli starten på en relasjon. En invitasjon
           kan gjøre at noen våger å komme tilbake.
         </p>
-        <div className="flex min-h-40 flex-col items-center justify-center rounded-2xl bg-mist p-5 text-center text-lg font-bold leading-8 text-harbor [text-wrap:balance]">
+        <div className="flex min-h-40 flex-col items-center justify-center gap-1 rounded-2xl border border-pine/20 bg-mist p-5 text-center text-lg font-bold leading-8 text-harbor shadow-sm [text-wrap:balance]">
           <p>Slik bygges fellesskap.</p>
           <p>Slik bygges tillit.</p>
           <p>Slik bygges lokalsamfunn.</p>
@@ -385,28 +624,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
         </div>
       </TextSection>
 
-      <Card className="p-6 md:p-8">
-        <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">
-          Dette kan du ta med deg videre
-        </h2>
-        <ul className="mt-6 grid gap-4 md:grid-cols-2">
-          {[
-            "Frivillighet begynner ofte i små handlinger.",
-            "Små handlinger kan bygge tillit, tilhørighet og fellesskap.",
-            "Et trygt lokalsamfunn trenger mennesker som ser hverandre.",
-            "Frivillighet skal skje på de frivilliges premisser.",
-            "Frivillighet finnes i mange former, men bygger på samme kraft: mennesker som bidrar til fellesskapet.",
-            "Å være frivillig er å være del av noe større.",
-          ].map((item) => (
-            <li
-              key={item}
-              className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-base font-bold leading-7 text-harbor [text-wrap:balance]"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </Card>
+      <CollectibleTakeaways />
 
       <section className="space-y-6" aria-labelledby="community-builder-heading">
         <Card className="p-6 md:p-8">
