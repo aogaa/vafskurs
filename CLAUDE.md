@@ -97,11 +97,44 @@ Typiske klasser:
 - Kort: `rounded-2xl` eller `rounded-3xl`, `shadow-soft`, `shadow-lift`
 - Knappebase: `focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine`
 - Høydepunkts-sitat: `flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center font-bold text-harbor [text-wrap:balance]`
-- Valgt tilstand: `border-pine bg-pine/18 text-harbor ring-2 ring-pine/45`
-- Feil/uklar: `border-honey/70 bg-honey/18 text-harbor`
+- Valgt tilstand: `border-pine bg-pine/20 text-harbor ring-2 ring-pine/45`
+- Feil/uklar: `border-honey/70 bg-honey/20 text-harbor`
 
 Eksisterende CSS-animasjon i bruk: `animate-[fadeIn_240ms_ease-out]` (definert i `src/index.css`).
-Sjekk `src/index.css` for keyframes før du legger til nye.
+Sjekk `src/index.css` for keyframes (fadeIn, slideUp, shake) før du legger til nye.
+
+---
+
+## ⚠️ Kritiske Tailwind-regler (alltid følge)
+
+### 1 — Kun gyldige opacity-verdier (VIKTIG)
+
+Tailwind genererer kun CSS for opacity-modifikatorer som er **multipler av 5**:
+`5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100`
+
+**Verdier som IKKE genererer CSS (aldri bruk):** `/8`, `/12`, `/14`, `/18`, `/22`, `/28` osv.
+
+For eksakt kontroll over ikke-standard opacity, bruk bracket-notasjon: `bg-pine/[0.07]`
+
+```
+✅ bg-pine/20     ✅ border-harbor/10   ✅ ring-pine/45
+✅ bg-honey/20    ✅ ring-harbor/10     ✅ bg-white/[0.07]
+❌ bg-pine/18     ❌ border-harbor/8    ❌ bg-pine/12
+```
+
+### 2 — Tekstkontrast på grønne bakgrunner
+
+**Aldri bruk `text-pine` på `bg-pine/*` bakgrunner** — pine (#66C244) på grønn er uleselig.
+
+**Aldri bruk `text-slate` på `bg-pine/*` eller `bg-mist` bakgrunner** — kontrasten er for lav for liten tekst.
+
+Bruk alltid `text-harbor` eller `text-ink` på alle grønntonede bakgrunner:
+
+```
+✅ bg-pine/20 text-harbor    ✅ bg-mist text-harbor    ✅ bg-pine text-harbor
+❌ bg-pine/20 text-pine      ❌ bg-mist text-slate (liten tekst)
+❌ bg-pine/20 text-slate     ❌ bg-pine text-pine
+```
 
 UI-komponenter:
 - `src/components/ui/Card.tsx` — standard kortomslag
@@ -121,7 +154,7 @@ Ingen animasjonsbiblioteker installert — vurder kun ved behov.
 | # | Animasjon | Del | Status |
 |---|-----------|-----|--------|
 | 1 | Fire roller — interaktiv ekspandering | Del 2 | ✅ Ferdig (commit 4c336b9) |
-| 2 | Supplement-lagvisualisering | Del 1 | ⬜ Ikke startet |
+| 2 | Supplement-lagvisualisering | Del 1 | ✅ Ferdig (commit 895b9e3) |
 | 3 | Visuelt kompass (trafikklys) | Del 3 | ⬜ Ikke startet |
 | 4 | Stopp → Tenk → Avklar stegvisning | Del 3 | ⬜ Ikke startet |
 | 5 | Besøksvenn-scenario med avatarer | Del 2 | ⬜ Ikke startet |

@@ -29,7 +29,7 @@ export function UnlockedInsightCard({
             {supportText}
           </p>
           {courseLinkText ? (
-            <p className="mt-5 max-w-3xl rounded-3xl border border-white/12 bg-white/8 p-5 text-base font-semibold leading-8 text-white">
+            <p className="mt-5 max-w-3xl rounded-3xl border border-white/10 bg-white/10 p-5 text-base font-semibold leading-8 text-white">
               {courseLinkText}
             </p>
           ) : null}

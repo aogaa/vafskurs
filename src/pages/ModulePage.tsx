@@ -37,7 +37,7 @@ export function ModulePage() {
   if (!courseModule) {
     return (
       <PageContainer>
-        <section className="rounded-3xl border border-harbor/8 bg-white p-8 shadow-soft">
+        <section className="rounded-3xl border border-harbor/10 bg-white p-8 shadow-soft">
           <h1 className="text-3xl font-extrabold text-ink">Fant ikke delen</h1>
           <p className="mt-4 max-w-2xl text-lg leading-8 text-slate">
             Denne delen finnes ikke i kursstrukturen ennå.
@@ -58,7 +58,7 @@ export function ModulePage() {
   if (!canOpenModule) {
     return (
       <PageContainer>
-        <section className="rounded-3xl border border-harbor/8 bg-white p-8 shadow-soft">
+        <section className="rounded-3xl border border-harbor/10 bg-white p-8 shadow-soft">
           <h1 className="text-3xl font-extrabold text-ink">
             Denne delen er ikke åpnet ennå
           </h1>

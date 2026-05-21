@@ -288,14 +288,14 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
     }
 
     if (choiceId === currentScenario.recommendedChoiceId) {
-      return `${base} border-pine bg-pine/18 text-harbor ring-2 ring-pine/45`;
+      return `${base} border-pine bg-pine/20 text-harbor ring-2 ring-pine/45`;
     }
 
     if (choiceId === selectedChoice) {
-      return `${base} border-honey/70 bg-honey/18 text-harbor ring-2 ring-honey/30`;
+      return `${base} border-honey/70 bg-honey/20 text-harbor ring-2 ring-honey/30`;
     }
 
-    return `${base} border-harbor/12 bg-mist text-harbor`;
+    return `${base} border-harbor/10 bg-mist text-harbor`;
   }
 
   return (
@@ -461,7 +461,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
                 </p>
               </div>
             </div>
-            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/10">
               <p className="text-sm font-bold uppercase tracking-normal text-slate">
                 Scenario
               </p>
@@ -602,7 +602,7 @@ export function ModuleFour({ courseModule, isComplete, onComplete }: ModuleFourP
                   onClick={() => handleRuleChange(rule)}
                   className={`flex min-h-28 items-center justify-center rounded-2xl border p-5 text-center text-base font-bold leading-7 transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine [text-wrap:balance] ${
                     personalRule === rule
-                      ? "border-pine bg-pine/18 text-harbor ring-2 ring-pine/45"
+                      ? "border-pine bg-pine/20 text-harbor ring-2 ring-pine/45"
                       : "border-harbor/10 bg-mist text-harbor hover:border-pine/55"
                   }`}
                 >

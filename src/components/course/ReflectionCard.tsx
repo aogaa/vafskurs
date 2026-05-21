@@ -108,7 +108,7 @@ export function ReflectionCard({
         </span>
         <span
           className={`rounded-full px-3 py-1 text-sm font-bold ${
-            isSelected ? "bg-white/14 text-white" : "bg-mist text-slate"
+            isSelected ? "bg-white/15 text-white" : "bg-mist text-slate"
           }`}
         >
           {isSelected ? "✓ Valgt" : "Velg"}

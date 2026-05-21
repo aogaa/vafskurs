@@ -19,7 +19,7 @@ export function PortalPage() {
           alt="Kursportal for frivillige med fokus på læring, fellesskap og lokalsamfunn"
           className="absolute inset-0 -z-20 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-harbor via-harbor/84 to-fjord/50" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-harbor via-harbor/85 to-fjord/50" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-44 bg-gradient-to-t from-harbor to-transparent" />
 
         <div className="mx-auto flex min-h-[70vh] max-w-7xl items-end px-5 py-14 sm:px-8 lg:px-10">
@@ -49,7 +49,7 @@ export function PortalPage() {
               <Link
                 key={course.title}
                 to={course.to}
-                className="group flex min-h-80 flex-col rounded-[2rem] border border-white/12 bg-white/[0.07] p-5 text-center shadow-soft backdrop-blur transition duration-200 hover:-translate-y-1 hover:border-pine/60 hover:bg-white/[0.11] hover:shadow-glow focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+                className="group flex min-h-80 flex-col rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 text-center shadow-soft backdrop-blur transition duration-200 hover:-translate-y-1 hover:border-pine/60 hover:bg-white/[0.11] hover:shadow-glow focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
               >
                 <div className="flex flex-1 flex-col items-center justify-center">
                   <h3 className="text-2xl font-extrabold text-white">

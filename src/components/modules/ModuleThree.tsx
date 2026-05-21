@@ -68,7 +68,7 @@ const compassDirections: CompassDirection[] = [
       "stille rolige spørsmål",
     ],
     action: "Fortsett innenfor avtalen.",
-    classes: "border-pine/45 bg-pine/14 text-harbor",
+    classes: "border-pine/45 bg-pine/15 text-harbor",
     marker: "A",
   },
   {
@@ -85,7 +85,7 @@ const compassDirections: CompassDirection[] = [
       "noen ber deg håndtere penger, transport, helsehjelp eller privat kontakt",
     ],
     action: "Kontakt leder eller kontaktperson.",
-    classes: "border-honey/70 bg-honey/18 text-harbor",
+    classes: "border-honey/70 bg-honey/20 text-harbor",
     marker: "B",
   },
   {
@@ -385,7 +385,7 @@ function ChoiceButton({
         isSelected && isBest
           ? "border-pine bg-pine/20 text-harbor ring-2 ring-pine/45"
           : isSelected
-            ? "border-honey/70 bg-honey/18 text-harbor ring-2 ring-honey/30"
+            ? "border-honey/70 bg-honey/20 text-harbor ring-2 ring-honey/30"
             : "border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift"
       }`}
     >
@@ -925,7 +925,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
                 eksamen.
               </p>
             </div>
-            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/10">
               <p className="text-sm font-bold uppercase tracking-normal text-slate">
                 Situasjon
               </p>
@@ -1111,7 +1111,7 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
                         onClick={() => markObservationSeen(pair.id)}
                         className={`rounded-3xl border p-4 text-left transition focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
                           seen
-                            ? "border-pine bg-pine/14"
+                            ? "border-pine bg-pine/15"
                             : "border-harbor/10 bg-white hover:border-pine/55 hover:shadow-lift"
                         }`}
                       >

@@ -413,8 +413,8 @@ function CollectibleTakeaways() {
                 aria-pressed={isCollected}
                 className={`flex min-h-28 w-full flex-col items-center justify-center gap-3 rounded-2xl border p-5 text-center text-base font-bold leading-7 transition-all duration-200 [text-wrap:balance] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
                   isCollected
-                    ? "border-pine/45 bg-pine/18 text-harbor ring-2 ring-pine/30"
-                    : "border-transparent bg-mist text-harbor hover:border-pine/25 hover:bg-pine/8"
+                    ? "border-pine/45 bg-pine/20 text-harbor ring-2 ring-pine/30"
+                    : "border-transparent bg-mist text-harbor hover:border-pine/25 hover:bg-pine/10"
                 }`}
               >
                 {isCollected && (
@@ -579,7 +579,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
           {activities.map((activity) => (
             <span
               key={activity.label}
-              className="flex items-center gap-1.5 rounded-full border border-harbor/12 bg-mist px-3.5 py-1.5 text-sm font-semibold text-harbor"
+              className="flex items-center gap-1.5 rounded-full border border-harbor/10 bg-mist px-3.5 py-1.5 text-sm font-semibold text-harbor"
             >
               <span aria-hidden="true">{activity.icon}</span>
               {activity.label}
@@ -650,7 +650,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                 <p className="font-bold text-harbor">Velg to byggesteiner.</p>
               </div>
             </div>
-            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/10">
               <p className="text-sm font-bold uppercase tracking-normal text-slate">
                 Valgt
               </p>
@@ -677,7 +677,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
                   onClick={() => toggleBlock(block.id)}
                   className={`min-h-36 rounded-2xl border p-4 text-left transition duration-200 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine ${
                     isSelected
-                      ? "border-pine bg-pine/18 text-harbor ring-2 ring-pine/45"
+                      ? "border-pine bg-pine/20 text-harbor ring-2 ring-pine/45"
                       : "border-harbor/10 bg-white text-ink hover:-translate-y-0.5 hover:border-pine/55 hover:shadow-lift"
                   }`}
                 >
@@ -704,7 +704,7 @@ export function ModuleOne({ courseModule, isComplete, onComplete }: ModuleOnePro
 
           <div className="mt-5 min-h-12" aria-live="polite">
             {limitMessage ? (
-              <p className="rounded-2xl bg-honey/18 px-4 py-3 text-sm font-semibold text-harbor">
+              <p className="rounded-2xl bg-honey/20 px-4 py-3 text-sm font-semibold text-harbor">
                 {limitMessage}
               </p>
             ) : null}

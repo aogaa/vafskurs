@@ -19,7 +19,7 @@ export function ProgressSummary({
 
   return (
     <section
-      className="rounded-3xl border border-harbor/8 bg-white p-6 shadow-soft"
+      className="rounded-3xl border border-harbor/10 bg-white p-6 shadow-soft"
       aria-label="Kursprogresjon"
     >
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">

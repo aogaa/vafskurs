@@ -16,14 +16,14 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
       <ModuleHero courseModule={courseModule} />
 
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-        <Card className="p-7 ring-1 ring-harbor/8">
+        <Card className="p-7 ring-1 ring-harbor/10">
           <h2 className="text-2xl font-bold text-ink">Dette skal du sitte igjen med</h2>
           <ul className="mt-5 space-y-4">
             {courseModule.learningGoals.length > 0 ? (
               courseModule.learningGoals.map((goal) => (
                 <li key={goal} className="flex gap-3 text-base leading-7 text-slate">
                   <span
-                    className="mt-1 grid size-7 shrink-0 place-items-center rounded-2xl bg-pine/18 text-sm font-black text-harbor"
+                    className="mt-1 grid size-7 shrink-0 place-items-center rounded-2xl bg-pine/20 text-sm font-black text-harbor"
                     aria-hidden="true"
                   >
                     ✓
@@ -39,7 +39,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
           </ul>
         </Card>
 
-        <Card className="p-7 ring-1 ring-harbor/8">
+        <Card className="p-7 ring-1 ring-harbor/10">
           <h2 className="text-2xl font-bold text-ink">Innhold</h2>
           <div className="mt-5 space-y-4 text-base leading-8 text-slate">
             {(courseModule.contentBlocks ?? [
@@ -51,9 +51,9 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
         </Card>
       </div>
 
-      <Card className="p-7 ring-1 ring-harbor/8">
+      <Card className="p-7 ring-1 ring-harbor/10">
         <h2 className="text-2xl font-bold text-ink">Interaktiv øvelse</h2>
-        <div className="mt-5 rounded-3xl border border-dashed border-harbor/18 bg-mist p-6">
+        <div className="mt-5 rounded-3xl border border-dashed border-harbor/20 bg-mist p-6">
           <p className="max-w-3xl text-base leading-8 text-slate">
             Her kommer en enkel øvelse i neste byggesteg. Målet er at du kan
             reflektere over frivilligrollen i praksis, uten at svar lagres som
@@ -64,7 +64,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
 
       {courseModule.insight ? <InsightCard>{courseModule.insight}</InsightCard> : null}
 
-      <div className="mt-12 flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-12 flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/10 sm:flex-row sm:items-center sm:justify-between">
         <Button to="/trygg-som-frivillig/deler" variant="secondary">
           Tilbake til deloversikt
         </Button>

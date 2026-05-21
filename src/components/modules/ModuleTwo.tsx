@@ -242,7 +242,7 @@ function RoleExpandCard({
         isActive
           ? "border-pine/45 bg-white shadow-lift"
           : isAnyActive
-          ? "border-harbor/8 bg-white opacity-50"
+          ? "border-harbor/10 bg-white opacity-50"
           : "border-harbor/10 bg-white hover:border-pine/30 hover:shadow-soft"
       }`}
     >
@@ -298,7 +298,7 @@ function RoleExpandCard({
                 ))}
               </ul>
             </div>
-            <div className="rounded-xl border border-harbor/12 bg-mist p-4">
+            <div className="rounded-xl border border-harbor/10 bg-mist p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-slate">
                 Skal ikke gjøre
               </p>
@@ -454,8 +454,8 @@ function KanIkkeToggle() {
             key={item.id}
             className={`flex gap-4 rounded-2xl border p-4 transition-colors duration-200 ${
               activeTab === "kan"
-                ? "border-pine/20 bg-pine/8"
-                : "border-harbor/12 bg-mist"
+                ? "border-pine/20 bg-pine/10"
+                : "border-harbor/10 bg-mist"
             }`}
           >
             <span
@@ -473,7 +473,7 @@ function KanIkkeToggle() {
       </div>
       <p
         className={`mt-5 flex min-h-16 items-center justify-center rounded-xl p-4 text-center text-sm font-bold [text-wrap:balance] ${
-          activeTab === "kan" ? "bg-pine/10 text-harbor" : "bg-harbor/8 text-harbor"
+          activeTab === "kan" ? "bg-pine/10 text-harbor" : "bg-harbor/10 text-harbor"
         }`}
       >
         {activeTab === "kan"
@@ -498,7 +498,7 @@ function Section({
       <h2 className="flex items-center gap-3 text-2xl font-extrabold leading-tight text-ink md:text-3xl">
         {icon ? (
           <span
-            className="grid size-10 shrink-0 place-items-center rounded-2xl bg-pine/12 text-xl"
+            className="grid size-10 shrink-0 place-items-center rounded-2xl bg-pine/10 text-xl"
             aria-hidden="true"
           >
             {icon}
@@ -587,10 +587,10 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
     }
 
     if (optionId === "avklares") {
-      return `${base} border-honey/70 bg-honey/18 text-harbor`;
+      return `${base} border-honey/70 bg-honey/20 text-harbor`;
     }
 
-    return `${base} border-harbor/12 bg-mist text-harbor`;
+    return `${base} border-harbor/10 bg-mist text-harbor`;
   }
 
   return (
@@ -775,7 +775,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           <button
             type="button"
             onClick={() => setRevealedConsequences((n) => Math.min(n + 1, 6))}
-            className="flex w-full items-center justify-between gap-4 rounded-2xl border-2 border-dashed border-harbor/20 bg-white px-6 py-4 text-base font-bold text-harbor transition duration-200 hover:border-pine/50 hover:bg-pine/8 hover:text-harbor focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+            className="flex w-full items-center justify-between gap-4 rounded-2xl border-2 border-dashed border-harbor/20 bg-white px-6 py-4 text-base font-bold text-harbor transition duration-200 hover:border-pine/50 hover:bg-pine/10 hover:text-harbor focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
           >
             <span className="flex items-center gap-3">
               <span
@@ -865,7 +865,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
                 hvor ansvaret hører hjemme.
               </p>
             </div>
-            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/8">
+            <div className="rounded-3xl bg-mist p-5 text-harbor ring-1 ring-harbor/10">
               <p className="text-sm font-bold uppercase tracking-normal text-slate">
                 Scenario
               </p>

@@ -30,7 +30,7 @@ export function ModuleCard({ courseModule, status }: ModuleCardProps) {
             : "bg-white/88"
       }`}
     >
-      <div className={`h-2 ${isComplete || isNext ? "bg-pine" : "bg-harbor/18"}`} />
+      <div className={`h-2 ${isComplete || isNext ? "bg-pine" : "bg-harbor/20"}`} />
       <div className="flex h-full flex-col p-6">
         <p
           className={`text-sm font-bold uppercase tracking-normal ${

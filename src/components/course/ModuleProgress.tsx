@@ -9,7 +9,7 @@ type ModuleProgressProps = {
 export function ModuleProgress({ courseModule, isModuleComplete }: ModuleProgressProps) {
   return (
     <div
-      className="flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-harbor/8 sm:flex-row sm:items-center sm:justify-between"
+      className="flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-harbor/10 sm:flex-row sm:items-center sm:justify-between"
       aria-label={`Del ${courseModule.order} av ${visibleCourseModules.length}`}
     >
       <div className="flex items-center gap-2" aria-hidden="true">
