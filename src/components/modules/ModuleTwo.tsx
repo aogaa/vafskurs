@@ -281,7 +281,7 @@ function RoleExpandCard({
         <div className="min-h-0 overflow-hidden">
           <div className="grid gap-3 px-5 pb-5 sm:grid-cols-2">
             <div className="rounded-xl bg-pine/10 p-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-pine">
+              <p className="text-xs font-bold uppercase tracking-wider text-harbor">
                 Kan bidra med
               </p>
               <ul className="mt-3 space-y-2">
@@ -290,7 +290,7 @@ function RoleExpandCard({
                     key={item}
                     className="flex items-start gap-2 text-sm font-medium leading-6 text-harbor"
                   >
-                    <span className="mt-0.5 shrink-0 font-bold text-pine" aria-hidden="true">
+                    <span className="mt-0.5 shrink-0 font-bold text-harbor" aria-hidden="true">
                       ✓
                     </span>
                     {item}
@@ -473,7 +473,7 @@ function KanIkkeToggle() {
       </div>
       <p
         className={`mt-5 flex min-h-16 items-center justify-center rounded-xl p-4 text-center text-sm font-bold [text-wrap:balance] ${
-          activeTab === "kan" ? "bg-pine/10 text-pine" : "bg-harbor/8 text-harbor"
+          activeTab === "kan" ? "bg-pine/10 text-harbor" : "bg-harbor/8 text-harbor"
         }`}
       >
         {activeTab === "kan"
@@ -775,7 +775,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           <button
             type="button"
             onClick={() => setRevealedConsequences((n) => Math.min(n + 1, 6))}
-            className="flex w-full items-center justify-between gap-4 rounded-2xl border-2 border-dashed border-harbor/20 bg-white px-6 py-4 text-base font-bold text-harbor transition duration-200 hover:border-pine/50 hover:bg-pine/8 hover:text-pine focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+            className="flex w-full items-center justify-between gap-4 rounded-2xl border-2 border-dashed border-harbor/20 bg-white px-6 py-4 text-base font-bold text-harbor transition duration-200 hover:border-pine/50 hover:bg-pine/8 hover:text-harbor focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
           >
             <span className="flex items-center gap-3">
               <span
