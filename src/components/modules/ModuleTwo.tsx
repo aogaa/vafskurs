@@ -2,8 +2,6 @@ import { useState, type ReactNode } from "react";
 import type { CourseModule } from "../../data/courseModules";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
-import paaror1 from "../../assets/images/paaror1.png";
-import stopp1 from "../../assets/images/stopp1.png";
 
 const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-2-refleksjon";
 const ANSWERS_STORAGE_KEY = "trygg-som-frivillig:del-2-svar";
@@ -738,40 +736,6 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           </p>
         )}
       </Card>
-
-      <Section icon="👨‍👩‍👧" title="Når pårørende presser på">
-        <p>
-          Pårørende kan være slitne, bekymret og redde. De kan ha stått i
-          ansvar lenge. Derfor kan de noen ganger håpe at du som frivillig kan
-          gjøre mer enn det som egentlig er avtalt.
-        </p>
-        <p>
-          Du kan møte pårørende med respekt uten å overta ansvaret deres. Hvis
-          noen ber deg komme oftere eller gjøre mer, kan du si at rollen din er
-          avgrenset til det som er avtalt — men at du gjerne gir beskjed til
-          kontaktpersonen din om at de er bekymret.
-        </p>
-        <p>
-          Du skal ikke bli familiens mellomperson, konfliktløser eller ekstra
-          omsorgstjeneste. Hvis noe blir uklart, tar du det med lederen din.
-        </p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="overflow-hidden rounded-2xl shadow-sm">
-            <img
-              src={paaror1}
-              alt="Frivillig i samtale med pårørende og bruker"
-              className="aspect-[4/3] w-full object-cover object-top"
-            />
-          </div>
-          <div className="overflow-hidden rounded-2xl shadow-sm">
-            <img
-              src={stopp1}
-              alt="Sykepleier avklarer faglig ansvar med frivillig og bruker"
-              className="aspect-[4/3] w-full object-cover object-top"
-            />
-          </div>
-        </div>
-      </Section>
 
       <Section icon="🧩" title="Supplement og berikelse - ikke erstatning">
         <p className="flex min-h-28 items-center justify-center rounded-2xl bg-mist p-5 text-center text-xl font-bold leading-9 text-harbor [text-wrap:balance]">
