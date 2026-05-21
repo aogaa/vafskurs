@@ -155,7 +155,7 @@ Ingen animasjonsbiblioteker installert — vurder kun ved behov.
 |---|-----------|-----|--------|
 | 1 | Fire roller — interaktiv ekspandering | Del 2 | ✅ Ferdig (commit 4c336b9) |
 | 2 | Supplement-lagvisualisering | Del 1 | ✅ Ferdig (commit 895b9e3) |
-| 3 | Visuelt kompass (trafikklys) | Del 3 | ⬜ Ikke startet |
+| 3 | Visuelt kompass (trafikklys) | Del 3 | ✅ Ferdig |
 | 4 | Stopp → Tenk → Avklar stegvisning | Del 3 | ⬜ Ikke startet |
 | 5 | Besøksvenn-scenario med avatarer | Del 2 | ⬜ Ikke startet |
 | 6 | Kursreise-oppsummering ved fullføring | Del 4 | ⬜ Ikke startet |

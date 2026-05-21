@@ -394,6 +394,63 @@ function ChoiceButton({
   );
 }
 
+function CompassVisual({ activeAction }: { activeAction: CompassAction | undefined }) {
+  const lights: {
+    id: CompassAction;
+    onBg: string;
+    glow: string;
+    label: string;
+  }[] = [
+    {
+      id: "red",
+      onBg: "bg-red-500",
+      glow: "ring-4 ring-red-300/80 shadow-[0_0_18px_6px_rgba(239,68,68,0.45)]",
+      label: "Nødnummer",
+    },
+    {
+      id: "yellow",
+      onBg: "bg-honey",
+      glow: "ring-4 ring-honey/70 shadow-[0_0_18px_6px_rgba(234,179,8,0.4)]",
+      label: "Avklar",
+    },
+    {
+      id: "green",
+      onBg: "bg-pine",
+      glow: "ring-4 ring-pine/60 shadow-[0_0_18px_6px_rgba(102,194,68,0.4)]",
+      label: "Fortsett",
+    },
+  ];
+
+  return (
+    <div
+      className="flex shrink-0 flex-col items-center gap-3 rounded-3xl bg-harbor px-5 py-6"
+      aria-hidden="true"
+    >
+      {lights.map((light) => {
+        const isActive = activeAction === light.id;
+        return (
+          <div key={light.id} className="flex flex-col items-center gap-1.5">
+            <div
+              className={`size-10 rounded-full transition-all duration-500 ${
+                isActive
+                  ? `${light.onBg} ${light.glow} animate-pulse`
+                  : "bg-white/10 opacity-40"
+              }`}
+            />
+            <span
+              className={`text-[10px] font-bold uppercase tracking-wide transition-colors duration-300 ${
+                isActive ? "text-white" : "text-white/30"
+              }`}
+            >
+              {light.label}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThreeProps) {
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [scenarioAnswers, setScenarioAnswers] = useState<
@@ -955,9 +1012,18 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
         <Card className="overflow-hidden p-0">
           <div className="h-2 bg-pine" />
           <div className="p-6 md:p-8">
-            <p className="flex min-h-32 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-semibold leading-9 text-ink [text-wrap:balance]">
-              {currentScenario.situation}
-            </p>
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-stretch">
+              <p className="flex flex-1 min-h-32 items-center justify-center rounded-3xl bg-mist p-5 text-center text-xl font-semibold leading-9 text-ink [text-wrap:balance]">
+                {currentScenario.situation}
+              </p>
+              <CompassVisual
+                activeAction={
+                  selectedScenarioAction
+                    ? currentScenario.correctAction
+                    : undefined
+                }
+              />
+            </div>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {compassDirections.map((direction) => {
                 const selected = selectedScenarioAction === direction.id;
