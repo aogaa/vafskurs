@@ -3,6 +3,7 @@ import type { CourseModule } from "../../data/courseModules";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import paaror1 from "../../assets/images/paaror1.png";
+import stopp1 from "../../assets/images/stopp1.png";
 
 const REFLECTION_STORAGE_KEY = "trygg-som-frivillig:del-2-refleksjon";
 const ANSWERS_STORAGE_KEY = "trygg-som-frivillig:del-2-svar";
@@ -781,6 +782,27 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           Noen ganger er det riktig å bidra litt ekstra innenfor rammen. Andre
           ganger er det nettopp da du skal stoppe opp og avklare.
         </p>
+        <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
+          <div className="space-y-4">
+            <p>
+              Et typisk eksempel: en ansatt ber deg hjelpe til med medisiner
+              fordi de har det travelt. Det kan kjennes kjipt å si nei. Men
+              medisinering er en fagoppgave — det er ikke din rolle som frivillig,
+              uansett hvor godt du mener det.
+            </p>
+            <p>
+              Å si «det er ikke min rolle» er ikke mangel på omsorg. Det er å
+              beskytte brukeren og deg selv.
+            </p>
+          </div>
+          <div className="w-full shrink-0 overflow-hidden rounded-2xl shadow-sm md:w-52 lg:w-56 md:max-h-64">
+            <img
+              src={stopp1}
+              alt="Sykepleier og frivillig avklarer ansvarsforhold hos bruker"
+              className="h-full w-full object-cover object-top"
+            />
+          </div>
+        </div>
         <p>Hvis du stadig overtar ansvar som egentlig ligger hos andre, kan dette skje:</p>
         <ul className="grid gap-3 md:grid-cols-2">
           {[
