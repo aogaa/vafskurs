@@ -627,7 +627,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               className="flex items-center gap-2 rounded-xl bg-mist p-3 text-sm font-semibold text-slate/70"
             >
               <span
-                className="grid size-5 shrink-0 place-items-center rounded-full bg-harbor/10 text-xs font-black text-harbor/50"
+                className="grid size-5 shrink-0 place-items-center rounded-full bg-red-100 text-xs font-black text-red-500"
                 aria-hidden="true"
               >
                 ✕
@@ -647,7 +647,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           en person som ser, lytter, inviterer og følger opp innenfor trygge
           rammer.
         </p>
-        <p className="flex min-h-16 items-center justify-center rounded-xl bg-pine/10 p-4 text-center font-bold text-pine [text-wrap:balance]">
+        <p className="flex min-h-16 items-center justify-center rounded-xl bg-pine/10 p-4 text-center font-bold text-harbor [text-wrap:balance]">
           Det er en viktig rolle. Men den er ikke grenseløs.
         </p>
       </Section>
