@@ -757,11 +757,13 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
               omsorgstjeneste. Hvis noe blir uklart, tar du det med lederen din.
             </p>
           </div>
-          <img
-            src={paaror1}
-            alt="Frivillig i samtale med pårørende og bruker"
-            className="w-full rounded-2xl object-cover shadow-sm md:w-52 lg:w-60 md:shrink-0"
-          />
+          <div className="w-full shrink-0 overflow-hidden rounded-2xl shadow-sm md:w-52 lg:w-56 md:max-h-64">
+            <img
+              src={paaror1}
+              alt="Frivillig i samtale med pårørende og bruker"
+              className="h-full w-full object-cover object-top"
+            />
+          </div>
         </div>
       </Section>
 
