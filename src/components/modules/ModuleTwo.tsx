@@ -624,7 +624,7 @@ export function ModuleTwo({ courseModule, isComplete, onComplete }: ModuleTwoPro
           ].map((item) => (
             <div
               key={item}
-              className="flex items-center gap-2 rounded-xl bg-mist p-3 text-sm font-semibold text-slate/70"
+              className="flex items-center gap-2 rounded-xl bg-mist p-3 text-sm font-semibold text-ink"
             >
               <span
                 className="grid size-5 shrink-0 place-items-center rounded-full bg-red-100 text-xs font-black text-red-500"

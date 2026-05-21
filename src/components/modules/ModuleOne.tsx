@@ -316,7 +316,7 @@ function SupplementLayers() {
                 aria-live="polite"
               >
                 <div className="overflow-hidden">
-                  <p className="mt-2 rounded-2xl bg-mist px-5 py-4 text-sm leading-7 text-slate">
+                  <p className="mt-2 rounded-2xl bg-mist px-5 py-4 text-sm leading-7 text-ink">
                     {layer.description}
                   </p>
                 </div>
@@ -392,7 +392,7 @@ function CollectibleTakeaways() {
           Dette kan du ta med deg videre
         </h2>
         <span
-          className="rounded-full bg-mist px-3 py-1 text-sm font-bold text-slate"
+          className="rounded-full bg-mist px-3 py-1 text-sm font-bold text-harbor"
           aria-live="polite"
         >
           {collected.length} av {takeawayItems.length} samlet
