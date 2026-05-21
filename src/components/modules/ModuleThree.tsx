@@ -2,7 +2,6 @@ import { useState, type ReactNode } from "react";
 import type { CourseModule } from "../../data/courseModules";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
-import stopp1 from "../../assets/images/stopp1.png";
 
 const SCENARIO_STORAGE_KEY = "trygg-som-frivillig:del-3-kompass-svar";
 const PHRASES_STORAGE_KEY = "trygg-som-frivillig:del-3-sprak-svar";
@@ -714,32 +713,20 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
       </Section>
 
       <Section title="Forskjellen på å lytte og å overta ansvar">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
-          <div className="space-y-4">
-            <p>
-              Som frivillig kan du lytte. Du kan være til stede. Du kan vise
-              omsorg. Du kan gi tid. Du kan være et rolig menneske i rommet.
-            </p>
-            <p>
-              Men du overtar ansvar når du begynner å love løsninger du ikke
-              kan stå inne for, når du blir den eneste som vet om en alvorlig
-              bekymring, eller når du forsøker å håndtere helse, økonomi,
-              familiekonflikter, psykiske kriser eller utrygge situasjoner
-              alene.
-            </p>
-            <p className="font-bold text-harbor">
-              Du kan være et medmenneske uten å bli behandler. Du kan bry deg
-              uten å ta over livet til den andre.
-            </p>
-          </div>
-          <div className="w-full shrink-0 overflow-hidden rounded-2xl shadow-sm md:w-52 lg:w-56 md:max-h-64">
-            <img
-              src={stopp1}
-              alt="Sykepleier avklarer faglig ansvar med frivillig og bruker"
-              className="h-full w-full object-cover object-top"
-            />
-          </div>
-        </div>
+        <p>
+          Som frivillig kan du lytte. Du kan være til stede. Du kan vise omsorg.
+          Du kan gi tid. Du kan være et rolig menneske i rommet.
+        </p>
+        <p>
+          Men du overtar ansvar når du begynner å love løsninger du ikke kan stå
+          inne for, når du blir den eneste som vet om en alvorlig bekymring, eller
+          når du forsøker å håndtere helse, økonomi, familiekonflikter, psykiske
+          kriser eller utrygge situasjoner alene.
+        </p>
+        <p className="font-bold text-harbor">
+          Du kan være et medmenneske uten å bli behandler. Du kan bry deg uten å
+          ta over livet til den andre.
+        </p>
       </Section>
 
       <Section title="Dårlig magefølelse er nok til å spørre">
