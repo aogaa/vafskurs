@@ -2,7 +2,6 @@ import { useState, type ReactNode } from "react";
 import type { CourseModule } from "../../data/courseModules";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
-import paaror1 from "../../assets/images/paaror1.png";
 import stopp1 from "../../assets/images/stopp1.png";
 
 const SCENARIO_STORAGE_KEY = "trygg-som-frivillig:del-3-kompass-svar";
@@ -810,21 +809,12 @@ export function ModuleThree({ courseModule, isComplete, onComplete }: ModuleThre
           Du skal ikke bli familiens mellomperson, konfliktløser eller ekstra
           omsorgstjeneste. Hvis noe blir uklart, tar du det med lederen din.
         </p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="overflow-hidden rounded-2xl shadow-sm">
-            <img
-              src={paaror1}
-              alt="Frivillig i samtale med pårørende og bruker"
-              className="aspect-[4/3] w-full object-cover object-top"
-            />
-          </div>
-          <div className="overflow-hidden rounded-2xl shadow-sm">
-            <img
-              src={stopp1}
-              alt="Sykepleier avklarer faglig ansvar med frivillig og bruker"
-              className="aspect-[4/3] w-full object-cover object-top"
-            />
-          </div>
+        <div className="mx-auto max-w-lg overflow-hidden rounded-2xl shadow-sm">
+          <img
+            src={stopp1}
+            alt="Sykepleier avklarer faglig ansvar med frivillig og bruker"
+            className="aspect-[4/3] w-full object-cover object-top"
+          />
         </div>
       </Section>
 
