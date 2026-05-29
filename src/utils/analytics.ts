@@ -105,7 +105,9 @@ export function trackPageView(path: string) {
 
   enableGoogleAnalytics();
 
-  window.gtag?.("config", GA_MEASUREMENT_ID, {
+  window.gtag?.("event", "page_view", {
+    send_to: GA_MEASUREMENT_ID,
+    page_location: window.location.href,
     page_path: path,
     page_title: document.title,
   });
