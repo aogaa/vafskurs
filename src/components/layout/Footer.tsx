@@ -1,4 +1,5 @@
-﻿import logommm from "../../assets/images/logommm.png";
+import logommm from "../../assets/images/logommm.png";
+import { openConsentSettings } from "../../utils/analytics";
 
 export function Footer() {
   return (
@@ -8,6 +9,13 @@ export function Footer() {
           <div className="space-y-2 text-sm leading-6 text-white">
             <p>© Stiftelsen Vestre Aker Frivilligsentral · Org.nr. 981 099 167</p>
             <p>© Andresen & Aas · Org.nr. 935 650 372</p>
+            <button
+              type="button"
+              className="font-bold underline decoration-white/50 underline-offset-4 transition hover:decoration-white focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+              onClick={openConsentSettings}
+            >
+              Endre personvernvalg
+            </button>
           </div>
           <div className="flex w-fit items-center rounded-2xl bg-white/96 p-3 shadow-sm ring-1 ring-white/20">
             <img
