@@ -58,7 +58,7 @@ export function openConsentSettings() {
   window.dispatchEvent(new Event(CONSENT_SETTINGS_EVENT));
 }
 
-export function enableGoogleAnalytics() {
+export function enableGoogleAnalytics(pagePath: string) {
   Object.defineProperty(window, getDisableKey(), {
     value: false,
     configurable: true,
@@ -83,9 +83,17 @@ export function enableGoogleAnalytics() {
     document.head.appendChild(script);
 
     window.gtag("js", new Date());
-    window.gtag("config", GA_MEASUREMENT_ID, { send_page_view: false });
+    window.gtag("config", GA_MEASUREMENT_ID, {
+      page_location: window.location.href,
+      page_path: pagePath,
+      page_title: document.title,
+    });
     isGoogleAnalyticsLoaded = true;
+
+    return true;
   }
+
+  return false;
 }
 
 export function disableGoogleAnalytics() {
@@ -103,7 +111,11 @@ export function trackPageView(path: string) {
     return;
   }
 
-  enableGoogleAnalytics();
+  const wasLoadedNow = enableGoogleAnalytics(path);
+
+  if (wasLoadedNow) {
+    return;
+  }
 
   window.gtag?.("event", "page_view", {
     send_to: GA_MEASUREMENT_ID,

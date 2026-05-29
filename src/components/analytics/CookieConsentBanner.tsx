@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   type AnalyticsConsent,
   CONSENT_SETTINGS_EVENT,
   disableGoogleAnalytics,
-  enableGoogleAnalytics,
   getStoredAnalyticsConsent,
   storeAnalyticsConsent,
   trackPageView,
 } from "../../utils/analytics";
 
 export function CookieConsentBanner() {
-  const isInitialConsentEffect = useRef(true);
+  const location = useLocation();
   const [consent, setConsent] = useState<AnalyticsConsent | null>(() =>
     getStoredAnalyticsConsent(),
   );
@@ -18,19 +18,13 @@ export function CookieConsentBanner() {
 
   useEffect(() => {
     if (consent === "accepted") {
-      enableGoogleAnalytics();
-
-      if (!isInitialConsentEffect.current) {
-        trackPageView(`${window.location.pathname}${window.location.search}`);
-      }
+      trackPageView(`${location.pathname}${location.search}`);
     }
 
     if (consent === "declined") {
       disableGoogleAnalytics();
     }
-
-    isInitialConsentEffect.current = false;
-  }, [consent]);
+  }, [consent, location.pathname, location.search]);
 
   useEffect(() => {
     function handleOpenConsentSettings() {
