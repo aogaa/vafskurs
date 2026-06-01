@@ -19,6 +19,20 @@ const fallbackRoutes = [
   "moduler/modul-2/index.html",
   "moduler/modul-3/index.html",
   "moduler/modul-4/index.html",
+  "ukrainsk/index.html",
+  "ukrainsk/trygg-som-frivillig/index.html",
+  "ukrainsk/trygg-som-frivillig/deler/index.html",
+  "ukrainsk/trygg-som-frivillig/deler/modul-1/index.html",
+  "ukrainsk/trygg-som-frivillig/deler/modul-2/index.html",
+  "ukrainsk/trygg-som-frivillig/deler/modul-3/index.html",
+  "ukrainsk/trygg-som-frivillig/deler/modul-4/index.html",
+  "engelsk/index.html",
+  "engelsk/trygg-som-frivillig/index.html",
+  "engelsk/trygg-som-frivillig/deler/index.html",
+  "engelsk/trygg-som-frivillig/deler/modul-1/index.html",
+  "engelsk/trygg-som-frivillig/deler/modul-2/index.html",
+  "engelsk/trygg-som-frivillig/deler/modul-3/index.html",
+  "engelsk/trygg-som-frivillig/deler/modul-4/index.html",
 ];
 
 async function ensureIndexExists() {
