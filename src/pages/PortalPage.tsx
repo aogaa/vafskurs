@@ -2,8 +2,8 @@
 import heroindex from "../assets/images/heroindex.png";
 
 const languageLinks = [
-  { to: "/ukrainsk", flag: "🇺🇦", label: "Курси українською" },
-  { to: "/engelsk", flag: "🇬🇧", label: "Courses in English" },
+  { to: "/ukrainsk", flag: "🇺🇦", label: "Курси українською", sub: "Ukrainsk" },
+  { to: "/engelsk", flag: "🇬🇧", label: "Courses in English", sub: "Engelsk" },
 ];
 
 const courseCards = [
@@ -72,20 +72,26 @@ export function PortalPage() {
           </div>
         </div>
       </section>
-      <section className="border-t border-white/10 bg-harbor px-5 py-8 sm:px-8 lg:px-10">
+      <section className="border-t border-white/10 bg-harbor px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <p className="text-sm font-bold uppercase tracking-normal text-pine">
             Kurs på andre språk
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
+          <p className="mt-2 text-lg font-medium text-white/70">
+            Velg ditt foretrukne språk for å starte kurset.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-4">
             {languageLinks.map((lang) => (
               <Link
                 key={lang.to}
                 to={lang.to}
-                className="flex items-center gap-2 rounded-2xl border border-white/20 bg-white/[0.07] px-4 py-2.5 text-sm font-bold text-white transition hover:border-pine/60 hover:bg-white/[0.11] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
+                className="group flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.07] px-5 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-pine/60 hover:bg-white/[0.12] hover:shadow-glow focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
               >
-                <span aria-hidden="true">{lang.flag}</span>
-                {lang.label}
+                <span className="text-4xl leading-none" aria-hidden="true">{lang.flag}</span>
+                <span className="flex flex-col">
+                  <span className="text-base font-extrabold text-white">{lang.label}</span>
+                  <span className="text-sm font-medium text-white/50">{lang.sub}</span>
+                </span>
               </Link>
             ))}
           </div>
