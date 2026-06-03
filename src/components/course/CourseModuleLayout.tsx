@@ -4,13 +4,24 @@ import { Card } from "../ui/Card";
 import { InsightCard } from "./InsightCard";
 import { ModuleHero } from "./ModuleHero";
 
-type ModuleLayoutProps = {
+type CourseModuleLayoutProps = {
   courseModule: CourseModule;
   isComplete: boolean;
   onComplete: () => void;
+  overviewTo: string;
 };
 
-export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLayoutProps) {
+/**
+ * Generisk modul-layout brukt som stillas for deler uten egen interaktiv
+ * komponent. Tilsvarer ModuleLayout, men med parametrisert tilbake-lenke
+ * slik at den fungerer for ethvert kurs.
+ */
+export function CourseModuleLayout({
+  courseModule,
+  isComplete,
+  onComplete,
+  overviewTo,
+}: CourseModuleLayoutProps) {
   return (
     <article className="space-y-8">
       <ModuleHero courseModule={courseModule} />
@@ -56,7 +67,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
         <div className="mt-5 rounded-3xl border border-dashed border-harbor/20 bg-mist p-6">
           <p className="max-w-3xl text-base leading-8 text-slate">
             Her kommer en enkel øvelse i neste byggesteg. Målet er at du kan
-            reflektere over frivilligrollen i praksis, uten at svar lagres som
+            reflektere over innholdet i praksis, uten at svar lagres som
             personopplysninger.
           </p>
         </div>
@@ -65,7 +76,7 @@ export function ModuleLayout({ courseModule, isComplete, onComplete }: ModuleLay
       {courseModule.insight ? <InsightCard>{courseModule.insight}</InsightCard> : null}
 
       <div className="mt-12 flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-soft ring-1 ring-harbor/10 sm:flex-row sm:items-center sm:justify-between">
-        <Button to="/trygg-som-frivillig/deler" variant="secondary">
+        <Button to={overviewTo} variant="secondary">
           Tilbake til deloversikt
         </Button>
         <Button
