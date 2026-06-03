@@ -19,7 +19,9 @@ export const spraakkafeCourse: CourseDescriptor = {
   title: "Slik lager vi språkkafe",
   shortDescription:
     "En praktisk innføring i hvordan du starter og driver en språkkafé — en lavterskel møteplass for språk, mestring og fellesskap.",
-  status: "active",
+  // "planned" → skjules fra portalen (visibleCourses). Ruten /spraakkafe
+  // fungerer fortsatt direkte for testing. Sett til "active" når klar.
+  status: "planned",
   hero: {
     subtitle:
       "En praktisk veiviser for deg som vil starte en språkkafé i nærmiljøet.",
