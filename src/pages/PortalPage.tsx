@@ -2,8 +2,8 @@
 import heroindex from "../assets/images/heroindex.png";
 
 const languageLinks = [
-  { to: "/ukrainsk", flag: "🇺🇦", label: "Курси українською", sub: "Ukrainsk" },
-  { to: "/engelsk", flag: "🇬🇧", label: "Courses in English", sub: "Engelsk" },
+  { to: "/ukrainsk", flagCode: "ua", label: "Курси українською", sub: "Ukrainsk" },
+  { to: "/engelsk", flagCode: "gb", label: "Courses in English", sub: "Engelsk" },
 ];
 
 const courseCards = [
@@ -87,7 +87,15 @@ export function PortalPage() {
                 to={lang.to}
                 className="group flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.07] px-5 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-pine/60 hover:bg-white/[0.12] hover:shadow-glow focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
               >
-                <span className="text-4xl leading-none" aria-hidden="true">{lang.flag}</span>
+                <img
+                  src={`https://flagcdn.com/48x36/${lang.flagCode}.png`}
+                  srcSet={`https://flagcdn.com/96x72/${lang.flagCode}.png 2x`}
+                  width={48}
+                  height={36}
+                  alt=""
+                  aria-hidden="true"
+                  className="rounded-sm object-cover shadow-sm"
+                />
                 <span className="flex flex-col">
                   <span className="text-base font-extrabold text-white">{lang.label}</span>
                   <span className="text-sm font-medium text-white/50">{lang.sub}</span>
