@@ -36,9 +36,33 @@ git push --force origin main           # tving GitHub til samme punkt
 
 ---
 
-## Kursstruktur
+## Kursarkitektur (kursregister)
 
-Fire deler, alle fullt utbygde React-komponenter:
+Hvert norsk kurs er en selvstendig enhet definert i `src/courses/`:
+
+```
+src/courses/
+  types.ts                     → CourseDescriptor + ModuleBodyProps
+  registry.ts                  → courses[] + getCourseBySlug() + visibleCourses
+  trygg-som-frivillig/course.ts
+  spraakkafe/course.ts + modules.ts
+```
+
+- **Ruting (generisk):** `/:courseSlug`, `/:courseSlug/deler`, `/:courseSlug/deler/:moduleId`
+  i [App.tsx](src/App.tsx). Slug slås opp i registeret. Statiske ruter (`/ukrainsk`,
+  `/engelsk`, `/moduler`) rangeres høyere av React Router og er urørt.
+- **Generiske sider:** `CourseHomePage`, `CourseOverviewPage`, `CourseModulePage` i `src/pages/`,
+  bygget på de parametriserte `*Translatable`-komponentene.
+- **Modul-body:** `descriptor.moduleComponents[moduleId]` rendrer egen interaktiv komponent;
+  moduler uten oppføring faller tilbake til `CourseModuleLayout` (stillas).
+- **Progresjon:** `useProgressWithPrefix(course.storagePrefix)` → nøkkel
+  `<storagePrefix>:completed-modules`. Hvert kurs har egen prefiks (ingen kollisjon).
+  Progresjon låst: del 2 krever fullført del 1, osv.
+- **Portalen** ([PortalPage.tsx](src/pages/PortalPage.tsx)) genererer kurskort fra `visibleCourses`.
+- Nytt kurs = ny mappe under `src/courses/` + én linje i `registry.ts` + rutene i
+  `create-pages-fallback.mjs`.
+
+### Kurs 1 — Trygg som frivillig (`storagePrefix: "trygg-som-frivillig"`)
 
 | ID | Fil | Tittel | Status |
 |----|-----|--------|--------|
@@ -47,9 +71,17 @@ Fire deler, alle fullt utbygde React-komponenter:
 | modul-3 | `src/components/modules/ModuleThree.tsx` | Når noe blir uklart – stopp og avklar | `planned` |
 | modul-4 | `src/components/modules/ModuleFour.tsx` | Klar til å bidra | `planned` |
 
-Ruting: `/trygg-som-frivillig/deler/:moduleId`
-Progresjon låst: del 2 krever fullført del 1, osv.
-Progresjon lagres i `localStorage` via `src/hooks/useProgress.ts`.
+### Kurs 2 — Slik lager vi språkkafe (`storagePrefix: "spraakkafe"`)
+
+Stillas — alle deler bruker `CourseModuleLayout` inntil egne interaktive komponenter bygges
+(registreres da i `moduleComponents`). Moduldata i `src/courses/spraakkafe/modules.ts`.
+
+| ID | Tittel | Status |
+|----|--------|--------|
+| modul-1 | Hva er en språkkafé? | `active` |
+| modul-2 | Planlegging og det praktiske | `planned` |
+| modul-3 | Vertsrollen | `planned` |
+| modul-4 | Klar til å starte | `planned` |
 
 ---
 

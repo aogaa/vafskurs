@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import { AppShell } from "./components/layout/AppShell";
-import { HomePage } from "./pages/HomePage";
-import { ModuleOverviewPage } from "./pages/ModuleOverviewPage";
-import { ModulePage } from "./pages/ModulePage";
+import { CourseHomePage } from "./pages/CourseHomePage";
+import { CourseOverviewPage } from "./pages/CourseOverviewPage";
+import { CourseModulePage } from "./pages/CourseModulePage";
 import { PortalPage } from "./pages/PortalPage";
 import { PortalPageUK } from "./pages/PortalPageUK";
 import { PortalPageEN } from "./pages/PortalPageEN";
@@ -29,9 +29,6 @@ export default function App() {
     <AppShell>
       <Routes>
         <Route path="/" element={<PortalPage />} />
-        <Route path="/trygg-som-frivillig" element={<HomePage />} />
-        <Route path="/trygg-som-frivillig/deler" element={<ModuleOverviewPage />} />
-        <Route path="/trygg-som-frivillig/deler/:moduleId" element={<ModulePage />} />
         <Route path="/moduler" element={<Navigate to="/trygg-som-frivillig/deler" replace />} />
         <Route path="/moduler/:moduleId" element={<LegacyModuleRedirect />} />
 
@@ -46,6 +43,12 @@ export default function App() {
         <Route path="/engelsk/trygg-som-frivillig" element={<HomePageEN />} />
         <Route path="/engelsk/trygg-som-frivillig/deler" element={<ModuleOverviewPageEN />} />
         <Route path="/engelsk/trygg-som-frivillig/deler/:moduleId" element={<ModulePageEN />} />
+
+        {/* Generiske kursruter (norsk) — slår opp kurs i registeret via slug.
+            Statiske ruter over (språk, /moduler) rangeres høyere av React Router. */}
+        <Route path="/:courseSlug" element={<CourseHomePage />} />
+        <Route path="/:courseSlug/deler" element={<CourseOverviewPage />} />
+        <Route path="/:courseSlug/deler/:moduleId" element={<CourseModulePage />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

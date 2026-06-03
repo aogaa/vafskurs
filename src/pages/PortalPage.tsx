@@ -1,19 +1,17 @@
 ﻿import { Link } from "react-router-dom";
 import heroindex from "../assets/images/heroindex.png";
+import { visibleCourses } from "../courses/registry";
 
 const languageLinks = [
   { to: "/ukrainsk", flagCode: "ua", label: "Курси українською", sub: "Ukrainsk" },
   { to: "/engelsk", flagCode: "gb", label: "Courses in English", sub: "Engelsk" },
 ];
 
-const courseCards = [
-  {
-    title: "Trygg som frivillig",
-    description:
-      "Et praktisk kurs om frivilligrollen, gode grenser og trygge valg i møte med mennesker, lokalsamfunn og kommunale tjenester.",
-    to: "/trygg-som-frivillig",
-  },
-];
+const courseCards = visibleCourses.map((course) => ({
+  title: course.title,
+  description: course.shortDescription,
+  to: `/${course.slug}`,
+}));
 
 export function PortalPage() {
   return (

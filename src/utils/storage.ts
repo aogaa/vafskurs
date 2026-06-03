@@ -1,9 +1,3 @@
-const STORAGE_PREFIX = "trygg-som-frivillig";
-
-export const storageKeys = {
-  completedModules: `${STORAGE_PREFIX}:completed-modules`,
-} as const;
-
 export function readStringArray(key: string): string[] {
   if (typeof window === "undefined") {
     return [];

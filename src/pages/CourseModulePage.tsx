@@ -1,34 +1,24 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { CompletionPanel } from "../components/course/CompletionPanel";
-import { ModuleLayout } from "../components/course/ModuleLayout";
-import { ModuleProgress } from "../components/course/ModuleProgress";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { CompletionPanelTranslatable } from "../components/course/translatable/CompletionPanelTranslatable";
+import { CourseModuleLayout } from "../components/course/CourseModuleLayout";
+import { ModuleProgressTranslatable } from "../components/course/translatable/ModuleProgressTranslatable";
 import { PageContainer } from "../components/layout/PageContainer";
-import { ModuleFour } from "../components/modules/ModuleFour";
-import { ModuleOne } from "../components/modules/ModuleOne";
-import { ModuleThree } from "../components/modules/ModuleThree";
-import { ModuleTwo } from "../components/modules/ModuleTwo";
 import { Button } from "../components/ui/Button";
-import { getModuleById, visibleCourseModules } from "../data/courseModules";
-import { useProgress } from "../hooks/useProgress";
+import type { CourseDescriptor } from "../courses/types";
+import { getCourseBySlug } from "../courses/registry";
+import { useProgressWithPrefix } from "../hooks/useProgressWithPrefix";
 
-const transitionCopy: Record<string, string> = {
-  "modul-1":
-    "Nå har du sett hvorfor frivillighet betyr noe. Neste steg er å bli tydeligere på hva frivillighet er, og hvordan rollen kan være både varm og trygg.",
-  "modul-2":
-    "Nå har du bygget rollekompasset ditt. Neste steg handler om hva du gjør når noe blir uklart.",
-  "modul-3":
-    "Nå har du øvd på å stoppe, avklare og bruke riktig hjelp når noe blir uklart. Neste steg er å samle læringen og gjøre deg klar til å bidra.",
-  "modul-4":
-    "Du har fullført kurset. Du trenger ikke kunne alt. Du skal vite hva du gjør når du ikke vet.",
-};
-
-export function ModulePage() {
+function CourseModuleContent({ course }: { course: CourseDescriptor }) {
   const { moduleId } = useParams();
   const navigate = useNavigate();
-  const courseModule = moduleId ? getModuleById(moduleId) : undefined;
-  const { isModuleComplete, markModuleComplete } = useProgress();
+  const { isModuleComplete, markModuleComplete } = useProgressWithPrefix(
+    course.storagePrefix,
+  );
   const [showCompletion, setShowCompletion] = useState(false);
+
+  const overviewTo = `/${course.slug}/deler`;
+  const courseModule = course.modules.find((item) => item.id === moduleId);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -43,14 +33,14 @@ export function ModulePage() {
             Denne delen finnes ikke i kursstrukturen ennå.
           </p>
           <div className="mt-7">
-            <Button to="/trygg-som-frivillig/deler">Tilbake til deloversikt</Button>
+            <Button to={overviewTo}>Tilbake til deloversikt</Button>
           </div>
         </section>
       </PageContainer>
     );
   }
 
-  const previousModules = visibleCourseModules.filter(
+  const previousModules = course.modules.filter(
     (item) => item.order < courseModule.order,
   );
   const canOpenModule = previousModules.every((item) => isModuleComplete(item.id));
@@ -66,7 +56,7 @@ export function ModulePage() {
             Fullfør delen før, så blir denne tilgjengelig.
           </p>
           <div className="mt-7">
-            <Button to="/trygg-som-frivillig/deler">Tilbake til deloversikt</Button>
+            <Button to={overviewTo}>Tilbake til deloversikt</Button>
           </div>
         </section>
       </PageContainer>
@@ -75,15 +65,16 @@ export function ModulePage() {
 
   const isComplete = isModuleComplete(courseModule.id);
   const courseModuleId = courseModule.id;
-  const nextCourseModule = visibleCourseModules.find(
+  const nextCourseModule = course.modules.find(
     (item) => item.order === courseModule.order + 1,
   );
+  const BodyComponent = course.moduleComponents?.[courseModule.id];
 
   function handleComplete() {
     markModuleComplete(courseModuleId);
 
     if (nextCourseModule) {
-      navigate(`/trygg-som-frivillig/deler/${nextCourseModule.id}`);
+      navigate(`${overviewTo}/${nextCourseModule.id}`);
       return;
     }
 
@@ -94,56 +85,57 @@ export function ModulePage() {
   return (
     <PageContainer className="space-y-7">
       <Link
-        to="/trygg-som-frivillig/deler"
+        to={overviewTo}
         className="inline-flex w-fit items-center gap-2 rounded-2xl bg-mist px-4 py-2 text-sm font-bold text-harbor ring-1 ring-harbor/10 transition-colors hover:bg-white focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-pine"
       >
         <span aria-hidden="true">←</span>
         Til deloversikt
       </Link>
       {!showCompletion ? (
-        <ModuleProgress
+        <ModuleProgressTranslatable
           courseModule={courseModule}
+          allModules={course.modules}
           isModuleComplete={isModuleComplete}
+          partLabel="Del"
+          ofLabel="av"
         />
       ) : null}
       {showCompletion ? (
-        <CompletionPanel
+        <CompletionPanelTranslatable
           nextLabel={!nextCourseModule ? "Til hovedsiden" : undefined}
           nextTo={!nextCourseModule ? "/" : undefined}
-          title={!nextCourseModule ? "Kurset er fullført" : undefined}
-          transitionText={transitionCopy[courseModule.id]}
+          title={!nextCourseModule ? course.courseCompletedTitle : undefined}
+          transitionText={course.transitionCopy[courseModule.id]}
+          defaultTitle="Del fullført"
+          stepText={course.completionStepText}
+          backToOverviewLabel="Tilbake til deloversikt"
+          overviewTo={overviewTo}
         />
-      ) : courseModule.id === "modul-1" ? (
-        <ModuleOne
-          courseModule={courseModule}
-          isComplete={isComplete}
-          onComplete={handleComplete}
-        />
-      ) : courseModule.id === "modul-2" ? (
-        <ModuleTwo
-          courseModule={courseModule}
-          isComplete={isComplete}
-          onComplete={handleComplete}
-        />
-      ) : courseModule.id === "modul-3" ? (
-        <ModuleThree
-          courseModule={courseModule}
-          isComplete={isComplete}
-          onComplete={handleComplete}
-        />
-      ) : courseModule.id === "modul-4" ? (
-        <ModuleFour
+      ) : BodyComponent ? (
+        <BodyComponent
           courseModule={courseModule}
           isComplete={isComplete}
           onComplete={handleComplete}
         />
       ) : (
-        <ModuleLayout
+        <CourseModuleLayout
           courseModule={courseModule}
           isComplete={isComplete}
           onComplete={handleComplete}
+          overviewTo={overviewTo}
         />
       )}
     </PageContainer>
   );
+}
+
+export function CourseModulePage() {
+  const { courseSlug } = useParams();
+  const course = getCourseBySlug(courseSlug);
+
+  if (!course) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <CourseModuleContent course={course} />;
 }
