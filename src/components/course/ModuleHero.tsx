@@ -4,13 +4,20 @@ type ModuleHeroProps = {
   courseModule: CourseModule;
   title?: string;
   description?: string;
+  /** Kursnavn som vises i «Del N · …»-merkingen. Default bevarer kurs 1. */
+  courseTitle?: string;
 };
 
-export function ModuleHero({ courseModule, description, title }: ModuleHeroProps) {
+export function ModuleHero({
+  courseModule,
+  description,
+  title,
+  courseTitle = "Trygg som frivillig",
+}: ModuleHeroProps) {
   return (
     <section className="rounded-3xl bg-harbor px-7 py-9 shadow-soft md:px-8 md:py-10">
       <p className="text-sm font-bold uppercase tracking-normal text-pine">
-        Del {courseModule.order} &middot; Trygg som frivillig
+        Del {courseModule.order} &middot; {courseTitle}
       </p>
       <h1 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
         {title ?? courseModule.title}

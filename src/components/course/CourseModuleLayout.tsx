@@ -9,6 +9,8 @@ type CourseModuleLayoutProps = {
   isComplete: boolean;
   onComplete: () => void;
   overviewTo: string;
+  /** Kursnavn for «Del N · …»-merkingen i toppen. */
+  courseTitle?: string;
 };
 
 /**
@@ -21,10 +23,11 @@ export function CourseModuleLayout({
   isComplete,
   onComplete,
   overviewTo,
+  courseTitle,
 }: CourseModuleLayoutProps) {
   return (
     <article className="space-y-8">
-      <ModuleHero courseModule={courseModule} />
+      <ModuleHero courseModule={courseModule} courseTitle={courseTitle} />
 
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
         <Card className="p-7 ring-1 ring-harbor/10">

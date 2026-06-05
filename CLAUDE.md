@@ -73,15 +73,9 @@ src/courses/
 
 ### Kurs 2 — Slik lager vi språkkafe (`storagePrefix: "spraakkafe"`)
 
-Stillas — alle deler bruker `CourseModuleLayout` inntil egne interaktive komponenter bygges
-(registreres da i `moduleComponents`). Moduldata i `src/courses/spraakkafe/modules.ts`.
-
-| ID | Tittel | Status |
-|----|--------|--------|
-| modul-1 | Hva er en språkkafé? | `active` |
-| modul-2 | Planlegging og det praktiske | `planned` |
-| modul-3 | Vertsrollen | `planned` |
-| modul-4 | Klar til å starte | `planned` |
+Eget kurs med egen prosjekthukommelse. Se **[`src/courses/spraakkafe/CLAUDE.md`](src/courses/spraakkafe/CLAUDE.md)**
+for deler (del-1 … del-5), det utskiftbare organisasjonslaget (`organisasjon.ts`)
+og meråpent. Holdes adskilt fra kurs 1 for å unngå sammenblanding.
 
 ---
 

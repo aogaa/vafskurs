@@ -123,6 +123,7 @@ function CourseModuleContent({ course }: { course: CourseDescriptor }) {
           isComplete={isComplete}
           onComplete={handleComplete}
           overviewTo={overviewTo}
+          courseTitle={course.title}
         />
       )}
     </PageContainer>
