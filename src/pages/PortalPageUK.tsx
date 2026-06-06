@@ -32,7 +32,7 @@ export function PortalPageUK() {
             </h1>
             <p className="mt-6 max-w-3xl text-lg font-medium leading-8 text-white sm:text-xl">
               Тут ви знайдете практичні курси про волонтерство, відповідальність,
-              спільноту та як люди можуть підтримувати один одного.
+              спільноту та як люди можуть підтримувати одне одного.
             </p>
           </div>
         </div>
