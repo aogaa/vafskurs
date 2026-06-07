@@ -6,7 +6,7 @@ import type { CourseModule } from "../../data/courseModules";
  * Fem deler. Det GENERELLE (hva en språkkafé er, vertsrollen, følsomme temaer,
  * å være klar) bor her og er likt for alle organisasjoner. Det ORGANISASJONS-
  * SPESIFIKKE (sted, tid, bemanning, meråpent, kontaktperson) bor i
- * `organisasjon.ts` og rendres i Del 2 via den egne komponenten
+ * `organisasjon.ts` og rendres i Del 5 via den egne komponenten
  * `parts/DelToSlikGjorVi.tsx`.
  *
  * ID-er bruker «del-N» (ikke «modul-N») — kurset omtaler enheter som «deler».
@@ -39,21 +39,6 @@ export const spraakkafeModules: CourseModule[] = [
   {
     id: "del-2",
     order: 2,
-    title: "Slik gjør vi det hos oss",
-    description:
-      "Det praktiske: hvor og når, oppmøte, bemanning, bordoppsett, tekster, servering og meråpent. Dette er delen som tilpasses hver organisasjon.",
-    status: "planned",
-    learningGoals: [
-      "Vite hvor og når språkkafeen holdes, og når du bør møte opp",
-      "Forstå hvordan du melder deg på vakt, og hva du gjør hvis du må avlyse",
-      "Kjenne det praktiske oppsettet: bemanning, bordfordeling, tekster og servering",
-      "Kjenne til meråpent og hvorfor det er en fordel å ha registrert seg",
-    ],
-    // Innholdet rendres av parts/DelToSlikGjorVi.tsx, som leser organisasjon.ts.
-  },
-  {
-    id: "del-3",
-    order: 3,
     title: "Vertsrollen – samtalen ved bordet",
     description:
       "Hvordan du skaper trygg stemning, god samtaleflyt og inkludering når dere sitter sammen ved bordet.",
@@ -74,8 +59,8 @@ export const spraakkafeModules: CourseModule[] = [
     ],
   },
   {
-    id: "del-4",
-    order: 4,
+    id: "del-3",
+    order: 3,
     title: "Følsomme temaer og trygge grenser",
     description:
       "Temaer å styre unna, hvor grensen for hjelp går, og hvordan du møter alle likeverdig.",
@@ -91,13 +76,13 @@ export const spraakkafeModules: CourseModule[] = [
       "Velmenende hjelp kan få utilsiktet utfall. Å vise videre til rett fagperson er også omsorg.",
     contentBlocks: [
       "Styr unna betente temaer som religion, krig og politikk. Mange deltakere kan komme fra land som er i konflikt med andre deltakeres hjemland. Møt alle likeverdig, og hold tekstene og samtalen unna det som kan splitte.",
-      "Ikke hjelp deltakere med å fylle ut søknader og skjemaer, lage slektstre eller lignende. Regelverket rundt innvandring er komplisert, og velmenende hjelp kan slå feil ut. La fagfolk med grundig kjennskap til regelverket ta seg av dette — å vise videre er en del av å være en trygg frivillig.",
+      "Under selve kafeen er ikke stedet å hjelpe med søknader, skjemaer eller regelverksspørsmål — det forstyrrer flyten og er ikke det kafeen er til for. Men hvis du som frivillig ønsker å bruke litt tid på dette etterpå, utenfor vaktansvaret, er det helt opp til deg. Vi har mange gode eksempler på at slik hjelp har gjort en stor forskjell — noen deltakere har til og med fått jobb.",
       "Pausen er en viktig sosial arena. Mange deltakere har lite nettverk, og det er ikke krav om at de snakker norsk i pausen — det er slitsomt å lære et nytt språk, og pausen er til for å puste ut og bli kjent.",
     ],
   },
   {
-    id: "del-5",
-    order: 5,
+    id: "del-4",
+    order: 4,
     title: "Klar til din første vakt",
     description:
       "Samle det viktigste og gjør deg klar til å stille på din første språkkafé.",
@@ -112,10 +97,25 @@ export const spraakkafeModules: CourseModule[] = [
     insight:
       "Du trenger ikke kunne alt. Møt opp, vær vennlig, la folk prate — så er du allerede i gang.",
     contentBlocks: [
-      "Kort oppsummert: Møt opp i god tid. Ta godt imot. Sjekk nivå ved bordet. Bruk teksten som utgangspunkt, men slipp samtalen løs. Hold rolig tempo, inkluder alle, og styr unna betente temaer. Vis videre til fagfolk når noe handler om regelverk og skjemaer.",
+      "Kort oppsummert: Møt opp i god tid. Ta godt imot. Sjekk nivå og fordel på riktig bord. Bruk teksten som utgangspunkt, men slipp samtalen løs. Hold rolig tempo, inkluder alle, og styr unna betente temaer. Hjelp med skjemaer og søknader skjer eventuelt utenfor kafeen — aldri under selve vakten.",
       "Du er ikke alene. De andre frivillige, biblioteket og kontaktpersonen er der for å hjelpe. Må du avlyse, gir du beskjed i god tid og hjelper gjerne til med å finne en erstatter.",
       "Siste steg: meld deg på en vakt, så er du i gang. Lykke til på din første språkkafé!",
     ],
+  },
+  {
+    id: "del-5",
+    order: 5,
+    title: "Slik gjør vi det hos oss",
+    description:
+      "Det praktiske: hvor og når, oppmøte, bemanning, bordoppsett, tekster, servering og meråpent. Dette er delen som tilpasses hver organisasjon.",
+    status: "planned",
+    learningGoals: [
+      "Vite hvor og når språkkafeen holdes, og når du bør møte opp",
+      "Forstå hvordan du melder deg på vakt, og hva du gjør hvis du må avlyse",
+      "Kjenne det praktiske oppsettet: bemanning, bordfordeling, tekster og servering",
+      "Kjenne til meråpent og hvorfor det er en fordel å ha registrert seg",
+    ],
+    // Innholdet rendres av parts/DelToSlikGjorVi.tsx, som leser organisasjon.ts.
   },
 ];
 

@@ -5,16 +5,16 @@ import { readStringArray, writeStringArray } from "../../../utils/storage";
 import type { ModuleBodyProps } from "../../types";
 
 /**
- * Del 5 — "Klar til din første vakt".
+ * Del 4 — "Klar til din første vakt".
  *
- * Oppsummerer kurset (kursreise Del 1→5) og lar deg sette sammen din egen
- * huskeliste + skrive en kort note. Avslutter kurset.
+ * Oppsummerer kurset (kursreise Del 1→4) og lar deg sette sammen din egen
+ * huskeliste + skrive en kort note. Avslutter med overgang til Del 5.
  *
- * Lagring (kun lokalt): spraakkafe:del-5-huskeliste, spraakkafe:del-5-notat
+ * Lagring (kun lokalt): spraakkafe:del-4-huskeliste, spraakkafe:del-4-notat
  */
 
-const CHECKLIST_STORAGE_KEY = "spraakkafe:del-5-huskeliste";
-const NOTE_STORAGE_KEY = "spraakkafe:del-5-notat";
+const CHECKLIST_STORAGE_KEY = "spraakkafe:del-4-huskeliste";
+const NOTE_STORAGE_KEY = "spraakkafe:del-4-notat";
 
 type JourneyStep = {
   del: string;
@@ -150,9 +150,10 @@ export function DelFemKlar({
           teksten som utgangspunkt før du slipper praten fri.
         </p>
         <p>
-          Du holder rolig tempo, inkluderer alle, styrer unna betente tema og
-          viser videre til fagfolk når noe handler om regelverk og skjemaer. Du
-          trenger ikke kunne alt – møt opp, vær vennlig, og la folk prate.
+          Du holder rolig tempo, inkluderer alle, og styrer unna betente tema.
+          Hjelp med skjemaer og søknader skjer eventuelt utenfor kafeen — aldri
+          under selve vakten. Du trenger ikke kunne alt – møt opp, vær vennlig,
+          og la folk prate.
         </p>
       </TextSection>
 
@@ -247,7 +248,7 @@ export function DelFemKlar({
           Til hovedsiden
         </Button>
         <Button onClick={onComplete} className="bg-pine text-harbor hover:bg-leaf">
-          {isComplete ? "✓ Kurset er fullført" : "Fullfør kurset"}
+          {isComplete ? "✓ Fullført – gå til neste del" : "Fullfør og gå videre"}
         </Button>
       </div>
     </article>

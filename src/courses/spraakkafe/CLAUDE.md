@@ -51,10 +51,10 @@ lenke til Deichman. Slå av med `harMeraapent: false`.
 | ID | Tittel | Øvelse | Komponent |
 |----|--------|--------|-----------|
 | del-1 | Hva er en språkkafé? | «Språkkafé eller norskkurs?» + A/B/C-utforsker | `parts/DelEnSpraakkafe.tsx` ✅ |
-| del-2 | Slik gjør vi det hos oss | **Organisasjonsspesifikk** visning (meråpent m.m.) | `parts/DelToSlikGjorVi.tsx` ✅ |
-| del-3 | Vertsrollen – samtalen ved bordet | «Hva gjør du ved bordet?» (5 scenarioer) | `parts/DelTreVertsrollen.tsx` ✅ |
-| del-4 | Følsomme temaer og trygge grenser | «Grønt eller rødt?» (6 situasjoner) | `parts/DelFireGrenser.tsx` ✅ |
-| del-5 | Klar til din første vakt | Kursreise + interaktiv huskeliste | `parts/DelFemKlar.tsx` ✅ |
+| del-2 | Vertsrollen – samtalen ved bordet | «Hva gjør du ved bordet?» (5 scenarioer) | `parts/DelTreVertsrollen.tsx` ✅ |
+| del-3 | Følsomme temaer og trygge grenser | «Grønt eller rødt?» (6 situasjoner) | `parts/DelFireGrenser.tsx` ✅ |
+| del-4 | Klar til din første vakt | Kursreise + interaktiv huskeliste | `parts/DelFemKlar.tsx` ✅ |
+| del-5 | Slik gjør vi det hos oss | **Organisasjonsspesifikk** visning (meråpent m.m.) | `parts/DelToSlikGjorVi.tsx` ✅ |
 
 Alle deler har egne interaktive komponenter (ingen bruker lenger det generiske
 stillaset `CourseModuleLayout`). Nye deler registreres i `moduleComponents`
@@ -65,10 +65,10 @@ stillaset `CourseModuleLayout`). Nye deler registreres i `moduleComponents`
 | Del | Nøkler |
 |-----|--------|
 | del-1 | `spraakkafe:del-1-ovelse`, `spraakkafe:del-1-refleksjon` |
-| del-2 | (ingen — kun visning fra `organisasjon.ts`) |
+| del-2 | `spraakkafe:del-2-ovelse`, `spraakkafe:del-2-refleksjon` |
 | del-3 | `spraakkafe:del-3-ovelse`, `spraakkafe:del-3-refleksjon` |
-| del-4 | `spraakkafe:del-4-ovelse`, `spraakkafe:del-4-refleksjon` |
-| del-5 | `spraakkafe:del-5-huskeliste`, `spraakkafe:del-5-notat` |
+| del-4 | `spraakkafe:del-4-huskeliste`, `spraakkafe:del-4-notat` |
+| del-5 | (ingen — kun visning fra `organisasjon.ts`) |
 
 **Mønster for interaktiv del** (se `DelEnSpraakkafe.tsx`): rik tekst i
 `TextSection`-kort → flertrinns øvelse med valg, tilbakemelding (grønn `pine` =

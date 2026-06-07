@@ -72,6 +72,8 @@ export type OrganisasjonsProfil = {
   kontaktperson: {
     navn: string;
     rolle?: string;
+    epost?: string;
+    telefon?: string;
     avlysningRutine: string;
   };
 
@@ -102,10 +104,6 @@ export const organisasjonsProfil: OrganisasjonsProfil = {
     tittel: "Vi ønsker 7 på vaktlista",
     detalj:
       "Det kommer gjerne mellom 20 og 30 deltakere, og det er ønskelig med maks 4 deltakere per bord.",
-    lenke: {
-      url: "https://youtu.be/E4jV7CfxOF0?si=OOMZ_ySYxFZWjBQ4",
-      tekst: "Se video om vaktplanen",
-    },
   },
   bordoppsett: [
     {
@@ -147,6 +145,8 @@ export const organisasjonsProfil: OrganisasjonsProfil = {
   kontaktperson: {
     navn: "Espen",
     rolle: "kontaktperson for språkkafeen",
+    epost: "espen@vestreaker.frivilligsentral.no",
+    telefon: "481 37 180",
     avlysningRutine:
       "Må du avlyse en vakt, ta kontakt med de andre frivillige for å finne en erstatter — eller gi beskjed til Espen.",
   },

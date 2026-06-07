@@ -4,17 +4,17 @@ import { Card } from "../../../components/ui/Card";
 import type { ModuleBodyProps } from "../../types";
 
 /**
- * Del 4 — "Følsomme temaer og trygge grenser".
+ * Del 3 — "Følsomme temaer og trygge grenser".
  *
  * Generelt innhold: hvorfor styre unna krig/religion/politikk, møte alle
  * likeverdig, og grensen mot skjema-/regelverkshjelp. Øvelse «Grønt eller
  * rødt?» (sortering) + refleksjon.
  *
- * Lagring (kun lokalt): spraakkafe:del-4-ovelse, spraakkafe:del-4-refleksjon
+ * Lagring (kun lokalt): spraakkafe:del-3-ovelse, spraakkafe:del-3-refleksjon
  */
 
-const ANSWERS_STORAGE_KEY = "spraakkafe:del-4-ovelse";
-const REFLECTION_STORAGE_KEY = "spraakkafe:del-4-refleksjon";
+const ANSWERS_STORAGE_KEY = "spraakkafe:del-3-ovelse";
+const REFLECTION_STORAGE_KEY = "spraakkafe:del-3-refleksjon";
 
 type Light = "fortsett" | "styrUnna";
 
@@ -23,6 +23,7 @@ type Item = {
   text: string;
   correct: Light;
   feedback: string;
+  tryggFormulering?: string;
 };
 
 const items: Item[] = [
@@ -32,6 +33,8 @@ const items: Item[] = [
     correct: "styrUnna",
     feedback:
       "Krig, religion og politikk er betente tema — særlig fordi deltakere kan komme fra land i konflikt. Led samtalen vennlig over på noe mer nøytralt.",
+    tryggFormulering:
+      "«Det er mye som skjer i verden. — Dere nevnte mat tidligere, hva er favorittmaten fra hjemlandet ditt?»",
   },
   {
     id: "mat",
@@ -45,7 +48,9 @@ const items: Item[] = [
     text: "«En deltaker ber deg hjelpe til med å fylle ut et UDI-skjema.»",
     correct: "styrUnna",
     feedback:
-      "Regelverket rundt innvandring er komplisert, og velmenende hjelp kan slå feil ut. Vis videre til fagfolk — det er også omsorg.",
+      "Skjemahjelp hører ikke hjemme under selve kafeen. Du kan tilby å hjelpe en annen gang — det er helt opp til deg.",
+    tryggFormulering:
+      "«Det hjelper jeg ikke med her på kafeen. Ønsker du hjelp, kan du ta kontakt med frivilligsentralen — de er flinke til å finne noen som kan hjelpe deg.» Har du tid og lyst, kan du også tilby å hjelpe selv en annen gang: «Snakk gjerne med meg etter kafeen, så ser vi på det sammen.»",
   },
   {
     id: "tradisjon",
@@ -59,20 +64,24 @@ const items: Item[] = [
     text: "«En deltaker vil diskutere religion og hvem som har rett.»",
     correct: "styrUnna",
     feedback:
-      "Hold deg unna religionsdebatt. Anerkjenn at temaet er viktig for dem, og styr vennlig over på noe dere har felles.",
+      "Hold deg unna religionsdebatt. Anerkjenn at temaet er viktig for dem, og led samtalen over på noe dere har felles.",
+    tryggFormulering:
+      "«Det er et stort spørsmål! — Hva pleier dere å gjøre i helgene? Er det noe dere liker å gjøre som familie?»",
   },
   {
-    id: "kake",
-    text: "«En deltaker har bakt kake og vil dele den med bordet.»",
-    correct: "fortsett",
+    id: "politikk",
+    text: "«Samtalen dreier seg mot norsk innvandringspolitikk og hva deltakerne synes om den.»",
+    correct: "styrUnna",
     feedback:
-      "Hyggelig! Medbrakt er kjempefint — bare husk at det serveres i pausen, og at det bør være nok til alle.",
+      "Politikk er et betent tema som lett kan skape splid eller ubehag rundt bordet. Led samtalen vennlig over på noe mer nøytralt.",
+    tryggFormulering:
+      "«Det er et stort spørsmål! — Dere nevnte mat tidligere: er det noe du savner fra hjemlandet som er vanskelig å få tak i her?»",
   },
 ];
 
 const lightLabels: Record<Light, { label: string; help: string }> = {
   fortsett: { label: "Fortsett trygt", help: "Greit tema å snakke om" },
-  styrUnna: { label: "Styr unna / vis videre", help: "Led bort eller til fagfolk" },
+  styrUnna: { label: "Styr unna", help: "Led samtalen over på et annet tema" },
 };
 
 function readSavedAnswers(): Partial<Record<string, Light>> {
@@ -206,23 +215,38 @@ export function DelFireGrenser({
         </p>
       </TextSection>
 
-      <TextSection title="Vis videre når det handler om regelverk" icon="📄">
+      <TextSection title="Ekstra hjelp er hyggelig, men ikke på språkkafeen" icon="📄">
         <p>
-          Ikke hjelp deltakere med å fylle ut søknader og skjemaer, lage
-          slektstre eller lignende. Regelverket rundt innvandring er komplisert,
-          og velmenende hjelp kan få utilsiktede følger.
+          Språkkafeen er til for samtale og norskøving. Trenger en deltaker
+          hjelp med jobbsøknader, brev eller andre papirer, er det noe du
+          eventuelt kan tilby utenfor kafeen — ikke under selve vakten.
         </p>
         <p>
-          La fagfolk med grundig kjennskap til regelverket ta seg av dette. Å vise
-          videre til rett person er en del av å være en trygg frivillig.
+          Ønsker du å hjelpe, er det veldig fint. Vi har mange gode eksempler
+          på at en frivillig har satt av litt tid til akkurat dette, og at det
+          har gjort en stor forskjell. Noen deltakere har til og med fått jobb
+          etter slik hjelp.
+        </p>
+        <p>
+          Husk at hva du velger å tilby av hjelp utenfor språkkafeen, skjer på
+          dine premisser. Du skal ikke føle deg forpliktet — du er frivillig!
         </p>
       </TextSection>
 
       <TextSection title="Pausen er en sosial frisone" icon="☕">
         <p>
-          Mange deltakere har lite nettverk, og pausen er en gyllen mulighet til
-          å bli kjent. Det er ikke krav om at deltakerne snakker norsk i pausen —
-          det er slitsomt å lære et nytt språk, og pausen er til for å puste ut.
+          Pausen er ikke bare en pause fra norsk — den er en av de viktigste
+          delene av kafeen. Kaffe og noe å bite i hører med. Ønsker du å ta
+          med noe hjemmefra — epler fra hagen, hjemmebakt eller noe annet — er
+          det alltid hyggelig. Husk bare at det må være nok til alle.
+        </p>
+        <p>
+          Det er ikke krav om at deltakerne snakker norsk i pausen. Det er
+          slitsomt å lære et nytt språk, og pausen er til for å puste ut og
+          senke skuldrene. Mange deltakere har lite nettverk, og møtene rundt
+          kaffekoppen betyr mer enn man kanskje tror. Vennskap har oppstått her
+          — mellom deltakere, mellom frivillige, og noen ganger på tvers.
+          Noen ganger har også deltakere funnet kjærligheten på språkkafe.
         </p>
       </TextSection>
 
@@ -304,6 +328,16 @@ export function DelFireGrenser({
               <p className="mt-2 text-base leading-7 text-harbor">
                 {current.feedback}
               </p>
+              {current.tryggFormulering ? (
+                <div className="mt-4 rounded-xl bg-white/60 p-4">
+                  <p className="text-xs font-bold uppercase tracking-wide text-harbor">
+                    Du kan si
+                  </p>
+                  <p className="mt-1 text-base leading-7 text-harbor">
+                    {current.tryggFormulering}
+                  </p>
+                </div>
+              ) : null}
             </div>
           ) : null}
 
@@ -334,9 +368,10 @@ export function DelFireGrenser({
               Du kjenner grensene som gjør kafeen trygg
             </h2>
             <p className="mt-3 text-base leading-8 text-harbor md:text-lg">
-              Hold deg unna betente tema, møt alle likeverdig, og vis videre når
-              noe handler om regelverk. Da er du en trygg frivillig — for
-              deltakerne, for deg selv og for organisasjonen.
+              Hold deg unna betente tema, møt alle likeverdig, og husk at hjelp
+              med skjemaer skjer utenfor kafeen — aldri under vakten. Da er du
+              en trygg frivillig — for deltakerne, for deg selv og for
+              organisasjonen.
             </p>
           </Card>
 

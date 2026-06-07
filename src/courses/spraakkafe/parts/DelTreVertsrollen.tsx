@@ -4,17 +4,17 @@ import { Card } from "../../../components/ui/Card";
 import type { ModuleBodyProps } from "../../types";
 
 /**
- * Del 3 — "Vertsrollen – samtalen ved bordet".
+ * Del 2 — "Vertsrollen – samtalen ved bordet".
  *
- * Generelt innhold: ta imot, struktur, bruke teksten som trampolin, håndtere
+ * Generelt innhold: ta imot, struktur, bruke teksten som trampoline, håndtere
  * ulikt nivå og være til stede. Øvelse «Hva gjør du ved bordet?» (scenarioer
  * med tre valg) + refleksjon.
  *
- * Lagring (kun lokalt): spraakkafe:del-3-ovelse, spraakkafe:del-3-refleksjon
+ * Lagring (kun lokalt): spraakkafe:del-2-ovelse, spraakkafe:del-2-refleksjon
  */
 
-const ANSWERS_STORAGE_KEY = "spraakkafe:del-3-ovelse";
-const REFLECTION_STORAGE_KEY = "spraakkafe:del-3-refleksjon";
+const ANSWERS_STORAGE_KEY = "spraakkafe:del-2-ovelse";
+const REFLECTION_STORAGE_KEY = "spraakkafe:del-2-refleksjon";
 
 type Option = {
   id: string;
@@ -91,32 +91,32 @@ const scenarios: Scenario[] = [
   {
     id: "nivaaforskjell",
     situation:
-      "Ved bordet er det stor nivåforskjell: én er fersk nybegynner, en annen snakker nesten flytende.",
+      "Du sitter ved B-bordet. Det viser seg at én deltaker er fersk nybegynner med svært lavt nivå, mens en annen nesten snakker flytende.",
     options: [
       {
         id: "a",
-        text: "Snakk på et middels nivå og håp begge henger med.",
+        text: "La dem sitte — du tilpasser teksten til begge nivåer underveis.",
         correct: false,
         feedback:
-          "Da faller ofte nybegynneren av. Du kan tilpasse til begge samtidig ved hjelp av teksten.",
+          "Bordene er delt inn etter nivå nettopp for at alle skal få øvd seg godt. Når nivåforskjellen er stor, mister nybegynneren mye av samtalen og den viderekomne holdes tilbake.",
       },
       {
         id: "b",
-        text: "Bruk teksten i ulikt tempo: la den viderekomne lese, hjelp nybegynneren med enkle ord, og still spørsmål på begge nivåer.",
+        text: "Foreslå vennlig at de bytter til riktig bord — A-bordet for nybegynneren, C-bordet for den viderekomne.",
         correct: true,
         feedback:
-          "Nettopp. Teksten lar deg møte begge der de er, og de kan til og med hjelpe hverandre.",
+          "Nettopp. Du spør om nivå ved ankomst og kan bytte underveis om det ikke stemmer. Et vennlig forslag er helt naturlig — og gjør kafeen bedre for alle.",
       },
       {
         id: "c",
-        text: "Be den flinke om å flytte til et annet bord.",
+        text: "La det være — det er flaut å be noen bytte bord.",
         correct: false,
         feedback:
-          "Unødvendig — og det kan såre. Ulike nivåer kan fint sitte sammen.",
+          "Å foreslå bordbytte er en helt vanlig del av jobben, og gjøres vennlig. Det er til det beste for deltakeren selv at de sitter med folk på samme nivå.",
       },
     ],
     tryggFormulering:
-      "«Kan du lese dette avsnittet høyt? … Og dette ordet her, vet du hva det betyr?»",
+      "«Jeg tror kanskje A-bordet vil passe deg bedre akkurat i dag — skal vi prøve det?»",
   },
   {
     id: "stillhet",
@@ -131,7 +131,7 @@ const scenarios: Scenario[] = [
       },
       {
         id: "b",
-        text: "Bruk teksten som trampolin og still et åpent spørsmål: «Har dere noe lignende der dere kommer fra?»",
+        text: "Bruk teksten som trampoline og still et åpent spørsmål: «Har dere noe lignende der dere kommer fra?»",
         correct: true,
         feedback:
           "Bra. Teksten er et trygt utgangspunkt, og et åpent spørsmål får praten i gang igjen.",
@@ -309,7 +309,7 @@ export function DelTreVertsrollen({
         </p>
       </TextSection>
 
-      <TextSection title="Bruk teksten som en trampolin" icon="📖">
+      <TextSection title="Bruk teksten som en trampoline" icon="📖">
         <p>
           Tekstene handler gjerne om hverdagen og særnorske ting, så det er lett å
           knytte dem til deltakernes egne erfaringer. Les sammen, men la teksten

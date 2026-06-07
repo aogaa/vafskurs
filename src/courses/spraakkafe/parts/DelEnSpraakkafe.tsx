@@ -40,7 +40,7 @@ const statements: Statement[] = [
     text: "«Vi prater om helga, mat og norske tradisjoner.»",
     correct: "spraakkafe",
     feedback:
-      "Midt i blinken. Hverdagsprat og særnorske tema er gull verdt — det er lett å snakke om, og det øker kulturforståelsen samtidig.",
+      "Hverdagsprat og særnorske tema er gull verdt på en språkkafé — det er lett å snakke om, og det øker kulturforståelsen samtidig.",
   },
   {
     id: "lekser",
@@ -54,7 +54,7 @@ const statements: Statement[] = [
     text: "«Vi leser en kort tekst sammen og prater om den.»",
     correct: "spraakkafe",
     feedback:
-      "Nettopp slik vi jobber. Teksten er ikke en prøve, men et utgangspunkt for friere samtale rundt bordet.",
+      "Slik jobber vi på en språkkafé. Teksten er ikke en prøve, men et utgangspunkt for friere samtale rundt bordet.",
   },
   {
     id: "karakterer",
@@ -68,7 +68,7 @@ const statements: Statement[] = [
     text: "«Folk med ulik bakgrunn møtes og blir kjent over en kaffe.»",
     correct: "spraakkafe",
     feedback:
-      "Ja — det sosiale er like viktig som språket. Mange deltakere har lite nettverk, og her får de både språktrening og nye bekjentskaper.",
+      "Det sosiale er like viktig som språket. Mange deltakere har lite nettverk, og her får de både språktrening og nye bekjentskaper.",
   },
 ];
 
@@ -470,7 +470,7 @@ export function DelEnSpraakkafe({
       </section>
 
       {/* ── Nivåutforsker ── */}
-      <NivaaExplorer />
+      {hasCompletedExercise ? <NivaaExplorer /> : null}
 
       {/* ── Refleksjon + fullføring ── */}
       {hasCompletedExercise ? (

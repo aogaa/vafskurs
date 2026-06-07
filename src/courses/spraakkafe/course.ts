@@ -8,13 +8,13 @@ import { DelFemKlar } from "./parts/DelFemKlar";
 
 const transitionCopy: Record<string, string> = {
   "del-1":
-    "Nå vet du hva en språkkafé er. Neste steg er det praktiske: hvor, når og hvordan vi gjør det hos oss.",
+    "Nå vet du hva en språkkafé er. Neste steg er det viktigste når dere sitter sammen: vertsrollen ved bordet.",
   "del-2":
-    "Nå kjenner du det praktiske. Neste steg er det viktigste når dere først sitter sammen: vertsrollen ved bordet.",
-  "del-3":
     "Nå vet du hvordan du leder en god samtale. Neste steg handler om følsomme temaer og trygge grenser.",
+  "del-3":
+    "Nå kjenner du grensene som gjør kafeen trygg for alle. Neste steg er å gjøre deg klar til din første vakt.",
   "del-4":
-    "Nå kjenner du grensene som gjør kafeen trygg for alle. Siste steg er å gjøre deg klar til din første vakt.",
+    "Flott! Siste steg er det praktiske: slik gjør vi det akkurat hos oss.",
   "del-5":
     "Du er klar til å starte. Meld deg på en vakt — og lykke til på din første språkkafé!",
 };
@@ -28,7 +28,7 @@ export const spraakkafeCourse: CourseDescriptor = {
     "En praktisk innføring i hvordan du bidrar på en språkkafé — en lavterskel møteplass for muntlig norsk, mestring og fellesskap.",
   // "planned" → skjules fra portalen (visibleCourses). Ruten /spraakkafe
   // fungerer fortsatt direkte for testing. Sett til "active" når klar.
-  status: "planned",
+  status: "active",
   hero: {
     subtitle:
       "En praktisk veiviser for deg som vil være frivillig på en språkkafé.",
@@ -50,9 +50,9 @@ export const spraakkafeCourse: CourseDescriptor = {
   // Alle deler har egne interaktive komponenter. Del 2 leser organisasjon.ts.
   moduleComponents: {
     "del-1": DelEnSpraakkafe,
-    "del-2": DelToSlikGjorVi,
-    "del-3": DelTreVertsrollen,
-    "del-4": DelFireGrenser,
-    "del-5": DelFemKlar,
+    "del-2": DelTreVertsrollen,
+    "del-3": DelFireGrenser,
+    "del-4": DelFemKlar,
+    "del-5": DelToSlikGjorVi,
   },
 };
