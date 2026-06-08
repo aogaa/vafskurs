@@ -101,20 +101,20 @@ export const organisasjonsProfil: OrganisasjonsProfil = {
       "Som frivillig melder du deg på språkkafeen via vaktlista. Trenger du å avlyse, ordner du helst en erstatter selv — eller gir beskjed til kontaktpersonen.",
   },
   bemanning: {
-    tittel: "Vi ønsker 7 på vaktlista",
+    tittel: "Vi ønsker rundt 7 på vaktlista",
     detalj:
-      "Det kommer gjerne mellom 20 og 30 deltakere, og det er ønskelig med maks 4 deltakere per bord.",
+      "Det kommer gjerne mellom 20 og 30 deltakere. Rundt 7 frivillige er et fint normaltall, men antallet tilpasses oppmøtet — både hvor mange frivillige og hvor mange deltakere som dukker opp den enkelte gangen.",
   },
   bordoppsett: [
     {
-      tittel: "Bordene går på rundgang (A, B og C)",
+      tittel: "Flat struktur – ingen fast leder",
       detalj:
-        "De frivillige på vakt blir enige seg imellom, men utgangspunktet er at bordene går på rundgang. Det er ikke faste grupper — verken for deltakere eller frivillige. Vær fleksibel og bidra på alle typer bord.",
+        "Det er ingen sjef på vakt; de frivillige blir enige seg imellom. Ved oppstart tar gjerne noen ad-hoc ansvar for å sette sammen noenlunde riktige grupper. Bordene går på rundgang (A, B og C) — det er ikke faste grupper, verken for deltakere eller frivillige. Vær fleksibel og bidra på alle typer bord.",
     },
     {
-      tittel: "Maks 4 deltakere per bord",
+      tittel: "Rundt 4 i hver gruppe – og tilstreb like store grupper",
       detalj:
-        "Fordel deltakerne jevnt mellom bordene, slik at alle får god mulighet til å delta aktivt i samtalen.",
+        "Rundt 4 deltakere per bord er det ideelle, men antallet må tilpasses hvor mange frivillige og deltakere som kommer. Tilstreb noenlunde like store grupper, slik at det ikke blir 2–3 ved ett bord og 6–7 ved et annet. Da unngår du at noen «detter ut» og får lite utbytte av samlingen.",
     },
     {
       tittel: "Sjekk nivået ved ankomst",
@@ -153,9 +153,9 @@ export const organisasjonsProfil: OrganisasjonsProfil = {
 
   merknader: [
     {
-      tittel: "Sommer: avklar tekster i god tid",
+      tittel: "I ferier er vi færre — men vi holder åpent",
       detalj:
-        "Biblioteket har begrenset bemanning om sommeren og kan ikke alltid kopiere for oss. Avklar behovet for tekster i god tid før juni, så alt er klart. Det er også lagt til rette for at vi kan kopiere gratis på egenhånd ved behov.",
+        "I sommerferien og kortere ferier er bemanningen normalt lavere. Vi bestreber likevel å holde språkkafeen åpen, selv om det kan bety flere deltakere per bord enn ellers. Husk også tekstene: biblioteket har begrenset bemanning om sommeren og kan ikke alltid kopiere for oss, så avklar behovet for tekster i god tid før juni. Det er også lagt til rette for at vi kan kopiere gratis på egenhånd ved behov.",
     },
   ],
 };
