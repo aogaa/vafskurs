@@ -25,10 +25,10 @@ type JourneyStep = {
 
 const journey: JourneyStep[] = [
   { del: "Del 1", icon: "☕", title: "Samtale, ikke undervisning", delay: "0ms" },
-  { del: "Del 2", icon: "📍", title: "Slik gjør vi det hos oss", delay: "120ms" },
-  { del: "Del 3", icon: "🤝", title: "Få praten i gang – inkluder alle", delay: "240ms" },
-  { del: "Del 4", icon: "🧭", title: "Trygge tema og klare grenser", delay: "360ms" },
-  { del: "Del 5", icon: "✅", title: "Du er klar", delay: "480ms" },
+  { del: "Del 2", icon: "🤝", title: "Få praten i gang – inkluder alle", delay: "120ms" },
+  { del: "Del 3", icon: "🧭", title: "Trygge tema og klare grenser", delay: "240ms" },
+  { del: "Del 4", icon: "✅", title: "Du er klar", delay: "360ms" },
+  { del: "Del 5", icon: "📍", title: "Slik gjør vi det hos oss", delay: "480ms" },
 ];
 
 type ChecklistItem = { id: string; text: string };

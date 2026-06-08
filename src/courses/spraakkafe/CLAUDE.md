@@ -68,7 +68,7 @@ stillaset `CourseModuleLayout`). Nye deler registreres i `moduleComponents`
 | del-2 | `spraakkafe:del-2-ovelse`, `spraakkafe:del-2-refleksjon` |
 | del-3 | `spraakkafe:del-3-ovelse`, `spraakkafe:del-3-refleksjon` |
 | del-4 | `spraakkafe:del-4-huskeliste`, `spraakkafe:del-4-notat` |
-| del-5 | (ingen — kun visning fra `organisasjon.ts`) |
+| del-5 | `spraakkafe:del-5-video-sett`, `spraakkafe:del-5-quiz` (visning fra `organisasjon.ts`) |
 
 **Mønster for interaktiv del** (se `DelEnSpraakkafe.tsx`): rik tekst i
 `TextSection`-kort → flertrinns øvelse med valg, tilbakemelding (grønn `pine` =
