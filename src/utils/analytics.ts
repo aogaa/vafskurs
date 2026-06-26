@@ -1,4 +1,5 @@
-export const GA_MEASUREMENT_ID = "G-0JSYB8Y5PF";
+export const GA_MEASUREMENT_ID = "G-BE971YZ1Q5";
+const LEGACY_GA_MEASUREMENT_IDS = ["G-0JSYB8Y5PF"];
 export const ANALYTICS_CONSENT_STORAGE_KEY = "vafskurs:analytics-consent";
 export const CONSENT_SETTINGS_EVENT = "vafskurs:open-consent-settings";
 
@@ -104,6 +105,9 @@ export function disableGoogleAnalytics() {
   });
   deleteCookie("_ga");
   deleteCookie(`_ga_${GA_MEASUREMENT_ID.replace("G-", "")}`);
+  LEGACY_GA_MEASUREMENT_IDS.forEach((measurementId) => {
+    deleteCookie(`_ga_${measurementId.replace("G-", "")}`);
+  });
 }
 
 export function trackPageView(path: string) {
